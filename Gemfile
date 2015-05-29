@@ -25,6 +25,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'bootstrap-sass'
 
+gem 'haml-rails'
+
 gem 'autoprefixer-rails'
 
 gem 'bootswatch-rails'
