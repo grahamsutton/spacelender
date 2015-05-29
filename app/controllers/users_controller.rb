@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 		@user = User.new(user_params)
 
 		if @user.save
-			flash[:notice] = "Welcome to MiamiSoccerFinder, #{@user.username}"
+			flash[:notice] = "Welcome to SpaceLender, #{@user.email}"
 			session[:user_id] = @user.id
 			redirect_to root_path
 		else
@@ -32,6 +32,6 @@ class UsersController < ApplicationController
 
 	private
 	def user_params
-		params.require(:user).permit(:username, :password, :password_confirmation, :email, :email_confirmation)
+		params.require(:user).permit(:email, :password, :password_confirmation, :email_confirmation)
 	end
 end

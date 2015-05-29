@@ -4,9 +4,9 @@ class SessionsController < ApplicationController
   end
 
   def create
-  	if @user = User.authenticate(params[:username], params[:password])
+  	if @user = User.authenticate(params[:email], params[:password])
   		session[:user_id] = @user.id
-  		flash[:notice] = "Welcome back, #{@user.username}!"
+  		flash[:notice] = "Welcome back, #{@user.email}!"
   		redirect_to root_path
   	else
   		flash.now[:alert] = "Invalid username or password."
@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    @name = @current_user.username
+    @name = @current_user.email
   	session.delete(:user_id)
 	  redirect_to root_path, :notice => "See ya, #{@name}!"
   end

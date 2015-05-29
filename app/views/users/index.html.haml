@@ -2,3 +2,5 @@
   This is the homepage
   = link_to "Registration", registration_path
   = link_to "Login", login_path
+  - if @current_user
+    = link_to "Logout", logout_path
