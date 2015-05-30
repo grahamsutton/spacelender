@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root 'users#index'
 
   resources :users
+  get 'users/search'
 
   get '/registration' => 'users#new', :as => :registration
   get '/login' => 'sessions#new', :as => :login

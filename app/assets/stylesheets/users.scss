@@ -2,8 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@import url(http://fonts.googleapis.com/css?family=Amatic+SC:700,400);
+.container {
+	input[type="text"],
+	input[type="password"],
+	select,
+	textarea {
+		margin-bottom: 15px;
+	}
+}
 
-html {
-	font-family: 'Amatic SC', cursive;
+.header-title {
+	margin-bottom: 20px;
 }

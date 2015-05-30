@@ -29,6 +29,8 @@ gem 'haml-rails'
 
 gem 'autoprefixer-rails'
 
+gem 'font-awesome-rails'
+
 gem 'bootswatch-rails'
 
 gem 'geocoder'
