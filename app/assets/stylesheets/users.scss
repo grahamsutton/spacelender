@@ -19,6 +19,32 @@
 	}
 }
 
+.navbar {
+	background-color: #002533 !important;
+
+	a {
+		color: #FFF !important;
+	}
+
+	button {
+		float: right;
+		margin-right: 16px;
+		margin-top: 1px;
+		border-bottom-right-radius: 0px !important;
+		border-bottom-left-radius: 0px !important;
+		border: none;
+		border-bottom: 1px solid #EEE;
+		background: transparent;
+		box-shadow: none !important;
+		color: #EEE !important;
+	}
+
+	button:hover {
+		background: #FFF !important;
+		color: rgba(0, 0, 0, 0.7) !important;
+	}
+}
+
 .navbar-homepage {
 	background: transparent !important;
 	box-shadow: none !important;

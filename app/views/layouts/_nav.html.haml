@@ -19,8 +19,9 @@
             %a{:href => "#"} Link
         %form.navbar-form.navbar-left{:role => "search"}
           .form-group
-            %input.form-control{:placeholder => "Search", :type => "text"}
-          %button.btn.btn-default{:type => "submit"} Submit
+            %input#nav-search-bar.form-control{:placeholder => "Search", :type => "text"}
+          %button#nav-search-bar-btn.btn.btn-default{:type => "submit"}
+            %span.glyphicon.glyphicon-search
       - else
         %ul.nav.navbar-nav.navbar-right
           - if @current_user
