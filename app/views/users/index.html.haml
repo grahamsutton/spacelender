@@ -1,4 +1,11 @@
-.row.title-search{:style => "background: url('assets/city-img-1.jpeg') no-repeat;", :class => ("title-search-hompage" unless !current_page?(root_path))}
+/ Random background images
+- if current_page?(root_path)
+  - @bg_imgs = Array.new
+  - @bg_imgs = ["ocean-sunset", "city-img-1", "city-img-2"]
+  - randomNumber = rand(0..(@bg_imgs.length - 1))
+  - @current_bg_img = @bg_imgs[randomNumber]
+
+.row.title-search{:style => "background: url('assets/#{@current_bg_img}.jpeg') no-repeat;", :class => ("title-search-hompage" unless !current_page?(root_path))}
   .col-md-8
     .row
       .col-md-12.header-title
@@ -13,6 +20,11 @@
             %span#search-icon-addon.input-group-addon
               %span.glyphicon.glyphicon-search
             = text_field_tag :search, nil, :class => "form-control", :placeholder => "        Search for spaces.", "aria-describedby" => "search-icon-addon"
+          #search-btns.col-md-12
+            = button_tag :Search, :class => "btn btn-default", :value => "Search"
+            = button_tag :find_near_me, :class => "btn btn-default" do
+              %span.glyphicon.glyphicon-map-marker
+              Find Near Me
 .container
   .row.text-center
     .col-md-4
@@ -30,6 +42,7 @@
         Earn
       %p
         <strong>GET PAID!</strong> You just turned the free space that was always <em>just sitting there</em> into a money-maker! Even after it's been used, you can keep the listing up and allow more people to use it in the future.
+        
 :javascript
   $(document).ready(function() {
     $("#search").on("keyup", function() {
