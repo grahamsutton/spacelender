@@ -1,11 +1,11 @@
 / Random background images
 - if current_page?(root_path)
   - @bg_imgs = Array.new
-  - @bg_imgs = ["ocean-sunset", "city-img-1", "city-img-2"]
+  - @bg_imgs = ["ocean-sunset.jpeg", "ocean-sunset-2.JPG", "city-img-1.jpeg", "city-img-2.jpeg"]
   - randomNumber = rand(0..(@bg_imgs.length - 1))
   - @current_bg_img = @bg_imgs[randomNumber]
 
-.row.title-search{:style => "background: url('assets/#{@current_bg_img}.jpeg') no-repeat;", :class => ("title-search-hompage" unless !current_page?(root_path))}
+.row.title-search{:style => "background: url('assets/#{@current_bg_img}') no-repeat;", :class => ("title-search-hompage" unless !current_page?(root_path))}
   .col-md-8
     .row
       .col-md-12.header-title
