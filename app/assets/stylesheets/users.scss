@@ -21,6 +21,7 @@
 
 .navbar-homepage {
 	background: transparent !important;
+	box-shadow: none !important;
 
 	a {
 		color: #FFF !important;
@@ -39,11 +40,13 @@
 	margin-bottom: 50px;
 	margin-left: 0px !important;
 	margin-right: 0px !important;
-	height: 420px;
+	height: 380px;
 	background-size: 100%;
 	width: 100%;
 	margin-top: -87px;
 	padding-top: 64px;
+	padding-left: 30px;
+	padding-right: 30px;
 
 	small,
 	input {
@@ -60,8 +63,19 @@ br {
 	margin: 20px 0px;
 }
 
+.search-input-group {
+	margin-left: -16px;
+}
 
-#search::-webkit-input-placeholder::before { font-family: fontAwesome; content:'\f002  '; }
-#search::-moz-placeholder::before  { font-family: fontAwesome; content:'\f002  '; } /* firefox 19+ */
-#search:-ms-input-placeholder::before  { font-family: fontAwesome; content:'\f002  '; } /* ie */
-#search:-moz-placeholder::before  { font-family: fontAwesome; content:'\f002  '; }
+#search {
+	margin-left: -32px;
+}
+
+#search-icon-addon {
+	color: #EEE !important;
+}
+
+#search::-webkit-input-placeholder { color: #EEE !important; }
+#search::-moz-placeholder  { color: #EEE !important; } /* firefox 19+ */
+#search:-ms-input-placeholder  { color: #EEE !important; } /* ie */
+#search:-moz-placeholder  { color: #EEE !important; }
