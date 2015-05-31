@@ -1,14 +1,29 @@
+.row.title-search{:style => "background: url('assets/city-img-1.jpeg') no-repeat;", :class => ("title-search-hompage" unless !current_page?(root_path))}
+  .col-md-8
+    .row
+      .col-md-12.header-title
+        %h2
+          SpaceLender
+          %br
+          %small
+            Find space for the things you need to do.
+      .col-md-12
+        = form_tag(users_search_path) do
+          = text_field_tag :search, nil, :class => "form-control", :placeholder => "Search for spaces."
 .container
-  .row
-    .col-md-8
-      .row
-        .col-md-12.header-title
-          %h2
-            SpaceLender
-            %br
-            %small
-              Find space for the things you need to do.
-        .col-md-12
-          = form_tag(users_search_path) do
-            = text_field_tag :search, nil, :class => "form-control", :placeholder => "Search for spaces."
-  
+  .row.text-center
+    .col-md-4
+      %h3
+        List
+      %p
+        Take some pictures, state a renting price, and list your space. Then, wait for an interested person to contact you.
+    .col-md-4
+      %h3
+        Lend
+      %p
+        Lend your listed space and send your clients an invoice for the space borrowed. You can even require a deposit!
+    .col-md-4
+      %h3
+        Earn
+      %p
+        <strong>GET PAID!</strong> You just turned the free space that was always <em>just sitting there</em> into a money-maker! Even after it's been used, you can keep the listing up and allow more people to use it in the future.

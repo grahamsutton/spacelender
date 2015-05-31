@@ -13,4 +13,55 @@
 
 .header-title {
 	margin-bottom: 20px;
+
+	h2 {
+		color: #EEE !important;
+	}
 }
+
+.navbar-homepage {
+	background: transparent !important;
+
+	a {
+		color: #FFF !important;
+	}
+
+	.navbar-nav {
+		li.active {
+			a {
+				color: #86AC63 !important;
+			}
+		}
+	}
+}
+
+.title-search {
+	margin-bottom: 50px;
+	margin-left: 0px !important;
+	margin-right: 0px !important;
+	height: 420px;
+	background-size: 100%;
+	width: 100%;
+	margin-top: -87px;
+	padding-top: 64px;
+
+	small,
+	input {
+		color: #EEE !important;
+	}
+}
+
+.title-search-homepage {
+	margin-top: -87px;
+	padding-top: 64px;
+}
+
+br {
+	margin: 20px 0px;
+}
+
+
+#search::-webkit-input-placeholder::before { font-family: fontAwesome; content:'\f002  '; }
+#search::-moz-placeholder::before  { font-family: fontAwesome; content:'\f002  '; } /* firefox 19+ */
+#search:-ms-input-placeholder::before  { font-family: fontAwesome; content:'\f002  '; } /* ie */
+#search:-moz-placeholder::before  { font-family: fontAwesome; content:'\f002  '; }
