@@ -26,25 +26,30 @@
         %ul.nav.navbar-nav.navbar-right
           - if @current_user
             %li
-              %a{:href => "#"} Link
+              = link_to root_path do
+                %i.fa.fa-inbox.fa-lg.fa-fw
             %li.dropdown
               %a.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :href => "#", :role => "button"}
                 = @current_user.first_name
                 %span.caret
               %ul.dropdown-menu{:role => "menu"}
                 %li
-                  %a{:href => "#"} Action
+                  = link_to root_path do
+                    %i.fa.fa-plus-square-o.fa-lg.fa-fw
+                    New Listing
                 %li
                   %a{:href => "#"} Another action
                 %li
                   %a{:href => "#"} Something else here
                 %li.divider
                 %li
-                  %a{:href => "#"} Separated link
+                  = link_to root_path do
+                    %i.fa.fa-folder-o.fa-lg.fa-fw
+                    My Portfolio
                 %li.divider
                 %li
                   = link_to logout_path do
-                    %span.glyphicon.glyphicon-log-out
+                    %i.fa.fa-sign-out.fa-lg.fa-fw
                     Log Out
           - else
             %li
