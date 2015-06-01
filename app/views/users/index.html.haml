@@ -101,6 +101,7 @@
     $("#search").on("keyup", function() {
       var searchValue = $(this).val();
 
+      // Adjusts Search Icon in search bar
       if (searchValue === "") {
         $("#search-icon-addon span.glyphicon.glyphicon-search").show();
         $(".search-input-group").css("margin-left", "-16px");
@@ -126,13 +127,17 @@
       }
     });
 
-    //Registration Submit button
+    // Registration Submit button
     $("#register-btn").on("click", function() {
     	$("#registration_form").submit();
     });
 
-    //Login Submit button
+    // Login Submit button
     $("#login-btn").on("click", function() {
       $("#login_form").submit();
+    });
+
+    $(".link_to_form").on("click", function () {
+      var form = $(this).attr("href");
     });
   });

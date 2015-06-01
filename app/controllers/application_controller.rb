@@ -15,11 +15,19 @@ class ApplicationController < ActionController::Base
   	  end
   end
 
-  def user_logged_in?
+  def redirect_if_logged_out
     if current_user.nil?
-      return false
+      redirect_to root_path
     else
       return true
+    end
+  end
+
+  def redirect_if_logged_in
+    if current_user.nil?
+      return true
+    else
+      redirect_to root_path
     end
   end
 end

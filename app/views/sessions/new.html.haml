@@ -3,7 +3,7 @@
     .col-md-4
       / User Sign Up Form
       = form_tag(sessions_create_path) do
-        .panel.panel-info
+        .panel.panel-default
           .panel-heading
             Log In
           .panel-body
@@ -18,4 +18,4 @@
                 %small
                   = link_to "Forgot your password?"
           .panel-footer
-            = submit_tag "Log In", :class => "btn btn-primary"
+            = submit_tag "Login", :class => "btn btn-primary"

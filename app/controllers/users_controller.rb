@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
 	before_filter :current_user
+	before_filter :redirect_if_logged_in, :only => :new
 
 	# Home Page
 	def index

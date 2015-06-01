@@ -37,6 +37,8 @@ gem 'geocoder'
 
 gem 'friendly_id'
 
+gem 'jquery-scrollto-rails'
+
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 

@@ -4,7 +4,6 @@
 
 $primary-color: #002533;
 
-
 input[type="text"],
 input[type="password"],
 select,
@@ -37,6 +36,13 @@ form {
 .navbar {
 	background-color: $primary-color !important;
 	border-radius: 0px !important;
+
+	input[type="text"],
+	input[type="password"],
+	select,
+	textarea {
+		margin-bottom: 0px;
+	}
 
 	a {
 		color: #FFF !important;
@@ -182,7 +188,7 @@ br {
 }
 
 #login {
-	padding: 60px;
+	padding: 100px;
 }
 
 #registration {
