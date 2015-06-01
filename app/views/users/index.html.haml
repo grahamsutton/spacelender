@@ -25,23 +25,48 @@
             = button_tag :find_near_me, :class => "btn btn-default" do
               %span.glyphicon.glyphicon-map-marker
               Find Near Me
-.container
-  .row.text-center
+#how-it-works.row.text-center
+  .col-md-12
     .col-md-4
+      .col-md-12.icon-cont
+        %i.fa.fa-newspaper-o.fa-5x
       %h3
         List
       %p
         Upload some pictures, state a renting price, and list your space. Then, wait for an interested person to contact you. You can rent out your garage for an hour or even an office for a year. Whatever you want.
     .col-md-4
+      .col-md-12.icon-cont
+        %i.fa.fa-cube.fa-5x
       %h3
         Lend
       %p
         Lend your listed space and send your clients an invoice for the space borrowed. You can even require a deposit and make discounts.
     .col-md-4
+      .col-md-12.icon-cont
+        %i.fa.fa-usd.fa-5x
       %h3
         Earn
       %p
         <strong>GET PAID!</strong> You just turned the free space that was always <em>just sitting there</em> into a money-maker! Even after it's been used, you can keep the listing up and allow more people to use it in the future.
+#registration.row{:style => "background: url('assets/city-img-2.jpeg');"}
+  .col-md-12
+    .col-md-8.text-center
+      %h3
+        Registration
+        %br
+        %small
+          is free, quick, and easy.
+      %p
+        Fill out the form to the right, then click this button below to start finding and listing spaces.
+      %button#register-btn.btn.btn-default
+        %i.fa.fa-mail-forward.fa-lg.fa-fw
+        Register Now
+    .col-md-4
+      = render 'layouts/registration_form'
+#login.row
+  .col-md-12
+    .col-md-4
+      = render 'layouts/login_form'
 
 :javascript
   $(document).ready(function() {
@@ -55,5 +80,10 @@
     	  $("#search-icon-addon span.glyphicon.glyphicon-search").hide();
     	  $(".search-input-group").css("margin-left", "-2px");
     	}
+    });
+
+    //Registration Submit button
+    $("#register-btn").on("click", function() {
+    	$("#registration_form").submit();
     });
   });

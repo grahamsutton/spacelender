@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
 	# Home Page
 	def index
-		@search = User.new
+		@user = User.new
 	end
 
 	# Sign Up

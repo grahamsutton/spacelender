@@ -1,0 +1,5 @@
+/ User Sign Up Form
+= form_tag(sessions_create_path) do
+  = text_field_tag :email, nil, :class => "form-control", :placeholder => "Username"
+  = password_field_tag :password, nil, :class => "form-control", :placeholder => "Password"
+  = submit_tag "Log In", :class => "btn btn-primary"

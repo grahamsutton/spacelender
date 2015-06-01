@@ -2,14 +2,25 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.container {
-	input[type="text"],
-	input[type="password"],
-	select,
-	textarea {
-		margin-bottom: 15px;
-	}
+$primary-color: #002533;
+
+
+input[type="text"],
+input[type="password"],
+select,
+textarea {
+	margin-bottom: 15px;
 }
+
+
+// Buttons
+.btn-primary {
+	background: $primary-color !important;
+	border: 1px solid #EEE;
+	box-shadow: none !important;
+	color: #EEE !important;
+}
+
 
 .header-title {
 	margin-bottom: 20px;
@@ -19,14 +30,23 @@
 	}
 }
 
+form {
+
+}
+
 .navbar {
-	background-color: #002533 !important;
+	background-color: $primary-color !important;
+	border-radius: 0px !important;
 
 	a {
 		color: #FFF !important;
 	}
 
-	button {
+	#nav-search-bar {
+		width: 260px;
+	}
+
+	#nav-search-bar-btn {
 		float: right;
 		margin-right: 16px;
 		margin-top: 1px;
@@ -39,9 +59,19 @@
 		color: #EEE !important;
 	}
 
-	button:hover {
+	#nav-search-bar-btn:hover {
 		background: #FFF !important;
 		color: rgba(0, 0, 0, 0.7) !important;
+	}
+
+	.navbar-nav {
+		li.active {
+			background: transparent !important;
+
+			a {
+				color: #86AC63 !important;
+			}
+		}
 	}
 }
 
@@ -143,5 +173,55 @@ br {
 		background: #FFF !important;
 		color: rgba(0, 0, 0, 0.7) !important;
 	}
+}
+
+#registration,
+#how-it-works {
+	padding: 30px;
+}
+
+#registration {
+	h1,
+	h2,
+	h3 {
+		color: #EEE !important;
+	}
+
+	p {
+		color: #EEE !important;
+	}
+
+	button {
+		border: 1px solid #EEE;
+		background: transparent;
+		box-shadow: none !important;
+		color: #EEE !important;
+	}
+
+	button:hover {
+		background: #FFF !important;
+		color: rgba(0, 0, 0, 0.7) !important;
+	}
+}
+
+#registration_form {
+	padding-right: 20px;
+
+	input[type="text"],
+	input[type="password"],
+	select,
+	textarea {
+		color: #EEE !important;
+	}
+
+	::-webkit-input-placeholder { color: #EEE !important; }
+	::-moz-placeholder  { color: #EEE !important; } /* firefox 19+ */
+	:-ms-input-placeholder  { color: #EEE !important; } /* ie */
+	:-moz-placeholder  { color: #EEE !important; }
+}
+
+.icon-cont {
+	height: 80px;
+	color: $primary-color !important;
 }
 
