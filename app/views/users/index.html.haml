@@ -3,9 +3,11 @@
   - @bg_imgs = Array.new
   - @bg_imgs = ["ocean-sunset.jpeg", "ocean-sunset-2.JPG", "city-img-1.jpeg", "city-img-2.jpeg"]
   - randomNumber = rand(0..(@bg_imgs.length - 1))
-  - @current_bg_img = @bg_imgs[randomNumber]
+  - @section_1_bg = @bg_imgs[randomNumber]
+  - randomNumber = rand(0..(@bg_imgs.length - 1))
+  - @section_2_bg = @bg_imgs[randomNumber]
 
-.row.title-search{:style => "background: url('assets/#{@current_bg_img}') no-repeat;", :class => ("title-search-hompage" unless !current_page?(root_path))}
+.row.title-search{:style => "background: url('assets/#{@section_1_bg}') no-repeat;", :class => ("title-search-hompage" unless !current_page?(root_path))}
   .col-md-8
     .row
       .col-md-12.header-title
@@ -48,28 +50,54 @@
         Earn
       %p
         <strong>GET PAID!</strong> You just turned the free space that was always <em>just sitting there</em> into a money-maker! Even after it's been used, you can keep the listing up and allow more people to use it in the future.
-#registration.row{:style => "background: url('assets/city-img-2.jpeg');"}
+- if !@current_user
+  #registration.row{:style => "background: url('assets/#{@section_2_bg}');"}
+    .col-md-12
+      .col-md-8.text-center
+        %h3
+          Registration
+          %br
+          %small
+            is free, quick, and easy.
+        %p
+          Fill out the form to the right, then click this button below to start finding and listing spaces.
+        %button#register-btn.btn.btn-default
+          %i.fa.fa-mail-forward.fa-lg.fa-fw
+          Register Now
+      .col-md-4
+        = render 'layouts/registration_form'
+  #login.row
+    .col-md-12
+      .col-md-4
+        = render 'layouts/login_form'
+      .col-md-8.text-center
+        %h3
+          Logging back in?
+          %br
+          %small
+            Welcome back.
+        %button#login-btn.btn.btn-primary
+          %i.fa.fa-sign-in.fa-lg.fa-fw
+          Login
+#footer.row
   .col-md-12
-    .col-md-8.text-center
-      %h3
-        Registration
+    .col-md-4
+      %h5
+        Have Suggestions?
         %br
         %small
-          is free, quick, and easy.
+          We welcome them.
       %p
-        Fill out the form to the right, then click this button below to start finding and listing spaces.
-      %button#register-btn.btn.btn-default
-        %i.fa.fa-mail-forward.fa-lg.fa-fw
-        Register Now
-    .col-md-4
-      = render 'layouts/registration_form'
-#login.row
+        If you have any suggestions on how you think SpaceLender can make your experience better, please let us know by contacting us at
+        = link_to "suggestions@spacelender.com"
   .col-md-12
-    .col-md-4
-      = render 'layouts/login_form'
+    #copyright.col-md-12
+      %h6
+        &copy; 2015 SpaceLender, LLC - All Rights Reserved.
+
 
 :javascript
-  $(document).ready(function() {
+  $(document).ready(function(event) {
     $("#search").on("keyup", function() {
       var searchValue = $(this).val();
 
@@ -82,8 +110,29 @@
     	}
     });
 
+    // Enable Enter Key to be pressed when using Registration form
+    $("#registration_form input").keypress(function(event) {
+      var keycode = (event.keyCode ? event.keyCode : event.which);
+      if(keycode == '13'){
+          $("#register-btn").click();
+      }
+    });
+
+    // Enable Enter Key to be pressed when using Login form
+    $("#login_form input").keypress(function(event) {
+      var keycode = (event.keyCode ? event.keyCode : event.which);
+      if(keycode == '13'){
+          $("#login-btn").click();
+      }
+    });
+
     //Registration Submit button
     $("#register-btn").on("click", function() {
     	$("#registration_form").submit();
+    });
+
+    //Login Submit button
+    $("#login-btn").on("click", function() {
+      $("#login_form").submit();
     });
   });

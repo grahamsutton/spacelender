@@ -14,4 +14,12 @@ class ApplicationController < ActionController::Base
   	  	redirect_to login_path
   	  end
   end
+
+  def user_logged_in?
+    if current_user.nil?
+      return false
+    else
+      return true
+    end
+  end
 end

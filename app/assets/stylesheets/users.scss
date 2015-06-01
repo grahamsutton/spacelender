@@ -176,8 +176,13 @@ br {
 }
 
 #registration,
-#how-it-works {
+#how-it-works,
+#footer {
 	padding: 30px;
+}
+
+#login {
+	padding: 60px;
 }
 
 #registration {
@@ -223,5 +228,23 @@ br {
 .icon-cont {
 	height: 80px;
 	color: $primary-color !important;
+}
+
+#login_form {
+	padding-top: 30px;
+}
+
+#footer {
+	background-color: $primary-color;
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		color: #EEE !important;
+	}
+	color: #EEE !important;
 }
 
