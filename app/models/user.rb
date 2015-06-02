@@ -29,7 +29,9 @@ class User < ActiveRecord::Base
 
 	def slug_candidates
 		[
-			:email
+			[:first_name, rand(100000..999999)],
+			[:first_name, rand(100000..999999)],
+			[:first_name, rand(100000..999999)]
 		]
 	end
 end
