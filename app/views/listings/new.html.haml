@@ -3,22 +3,59 @@
     .col-md-12
       .col-md-12
         = f.text_field :name, :class => "form-control", :placeholder => "Name"
-        = f.text_field :description, :id => "summernote", :class => "form-control", :placeholder => "Description"
-        = f.submit "Add", :class => "btn btn-primary"
-      .col-md-12
+        = f.text_field :description, :id => "description", :class => "form-control", :placeholder => "Description", 'data-provider' =>  'summernote'
+       
+      .col-md-12#address
         = f.fields_for :location do |l|
           = l.text_field :street_address, :class => "form-control", :placeholder => "Street Address"
           .row
             .col-md-8
               = l.text_field :city, :class => "form-control", :placeholder => "City"
             .col-md-4
-              = l.select :state, options_for_select(us_states), :class => "form-control", :placeholder => "State"
+              = l.select :state, options_for_select(us_states), {}, class: "form-control"
           = l.text_field :zip, :class => "form-control", :placeholder => "Zip"
+          
+      .col-md-6#address
+        = f.fields_for :rate do |l|
+         
+          .row
+            .col-md-6
+              = l.text_field :amount, :class => "form-control", :placeholder => "Amount"
+            .col-md-6
+              = l.select :date_range, options_for_select(times), {}, class: "form-control"
+          
+          .row
+            .col-md-6
+              = l.text_field :amount, :class => "form-control", :placeholder => "Amount"
+            .col-md-6
+              = l.select :date_range, options_for_select(times), {}, class: "form-control"
+          
+          .row
+            .col-md-6
+              = l.text_field :amount, :class => "form-control", :placeholder => "Amount"
+            .col-md-6
+              = l.select :date_range, options_for_select(times), {}, class: "form-control"
+          
+          .row
+            .col-md-6
+              = l.text_field :amount, :class => "form-control", :placeholder => "Amount"
+            .col-md-6
+              = l.select :date_range, options_for_select(times), {}, class: "form-control"
+          = f.submit "Add", :class => "btn btn-primary"
+          
+       
 
 
 :javascript
   $(document).ready(function(event) {
-    $("#summernote").summernote({
-      height: 300
+    $('[data-provider="summernote"]').each(function(){
+      $(this).summernote({
+        height: 300
+       });
     });
+    
+    $('#newlisting_form').submit(function(){
+      $("#description").val($('[data-provider="summernote"]').code());
+    });
+    
   });

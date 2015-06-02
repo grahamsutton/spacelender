@@ -55,4 +55,14 @@ module ApplicationHelper
 	      ['Wyoming', 'WY']
 	    ]
 	end
+	
+	def times
+      [
+        ['Per Minute', 'AL'],
+        ['Houry', 'AK'],
+        ['Daily', 'AZ'],
+        ['Weekly', 'AR'],
+        ['Monthly', 'CA']
+      ]
+  end
 end

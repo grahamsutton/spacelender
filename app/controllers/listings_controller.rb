@@ -3,7 +3,7 @@ class ListingsController < ApplicationController
 
 	def new
 		@listing = Listing.new
-		@listing.build_location
+		#@listing.build_location
 	end
 	
 	def create
