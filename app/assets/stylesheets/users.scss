@@ -79,6 +79,28 @@ form {
 			}
 		}
 	}
+
+
+
+	.dropdown-menu {
+		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) !important;
+	}
+
+	.dropdown.open > a {
+		text-decoration: underline;
+	}
+
+	.dropdown.open {
+		.dropdown-menu {
+			li a {
+				color: $primary-color !important;
+			}
+
+			li:hover a {
+				color: #5A96CA !important;
+			}
+		}
+	} 
 }
 
 .navbar-homepage {
@@ -112,6 +134,10 @@ form {
 
 	.dropdown.open {
 		.dropdown-menu {
+			li a {
+				color: #EEE !important;
+			}
+
 			li:hover a {
 				color: #5A96CA !important;
 			}
@@ -253,4 +279,8 @@ br {
 	}
 	color: #EEE !important;
 }
+
+
+
+
 

@@ -2,4 +2,53 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#address{margin-top: 20px;}
+$primary-color: #002533;
+
+#address,
+#rates,
+#upload-pictures {
+	margin-top: 20px;
+}
+
+#rates {
+	background: $primary-color;
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		color: #EEE !important;
+		margin-bottom: 15px !important;
+	}
+
+	input[type="text"],
+	input[type="password"],
+	textarea {
+		color: #EEE !important;
+	}
+
+	select {
+		opacity: 0.9;
+	}
+
+	::-webkit-input-placeholder { color: #EEE !important; }
+	::-moz-placeholder  { color: #EEE !important; } /* firefox 19+ */
+	:-ms-input-placeholder  { color: #EEE !important; } /* ie */
+	:-moz-placeholder  { color: #EEE !important; }
+}
+
+.add-subtract-rate-forms {
+	float: right;
+}
+
+#add-rate-form:hover,
+#subtract-rate-form:hover {
+	cursor: pointer;
+}
+
+#add-rate-form:focus,
+#subtract-rate-form:focus {
+	color: #CCC !important;
+}

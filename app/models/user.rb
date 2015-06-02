@@ -2,6 +2,9 @@ class User < ActiveRecord::Base
 	extend FriendlyId
 	friendly_id :slug_candidates, :use => [:slugged, :finders]
 
+	# Associations
+	has_many :listings
+
 	# Validations
 	validates :email, presence: true, uniqueness: true
 	validates :password, presence: true

@@ -58,11 +58,11 @@ module ApplicationHelper
 	
 	def times
       [
-        ['Per Minute', 'AL'],
-        ['Houry', 'AK'],
-        ['Daily', 'AZ'],
-        ['Weekly', 'AR'],
-        ['Monthly', 'CA']
+        ['Per Minute', 'per-minute'],
+        ['Hourly', 'hourly'],
+        ['Daily', 'daily'],
+        ['Weekly', 'weekly'],
+        ['Monthly', 'monthly']
       ]
-  end
+  	end
 end

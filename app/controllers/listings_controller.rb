@@ -2,12 +2,13 @@ class ListingsController < ApplicationController
 	before_filter :current_user
 
 	def new
-		@listing = Listing.new
-		#@listing.build_location
+		@listing = @current_user.listings.build
+		@listing.build_location
+		@listing.rates.build
 	end
 	
 	def create
-	    @listing = Listing.new(listing_params)
+	    @listing = @current_user.listings.build(listing_params)
 
 	    if @listing.save
 	      flash[:notice] = "Welcome to SpaceLender"
@@ -20,6 +21,6 @@ class ListingsController < ApplicationController
   
   private
   def listing_params
-    params.require(:listing).permit(:name, :description)
+    params.require(:listing).permit(:name, :description, location_attributes: [:street_address, :city, :state, :zip], rates_attributes: [:amount, :date_range])
   end
 end

@@ -1,0 +1,6 @@
+.row
+  = f.fields_for :rates do |r|
+    .col-md-6
+      = r.text_field :amount, :class => "form-control", :placeholder => "Amount"
+    .col-md-6
+      = r.select :date_range, options_for_select(times, "hourly"), {}, class: "form-control"
