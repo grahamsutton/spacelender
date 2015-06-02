@@ -14,5 +14,6 @@
 //= require jquery_ujs
 //= require jquery.scrollTo
 //= require bootstrap-sprockets
+//= require summernote
 //= require turbolinks
 //= require_tree .
