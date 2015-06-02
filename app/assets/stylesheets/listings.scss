@@ -11,7 +11,7 @@ $primary-color: #002533;
 }
 
 #rates {
-	background: $primary-color;
+	//background: $primary-color;
 
 	h1,
 	h2,
@@ -19,24 +19,24 @@ $primary-color: #002533;
 	h4,
 	h5,
 	h6 {
-		color: #EEE !important;
+		//color: #EEE !important;
 		margin-bottom: 15px !important;
 	}
 
 	input[type="text"],
 	input[type="password"],
 	textarea {
-		color: #EEE !important;
+		//color: #EEE !important;
 	}
 
 	select {
-		opacity: 0.9;
+		//opacity: 0.9;
 	}
 
-	::-webkit-input-placeholder { color: #EEE !important; }
-	::-moz-placeholder  { color: #EEE !important; } /* firefox 19+ */
-	:-ms-input-placeholder  { color: #EEE !important; } /* ie */
-	:-moz-placeholder  { color: #EEE !important; }
+	// ::-webkit-input-placeholder { color: #EEE !important; }
+	// ::-moz-placeholder  { color: #EEE !important; } /* firefox 19+ */
+	// :-ms-input-placeholder  { color: #EEE !important; } /* ie */
+	// :-moz-placeholder  { color: #EEE !important; }
 }
 
 .add-subtract-rate-forms {
