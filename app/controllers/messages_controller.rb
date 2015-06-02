@@ -1,6 +1,9 @@
 class MessagesController < ApplicationController
 	before_filter :current_user
-	def index
+	before_filter :require_login
 
+	def index
+		@message = Message.new
+		@messages = Message.all.limit(500)
 	end
 end

@@ -1,23 +1,24 @@
-
-#how-it-works.row.text-center{:style => "background-color: green;height:500px;"}
+.row
   = form_for @listing, :url => listings_create_path, :html => {:id => "newlisting_form"} do |f|
     .col-md-12
-      .col-md-9
-        .col-md-12.icon-cont
-          %i.fa.fa-plus.fa-5x New Listing
-          = f.text_field :name, :class => "form-control", :placeholder => "Name"
-          = f.text_field :description, :id => "summernote", :class => "form-control", :placeholder => "Description"
-          = f.submit "Add", :class => "btn btn-primary"
-      .col-md-3
-        .col-md-12.icon-cont
-          %i.fa.fa-usd.fa-5x Rates
+      .col-md-12
+        = f.text_field :name, :class => "form-control", :placeholder => "Name"
+        = f.text_field :description, :id => "summernote", :class => "form-control", :placeholder => "Description"
+        = f.submit "Add", :class => "btn btn-primary"
+      .col-md-12
+        = f.fields_for :location do |l|
+          = l.text_field :street_address, :class => "form-control", :placeholder => "Street Address"
+          .row
+            .col-md-8
+              = l.text_field :city, :class => "form-control", :placeholder => "City"
+            .col-md-4
+              = l.select :state, options_for_select(us_states), :class => "form-control", :placeholder => "State"
+          = l.text_field :zip, :class => "form-control", :placeholder => "Zip"
 
 
 :javascript
   $(document).ready(function(event) {
     $("#summernote").summernote({
-    
-      height:300
-    
+      height: 300
     });
   });
