@@ -10,11 +10,11 @@
         %th Description
         %th Created
       %tbody
-        - @listings.each do |i|
+        - @listings.each do |listing|
           %tr
             %td
-              = i.name
+              = listing.name
             %td
-              = i.description
+              = raw(listing.description)
             %td
-              = i.created_at
+              = listing.created_at

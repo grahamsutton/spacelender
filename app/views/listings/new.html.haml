@@ -52,11 +52,11 @@
       #upload-pictures.col-md-12
         %h4
           Upload Pictures
-      = fields_for :pictures, @listing.pictures do |p|
+      = fields_for :pictures do |p|
         .col-md-12
           .row
             .col-md-12
-              = p.file_field :image
+              = p.file_field :picture, :class => "dropzone"
       .col-md-12
         = f.submit "Post Listing", :class => "btn btn-primary"
     .col-md-4

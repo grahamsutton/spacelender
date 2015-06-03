@@ -29,7 +29,7 @@ class ListingsController < ApplicationController
 
 	# Show a single Listing
 	def show
-
+			@listing = Listing.find(params[:id])
 	end
 
 	# Update a Listing
@@ -44,6 +44,6 @@ class ListingsController < ApplicationController
   
   private
   def listing_params
-    params.require(:listing).permit(:name, :description, picture_attributes: [:imageable], location_attributes: [:street_address, :city, :state, :zip], rates_attributes: [:amount, :date_range])
+    params.require(:listing).permit(:name, :description, picture_attributes: [:picture], location_attributes: [:street_address, :city, :state, :zip], rates_attributes: [:amount, :date_range])
   end
 end

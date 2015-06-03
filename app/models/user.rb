@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
 	# Associations
 	has_many :listings
-	has_one :picture, :as => :imageable
+	has_one :picture, :as => :pictureable
 
 	# Validations
 	validates :email, presence: true, uniqueness: true

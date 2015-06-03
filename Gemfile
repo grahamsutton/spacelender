@@ -37,8 +37,6 @@ gem 'geocoder'
 
 gem 'friendly_id'
 
-gem 'jquery-scrollto-rails'
-
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
@@ -47,6 +45,8 @@ gem 'summernote-rails'
 gem 'paperclip', '~> 4.2'
 
 gem 'aws-sdk', '~> 2'
+
+gem 'dropzonejs-rails', '~> 0.4.16'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

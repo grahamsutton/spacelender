@@ -1,11 +1,6 @@
 class Picture < ActiveRecord::Base
-	belongs_to :imageable, :polymorphic => true
-	
-	has_attached_file :image,
-                      :storage => :s3,
-                      :s3_credentials => Proc.new{|a| a.instance.s3_credentials }
+	belongs_to :pictureable, :polymorphic => true
 
-    def s3_credentials
-    	{:bucket => "spacelender", :access_key_id => "AKIAI4YTGPQPHYMTMT5Q", :secret_access_key => "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"}
-    end
+	has_attached_file :picture, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
+  	validates_attachment_content_type :picture, :content_type => /\Aimage\/.*\Z/
 end
