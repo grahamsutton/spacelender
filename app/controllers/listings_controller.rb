@@ -1,6 +1,12 @@
 class ListingsController < ApplicationController
 	before_filter :current_user
 
+	# List all listings
+	def index
+		@listings = @current_user.listings
+	end
+
+	# Display Listing form
 	def new
 		@listing = @current_user.listings.build
 		@listing.build_location
@@ -8,6 +14,7 @@ class ListingsController < ApplicationController
 		@listing.pictures.build
 	end
 	
+	# Process to create the Listing
 	def create
 	    @listing = @current_user.listings.build(listing_params)
 
@@ -18,6 +25,21 @@ class ListingsController < ApplicationController
 	      flash.now[:alert] = "Uh-oh! Something's off here: "
 	      render :new
 	    end
+	end
+
+	# Show a single Listing
+	def show
+
+	end
+
+	# Update a Listing
+	def update
+
+	end
+
+	# Delete a Listing
+	def destroy
+
 	end
   
   private
