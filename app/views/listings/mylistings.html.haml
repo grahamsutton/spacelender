@@ -1,0 +1,20 @@
+.row
+  .col-md-12
+    %h3 My Listings
+
+.row
+  .col-md-12
+    %table.table
+      %thead
+        %th Name
+        %th Description
+        %th Created
+      %tbody
+        - @listings.each do |i|
+          %tr
+            %td
+              = i.name
+            %td
+              = i.description
+            %td
+              = i.created_at

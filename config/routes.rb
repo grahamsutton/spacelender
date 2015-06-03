@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get '/logout' => 'sessions#destroy', :as => :logout
   
   post 'listings/create'
+  get 'listings/mylistings'
 
   resources :listings
   

@@ -18,6 +18,11 @@ class ListingsController < ApplicationController
 	      render :new
 	    end
 	end
+	
+	def mylistings
+	  @listings = @current_user.listings
+	  
+	end
   
   private
   def listing_params
