@@ -4,7 +4,7 @@
       %h3
         New Listing
 .row
-  = form_for @listing, :url => listings_create_path, :html => {:id => "newlisting_form"} do |f|
+  = form_for @listing, :html => {:id => "newlisting_form", :multipart => true} do |f|
     .col-md-8
       .col-md-12
         = f.text_field :name, :class => "form-control", :placeholder => "Name"
@@ -22,7 +22,7 @@
               = l.select :state, options_for_select(us_states), {:prompt => "State"}, class: "form-control"
             .col-md-2
               = l.text_field :zip, :class => "form-control", :placeholder => "Zip"
-          
+              
       #rates.col-md-12
         %h4
           Rates
@@ -52,11 +52,13 @@
       #upload-pictures.col-md-12
         %h4
           Upload Pictures
-      = fields_for :pictures do |p|
+      = fields_for :pictures, @listing.pictures do |p|
         .col-md-12
           .row
-            Photo
-      = f.submit "Post Listing", :class => "btn btn-primary"
+            .col-md-12
+              = p.file_field :image
+      .col-md-12
+        = f.submit "Post Listing", :class => "btn btn-primary"
     .col-md-4
       .col-md-12
         .panel.panel-default

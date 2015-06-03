@@ -5,6 +5,7 @@ class ListingsController < ApplicationController
 		@listing = @current_user.listings.build
 		@listing.build_location
 		@listing.rates.build
+		@listing.pictures.build
 	end
 	
 	def create
@@ -21,6 +22,6 @@ class ListingsController < ApplicationController
   
   private
   def listing_params
-    params.require(:listing).permit(:name, :description, location_attributes: [:street_address, :city, :state, :zip], rates_attributes: [:amount, :date_range])
+    params.require(:listing).permit(:name, :description, picture_attributes: [:imageable], location_attributes: [:street_address, :city, :state, :zip], rates_attributes: [:amount, :date_range])
   end
 end

@@ -10,7 +10,8 @@ $primary-color: #002533;
 	margin-top: 20px;
 }
 
-#rates {
+#rates,
+#address {
 	//background: $primary-color;
 
 	h1,
@@ -33,10 +34,10 @@ $primary-color: #002533;
 		//opacity: 0.9;
 	}
 
-	// ::-webkit-input-placeholder { color: #EEE !important; }
-	// ::-moz-placeholder  { color: #EEE !important; } /* firefox 19+ */
-	// :-ms-input-placeholder  { color: #EEE !important; } /* ie */
-	// :-moz-placeholder  { color: #EEE !important; }
+	::-webkit-input-placeholder { color: $primary-color !important; }
+	::-moz-placeholder  { color: $primary-color !important; } /* firefox 19+ */
+	:-ms-input-placeholder  { color: $primary-color !important; } /* ie */
+	:-moz-placeholder  { color: $primary-color !important; }
 }
 
 .add-subtract-rate-forms {

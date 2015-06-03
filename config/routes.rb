@@ -10,8 +10,6 @@ Rails.application.routes.draw do
   post 'sessions/create'
   get '/logout' => 'sessions#destroy', :as => :logout
   
-  post 'listings/create'
-
   resources :listings
   
   # The priority is based upon order of creation: first created -> highest priority.
