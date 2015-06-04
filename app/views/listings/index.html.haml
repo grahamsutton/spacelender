@@ -1,13 +1,69 @@
 .container
   .row
+    .col-md-12
+      %h3 My Listings
+    .col-md-6
+      %span
+        %i.fa.fa-bell-o.fa-fw.fa-lg
+        %span.reservations-updates
+          No new reservations.
+      = " | "
+      %span
+        %i.fa.fa-inbox.fa-fw.fa-lg
+        %span.messages-updates
+          No new messages
+    .col-md-6.text-right
+      = button_tag :generate_invoice, :class => "btn btn-default" do
+        %i.fa.fa-file-text-o.fa-fw.fa-lg
+        Generate Invoice
+      = button_tag :add_reservation, :class => "btn btn-default" do
+        %i.fa.fa-bookmark-o.fa-fw.fa-lg
+        Add Reservation
+  %hr
+  .row
     .col-md-5
-      %h4 My Listings
+      %table.table.table-striped
+        %tr
+          %td
+            Total Profit
+          %td.text-right
+            = number_to_currency(2041.22)
+        %tr
+          %td
+            Lender Rating
+          %td.text-right
+            9.8
+        %tr
+          %td
+            Spaces Lent
+          %td.text-right
+            4
+        %tr
+          %td
+            Successful Transactions
+          %td.text-right
+            23
+        %tr
+          %td
+            Failed Transactions
+          %td.text-right
+            2
+      %h4 Current Listings
       = render 'layouts/my_listings'
     .col-md-7
-      %h4 Reservations
-      #calendar
+      .panel.panel-default
+        .panel-body
+          #calendar
 
 :javascript
   $(document).ready(function() {
-    $("#calendar").fullCalendar();
+    $("#calendar").fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
+      selectable: true,
+      selectHelper: true
+    });
   });
