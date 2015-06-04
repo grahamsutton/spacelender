@@ -1,13 +1,8 @@
 development:
-	access_key_id: AKIAI4YTGPQPHYMTMT5Q
-	secret_access_key: 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
-	bucket: spacelender
-
-# development:
-#   access_key_id: AKIAJPHIGGLNZ6C2HNVQ
-#   secret_access_key: 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
-#   bucket: better-cities
-# production:
-#   access_key_id: AKIAJPHIGGLNZ6C2HNVQ
-#   secret_access_key: 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
-#   bucket: better-cities
+  access_key_id: AKIAI4YTGPQPHYMTMT5Q
+  secret_access_key: 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
+  bucket: spacelender
+production:
+  access_key_id: AKIAI4YTGPQPHYMTMT5Q
+  secret_access_key: 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
+  bucket: spacelender

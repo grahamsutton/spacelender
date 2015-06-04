@@ -44,7 +44,7 @@ gem 'summernote-rails'
 
 gem 'paperclip'
 
-gem 'aws-sdk'
+gem 'aws-sdk', '~> 1.5.7'
 
 gem 'dropzonejs-rails', '~> 0.4.16'
 
