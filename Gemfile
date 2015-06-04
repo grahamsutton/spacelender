@@ -42,15 +42,17 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'summernote-rails'
 
-gem 'paperclip', '~> 4.2'
+gem 'paperclip'
 
-gem 'aws-sdk', '~> 2'
+gem 'aws-sdk'
 
 gem 'dropzonejs-rails', '~> 0.4.16'
 
 gem 'momentjs-rails'
 
 gem 'fullcalendar-rails'
+
+gem 'autonumeric-rails'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

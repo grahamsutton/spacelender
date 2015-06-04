@@ -22,6 +22,14 @@ Rails.application.configure do
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
+  config.paperclip_defaults = {
+    :storage => :s3,
+    :s3_credentials => {
+      :bucket => "spacelender",
+      :s3_credentials => "#{Rails.root}/config/aws.yml"
+    }
+  }
+
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
@@ -35,6 +43,8 @@ Rails.application.configure do
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
+
+  #Paperclip.options[:command_path] = "/usr/local/bin/"
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

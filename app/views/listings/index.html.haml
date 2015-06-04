@@ -9,17 +9,20 @@
           No new reservations.
       = " | "
       %span
-        %i.fa.fa-inbox.fa-fw.fa-lg
+        %i.fa.fa-usd.fa-fw.fa-lg
         %span.messages-updates
-          No new messages
+          No new payments.
     .col-md-6.text-right
+      = link_to new_listing_path, :class => "btn btn-default" do
+        %i.fa.fa-plus-square-o.fa-lg
+        New Listing
       = button_tag :generate_invoice, :class => "btn btn-default" do
-        %i.fa.fa-file-text-o.fa-fw.fa-lg
+        %i.fa.fa-file-text-o.fa-lg
         Generate Invoice
       = button_tag :add_reservation, :class => "btn btn-default" do
-        %i.fa.fa-bookmark-o.fa-fw.fa-lg
+        %i.fa.fa-bookmark-o.fa-lg
         Add Reservation
-  %hr
+  %br
   .row
     .col-md-5
       %table.table.table-striped
@@ -54,6 +57,9 @@
       .panel.panel-default
         .panel-body
           #calendar
+      %hr
+      %h4 Recent Payments
+      = render 'layouts/my_listings'
 
 :javascript
   $(document).ready(function() {

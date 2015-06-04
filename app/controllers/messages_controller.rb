@@ -4,6 +4,5 @@ class MessagesController < ApplicationController
 
 	def index
 		@message = Message.new
-		@messages = Message.all.limit(500)
 	end
 end

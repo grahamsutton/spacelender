@@ -16,6 +16,7 @@
 //= require bootstrap-sprockets
 //= require moment
 //= require fullcalendar
+//= require autonumeric
 //= require summernote
 //= require turbolinks
 //= require_tree .

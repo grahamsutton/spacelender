@@ -37,6 +37,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.0)
+    autonumeric-rails (1.9.33)
+      jquery-rails (>= 2.0.2)
     autoprefixer-rails (5.1.8)
       execjs
       json
@@ -198,8 +200,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  autonumeric-rails
   autoprefixer-rails
-  aws-sdk (~> 2)
+  aws-sdk
   bcrypt (~> 3.1.7)
   bootstrap-sass
   bootswatch-rails
@@ -214,7 +217,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   momentjs-rails
-  paperclip (~> 4.2)
+  paperclip
   pg
   rails (= 4.2.0)
   sass-rails (~> 5.0)

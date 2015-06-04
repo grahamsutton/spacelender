@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603020254) do
+ActiveRecord::Schema.define(version: 20150604170854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,17 +70,16 @@ ActiveRecord::Schema.define(version: 20150603020254) do
 
   create_table "pictures", force: :cascade do |t|
     t.string   "caption"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
-    t.integer  "pictureable_id"
-    t.string   "pictureable_type"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.integer  "listing_id"
   end
 
-  add_index "pictures", ["pictureable_type", "pictureable_id"], name: "index_pictures_on_pictureable_type_and_pictureable_id", using: :btree
+  add_index "pictures", ["listing_id"], name: "index_pictures_on_listing_id", using: :btree
 
   create_table "rates", force: :cascade do |t|
     t.integer  "listing_id"
@@ -108,5 +107,6 @@ ActiveRecord::Schema.define(version: 20150603020254) do
   add_foreign_key "listings", "users"
   add_foreign_key "locations", "listings"
   add_foreign_key "messages", "users"
+  add_foreign_key "pictures", "listings"
   add_foreign_key "rates", "listings"
 end
