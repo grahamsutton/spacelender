@@ -48,6 +48,10 @@ gem 'aws-sdk', '~> 2'
 
 gem 'dropzonejs-rails', '~> 0.4.16'
 
+gem 'momentjs-rails'
+
+gem 'fullcalendar-rails'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require dropzone
 //= require bootstrap-sprockets
+//= require moment
+//= require fullcalendar
 //= require summernote
 //= require turbolinks
 //= require_tree .
