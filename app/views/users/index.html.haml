@@ -24,6 +24,10 @@
             = text_field_tag :search, nil, :class => "form-control", :placeholder => "        Search for spaces.", "aria-describedby" => "search-icon-addon"
           #search-btns.col-md-12
             = button_tag :Search, :class => "btn btn-default", :value => "Search"
+            = button_tag :has_images, :id => "has-images", :class => "btn btn-default", "data-checked" => "true" do
+              %i.is-checked.fa.fa-check-square-o.fa-fw.fa-lg.active
+              %i.is-not-checked.fa.fa-square-o.fa-fw.fa-lg
+              Has Images
             = button_tag :find_near_me, :class => "btn btn-default" do
               %span.glyphicon.glyphicon-map-marker
               Find Near Me
@@ -109,6 +113,21 @@
     	  $("#search-icon-addon span.glyphicon.glyphicon-search").hide();
     	  $(".search-input-group").css("margin-left", "-2px");
     	}
+    });
+
+    $("#has-images").on("click", function(e) {
+      e.preventDefault();
+      if ($(this).find("i").first().hasClass("active")) {
+        // Uncheck it
+        $(this).find("i").first().removeClass("active");
+        $(this).find("i").eq(1).addClass("active");
+        $(this).attr("data-checked", false);
+      } else {
+        // Checkmark it
+        $(this).find("i").eq(1).removeClass("active");
+        $(this).find("i").first().addClass("active");
+        $(this).attr("data-checked", true);
+      }
     });
 
     // Enable Enter Key to be pressed when using Registration form

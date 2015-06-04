@@ -1,20 +1,7 @@
-.row
-  .col-md-12
-    %h3 My Listings
-
-.row
-  .col-md-12
-    %table.table
-      %thead
-        %th Name
-        %th Description
-        %th Created
-      %tbody
-        - @listings.each do |listing|
-          %tr
-            %td
-              = listing.name
-            %td
-              = raw(listing.description)
-            %td
-              = listing.created_at
+.container
+  .row
+    .col-md-5
+      %h4 My Listings
+      = render 'layouts/my_listings'
+    .col-md-7
+      %h4 Reservations

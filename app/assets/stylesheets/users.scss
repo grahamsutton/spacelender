@@ -4,11 +4,19 @@
 
 $primary-color: #002533;
 
+body {
+	background-color: #f5f5f5 !important;
+}
+
 input[type="text"],
 input[type="password"],
 select,
 textarea {
 	margin-bottom: 15px;
+}
+
+.panel {
+	border-radius: 0px !important;
 }
 
 
@@ -29,8 +37,12 @@ textarea {
 	}
 }
 
-form {
+#has-images i.active {
+	display: inline;
+}
 
+#has-images i {
+	display: none;
 }
 
 .navbar {
