@@ -21,7 +21,7 @@ class ListingsController < ApplicationController
 
 	    if @listing.save
 	      flash[:notice] = "Welcome to SpaceLender"
-	      redirect_to root_path
+	      redirect_to listings_path
 	    else
 	      flash.now[:alert] = "Uh-oh! Something's off here: "
 	      render :new
@@ -31,6 +31,7 @@ class ListingsController < ApplicationController
 	# Show a single Listing
 	def show
 		@listing = Listing.find(params[:id])
+		@message = Message.new
 	end
 
 	# Update a Listing

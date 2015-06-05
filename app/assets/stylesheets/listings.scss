@@ -53,3 +53,16 @@ $primary-color: #002533;
 #subtract-rate-form:focus {
 	color: #CCC !important;
 }
+
+#show-listing {
+	padding-top: 20px !important;
+	padding-bottom: 20px !important;
+
+	.panel {
+		margin-bottom: 0px !important; 
+	}
+}
+
+.show-listing-rate {
+	color: #777 !important;
+}

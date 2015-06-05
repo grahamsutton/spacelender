@@ -29,7 +29,10 @@ Rails.application.configure do
     :s3_credentials => {
       :bucket => "spacelender-pics",
       :s3_credentials => "#{Rails.root}/config/aws.yml"
-    }
+    },
+    :url =>':s3_domain_url',
+    :s3_permissions => "public-read",
+    :s3_protocol => "http"
   }
 
   # Debug mode disables concatenation and preprocessing of assets.
