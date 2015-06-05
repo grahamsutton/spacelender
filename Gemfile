@@ -54,6 +54,8 @@ gem 'fullcalendar-rails'
 
 gem 'autonumeric-rails'
 
+gem 'owlcarousel-rails'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

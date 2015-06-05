@@ -17,6 +17,7 @@
 //= require moment
 //= require fullcalendar
 //= require autonumeric
+//= require owl.carousel
 //= require summernote
 //= require turbolinks
 //= require_tree .

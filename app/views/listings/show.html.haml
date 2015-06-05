@@ -1,62 +1,36 @@
-#show-listing.container.panel.panel-default
-  .row
-    / Left Side
-    .col-md-3
-      %h5
-        Location
-      .panel.panel-default
-        .panel-body
-          %p.lead
-            = @listing.location.full_street_address
-      %hr
-      %h5
-        Description
-      .panel.panel-default
-        .panel-body
-          = @listing.description
-
-    / Center
+.row
+  .col-md-12
+    .col-md-7
+      %h4
+        = @listing.name
+%hr
+.row
+  .col-md-12
+    .owl-carousel
+      - @listing.pictures.each do |pic|
+        %div
+          = image_tag pic.image.url(:small)
+%hr
+#show-description.row
+  .col-md-12
     .col-md-6
-      .panel.panel-default
-        .panel-body
-          %h4.text-center
-            = link_to @listing.name
-            %br
-            %small
-              = link_to @listing.user.first_name, user_path(@listing.user)
-            %br
-            %br
-            %small.show-listing-rate
-              - @listing.rates.each do |rate|
-                %p.lead
-                  = number_to_currency(rate.amount)
-                  = " / "
-                  = rate.date_range
-      %br
-      .panel.panel-default
-        .panel-body
-          .row
-            - @listing.pictures.each do |pic|
-              .col-md-6
-                = image_tag pic.image.url(:small), :class => "img-responsive"
+      %p.lead
+        Description
+      = raw(@listing.description)
+    .col-md-6
+      %p.lead
+        Rates
+      %table.table
+        - @listing.rates.each do |rate|
+          %tr
+            %td
+              = number_to_currency(rate.amount)
+            %td
+              = rate.date_range
 
-    .col-md-3
-      %h5
-        Actions
-        %br
-        %br
-        = button_tag :reserve, :class => "btn btn-default" do
-          %i.fa.fa-bookmark-o.fa-fw.fa-lg
-          Reserve
-      %hr
-      %h5
-        Contact
-      .panel.panel-default
-        .panel-body
-          = form_for @message do |f|
-            = f.text_field :subject, :class => "form-control", :placeholder => "Subject"
-            = f.text_area :body, :class => "form-control", :placeholder => "Body", :rows => "5"
-            %hr
-            = f.submit :send, :class => "btn btn-primary" do
-              %i.fa.fa-send.fa-fw.fa-lg
-              Send
+:javascript
+  $(document).ready(function() {
+    $(".owl-carousel").owlCarousel({
+      items: 6
+    });
+  });
