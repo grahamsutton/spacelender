@@ -22,10 +22,12 @@ Rails.application.configure do
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
+  AWS.config(:s3_endpoint => 'spacelender-pics.s3-website-us-west-1.amazonaws.com')
+
   config.paperclip_defaults = {
     :storage => :s3,
     :s3_credentials => {
-      :bucket => "spacelender",
+      :bucket => "spacelender-pics",
       :s3_credentials => "#{Rails.root}/config/aws.yml"
     }
   }

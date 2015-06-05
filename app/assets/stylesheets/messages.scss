@@ -1,3 +1,29 @@
 // Place all the styles related to the messages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#messages-container {
+
+}
+
+#messages-controls,
+#messages-list,
+#messages-display {
+	border-right: 1px solid #CCC;
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+
+#messages-display {
+	background-color: #f5f5f5 !important;
+}
+
+.fight-navbar-margin {
+	margin-top: -23px;
+}
+
+.message-panel {
+	margin-bottom: 0px !important;
+	border-bottom: 1px solid #CCC !important;
+	border-left: 3px solid #669 !important;
+}

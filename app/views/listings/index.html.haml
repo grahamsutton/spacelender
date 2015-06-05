@@ -25,34 +25,44 @@
   %br
   .row
     .col-md-5
-      %table.table.table-striped
-        %tr
-          %td
-            Total Profit
-          %td.text-right
-            = number_to_currency(2041.22)
-        %tr
-          %td
-            Lender Rating
-          %td.text-right
-            9.8
-        %tr
-          %td
-            Spaces Lent
-          %td.text-right
-            4
-        %tr
-          %td
-            Successful Transactions
-          %td.text-right
-            23
-        %tr
-          %td
-            Failed Transactions
-          %td.text-right
-            2
-      %h4 Current Listings
-      = render 'layouts/my_listings'
+      .row
+        .col-md-12
+          .alert.alert-success.alert-dismissible
+            %button.close{ :type => "button", "data-dismiss" => "alert", "aria-label" => "Close"}
+              %span{ "aria-hidden" => "true"}
+                &times;
+            %strong
+              Next
+            Soonest Listing here
+          %table.table.table-striped
+            %tr
+              %td
+                Total Profit
+              %td.text-right
+                = number_to_currency(2041.22)
+            %tr
+              %td
+                Lender Rating
+              %td.text-right
+                9.8
+            %tr
+              %td
+                Spaces Lent
+              %td.text-right
+                4
+            %tr
+              %td
+                Successful Transactions
+              %td.text-right
+                23
+            %tr
+              %td
+                Failed Transactions
+              %td.text-right
+                2
+
+          %h4 Current Listings
+          = render 'layouts/my_listings'
     .col-md-7
       .panel.panel-default
         .panel-body
