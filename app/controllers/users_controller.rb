@@ -31,10 +31,6 @@ class UsersController < ApplicationController
 		end
 	end
 
-	def search
-		@search = User.new
-	end
-
 	private
 	def user_params
 		params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :email_confirmation)

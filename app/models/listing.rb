@@ -9,6 +9,11 @@ class Listing < ActiveRecord::Base
   has_many :pictures, :dependent => :destroy
 
   accepts_nested_attributes_for :location, :rates, :pictures
+  
+  # Search method
+  def self.search(search)
+     where(['lower(name) LIKE ? OR lower(description) LIKE ?', "%#{search.downcase}%", "%#{search.downcase}%"])
+  end
 
   def slug_candidates
     [

@@ -1,6 +1,6 @@
 class ListingsController < ApplicationController
 	before_filter :current_user
-	before_filter :require_login, :except => [:show]
+	before_filter :require_login, :except => [:show, :search]
 
 	# List all listings
 	def index
@@ -36,13 +36,24 @@ class ListingsController < ApplicationController
 
 	# Update a Listing
 	def update
-
+    
 	end
 
 	# Delete a Listing
 	def destroy
 
 	end
+	
+	def findnearme
+	  result = request.location
+	  flash[:notice] = "#{result.ip}"
+	end
+	
+	# search method
+  def search
+    @listings = Listing.search(params[:search])
+    @search = params[:search].downcase
+  end
   
   private
   def listing_params
