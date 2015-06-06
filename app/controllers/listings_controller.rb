@@ -19,6 +19,10 @@ class ListingsController < ApplicationController
 	def create
 	    @listing = @current_user.listings.build(listing_params)
 
+	    params[:image].each do |image|
+	    	@listing.pictures.build(:image => image)
+	    end
+
 	    if @listing.save
 	      flash[:notice] = "Welcome to SpaceLender"
 	      redirect_to listings_path
@@ -50,10 +54,10 @@ class ListingsController < ApplicationController
 	end
 	
 	# search method
-  def search
-    @listings = Listing.search(params[:search])
-    @search = params[:search].downcase
-  end
+    def search
+      @listings = Listing.search(params[:search])
+      @search = params[:search].downcase
+    end
   
   private
   def listing_params

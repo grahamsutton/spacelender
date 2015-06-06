@@ -1,5 +1,5 @@
 %nav.navbar.navbar-default{:class => ("navbar-homepage" unless !current_page?(root_path))}
-  .container-fluid
+  .container
     .navbar-header
       %button.navbar-toggle.collapsed{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
         %span.sr-only Toggle navigation
@@ -48,3 +48,4 @@
             = link_to "Register", "#registration", :class => "link_to_form"
           %li
             = link_to "Login", "#login", :class => "link_to_form"
+

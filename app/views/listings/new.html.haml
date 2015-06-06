@@ -56,7 +56,7 @@
               %h4
                 Upload Pictures
             = f.fields_for :pictures do |p|
-              = p.file_field :image
+              = p.file_field :image, :multiple => true, :name => "image[]"
             .col-md-12
               = f.submit "Post Listing", :class => "btn btn-primary"
           .col-md-4

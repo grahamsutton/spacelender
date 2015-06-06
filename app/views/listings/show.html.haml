@@ -1,36 +1,43 @@
 .row
-  .col-md-12
-    .col-md-7
-      %h4
-        = @listing.name
-%hr
-.row
-  .col-md-12
-    .owl-carousel
+  #picture-side.col-md-6.fight-navbar-margin
+    .row
       - @listing.pictures.each do |pic|
-        %div
-          = image_tag pic.image.url(:small)
-%hr
-#show-description.row
-  .col-md-12
-    .col-md-6
-      %p.lead
-        Description
-      = raw(@listing.description)
-    .col-md-6
-      %p.lead
-        Rates
-      %table.table
-        - @listing.rates.each do |rate|
-          %tr
-            %td
-              = number_to_currency(rate.amount)
-            %td
-              = rate.date_range
+        .col-md-6
+          .col-md-12.show-picture-container
+            %span.thumbnail
+              = image_tag pic.image.url(:small), :class => "show-pictures"
+  #info-side.col-md-6
+    .row
+      .col-md-12
+        %p.lead
+          = @listing.name
+        %table.table.table-striped
+          %tbody
+            %tr
+              %td
+                %strong
+                  Lender:
+              %td
+                = link_to @listing.user.first_name
+            %tr
+              %td
+                %strong
+                  Rate(s):
+              %td
+                - @listing.rates.each_with_index do |rate, index|
+                  = number_to_currency(rate.amount)
+                  = " / "
+                  = rate.date_range
+                  - if index + 1 != @listing.rates.length
+                    %br
+            %tr
+              %td
+                %strong
+                  Posted:
+              %td
+                = @listing.created_at.strftime("%B %d, %Y")
+        %p
+          = raw(@listing.description)
 
-:javascript
-  $(document).ready(function() {
-    $(".owl-carousel").owlCarousel({
-      items: 6
-    });
-  });
+
+         

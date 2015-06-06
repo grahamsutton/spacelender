@@ -12,15 +12,15 @@
         %i.fa.fa-usd.fa-fw.fa-lg
         %span.messages-updates
           No new payments.
-    .col-md-6.text-right
+    .col-md-6.btn-group
       = link_to new_listing_path, :class => "btn btn-default" do
-        %i.fa.fa-plus-square-o.fa-lg
+        %i.fa.fa-plus-square-o.fa-lg.fa-fw
         New Listing
       = button_tag :generate_invoice, :class => "btn btn-default" do
-        %i.fa.fa-file-text-o.fa-lg
+        %i.fa.fa-file-text-o.fa-lg.fa-fw
         Generate Invoice
       = button_tag :add_reservation, :class => "btn btn-default" do
-        %i.fa.fa-bookmark-o.fa-lg
+        %i.fa.fa-bookmark-o.fa-lg.fa-fw
         Add Reservation
   %br
   .row
