@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150605053223) do
+ActiveRecord::Schema.define(version: 20150608024933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,20 @@ ActiveRecord::Schema.define(version: 20150605053223) do
 
   add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
 
+  create_table "payments", force: :cascade do |t|
+    t.integer  "reservation_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "card_type"
+    t.integer  "card_number"
+    t.integer  "card_verification"
+    t.date     "card_expires_on"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "payments", ["reservation_id"], name: "index_payments_on_reservation_id", using: :btree
+
   create_table "pictures", force: :cascade do |t|
     t.string   "caption"
     t.datetime "created_at",         null: false
@@ -92,6 +106,17 @@ ActiveRecord::Schema.define(version: 20150605053223) do
 
   add_index "rates", ["listing_id"], name: "index_rates_on_listing_id", using: :btree
 
+  create_table "reservations", force: :cascade do |t|
+    t.integer  "listing_id"
+    t.integer  "booker_id"
+    t.datetime "from_date"
+    t.datetime "to_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "reservations", ["listing_id"], name: "index_reservations_on_listing_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -108,6 +133,8 @@ ActiveRecord::Schema.define(version: 20150605053223) do
   add_foreign_key "listings", "users"
   add_foreign_key "locations", "listings"
   add_foreign_key "messages", "users"
+  add_foreign_key "payments", "reservations"
   add_foreign_key "pictures", "listings"
   add_foreign_key "rates", "listings"
+  add_foreign_key "reservations", "listings"
 end

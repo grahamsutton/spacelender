@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 $primary-color: #002533;
-$secondary-color: #006A93;
+$secondary-color: #004B66;
 
 #address,
 #rates,
@@ -55,44 +55,6 @@ $secondary-color: #006A93;
 	color: #CCC !important;
 }
 
-#show-listing {
-	padding-top: 20px !important;
-	padding-bottom: 20px !important;
-
-	.panel {
-		margin-bottom: 0px !important; 
-	}
-}
-
-.no-overflow {
-	overflow: hidden !important;
-}
-
-#info-side {
-	position: absolute;
-	margin-left: 50% !important;
-	overflow: auto !important;
-}
-
-#picture-side {
-	background-color: $secondary-color !important;
-	position: absolute;
-	height: 100%;
-	padding-top: 23px;
-	overflow: auto !important;
-}
-
-.show-pictures {
-	height: 200px !important;
-	width: 100% !important;
-	position: relative;
-}
-
-.show-picture-container {
-	padding-left: 0px !important;
-	padding-right: 0px !important;
-}
-
-.show-listing-rate {
-	color: #777 !important;
+#listing-slideshow {
+	
 }

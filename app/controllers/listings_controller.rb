@@ -35,7 +35,7 @@ class ListingsController < ApplicationController
 	# Show a single Listing
 	def show
 		@listing = Listing.find(params[:id])
-		@message = Message.new
+		@payment = Payment.new
 	end
 
 	# Update a Listing

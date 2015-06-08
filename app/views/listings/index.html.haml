@@ -1,85 +1,34 @@
 .container
-  .row
-    .col-md-12
-      %h3 My Listings
-    .col-md-6
-      %span
-        %i.fa.fa-bell-o.fa-fw.fa-lg
-        %span.reservations-updates
-          No new reservations.
-      = " | "
-      %span
-        %i.fa.fa-usd.fa-fw.fa-lg
-        %span.messages-updates
-          No new payments.
-    .col-md-6.btn-group
-      = link_to new_listing_path, :class => "btn btn-default" do
-        %i.fa.fa-plus-square-o.fa-lg.fa-fw
-        New Listing
-      = button_tag :generate_invoice, :class => "btn btn-default" do
-        %i.fa.fa-file-text-o.fa-lg.fa-fw
-        Generate Invoice
-      = button_tag :add_reservation, :class => "btn btn-default" do
-        %i.fa.fa-bookmark-o.fa-lg.fa-fw
-        Add Reservation
-  %br
-  .row
-    .col-md-5
-      .row
-        .col-md-12
-          .alert.alert-success.alert-dismissible
-            %button.close{ :type => "button", "data-dismiss" => "alert", "aria-label" => "Close"}
-              %span{ "aria-hidden" => "true"}
-                &times;
-            %strong
-              Next
-            Soonest Listing here
-          %table.table.table-striped
-            %tr
-              %td
-                Total Profit
-              %td.text-right
-                = number_to_currency(2041.22)
-            %tr
-              %td
-                Lender Rating
-              %td.text-right
-                9.8
-            %tr
-              %td
-                Spaces Lent
-              %td.text-right
-                4
-            %tr
-              %td
-                Successful Transactions
-              %td.text-right
-                23
-            %tr
-              %td
-                Failed Transactions
-              %td.text-right
-                2
-
-          %h4 Current Listings
+  #tab-container.col-md-12
+    .row
+      #tab-list-container.col-md-3
+        %ul.tab-list.list-unstyled
+          %li.active
+            = link_to "#my_listings" do
+              %i.fa.fa-newspaper-o.fa-fw
+              My Listings
+          %li
+            = link_to "#reservations" do
+              %i.fa.fa-key.fa-fw
+              Reservations
+      #tab-display.col-md-9
+        #my_listings.tab.active
           = render 'layouts/my_listings'
-    .col-md-7
-      .panel.panel-default
-        .panel-body
-          #calendar
-      %hr
-      %h4 Recent Payments
-      = render 'layouts/my_listings'
+        #reservations.tab
+          = render 'layouts/reservations'
+= render 'layouts/footer'
 
 :javascript
   $(document).ready(function() {
-    $("#calendar").fullCalendar({
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'month,agendaWeek,agendaDay'
-      },
-      selectable: true,
-      selectHelper: true
+    $(".tab-list li a").on("click", function(e) {
+      e.preventDefault();
+
+      var id = $(this).attr("href");
+
+      $(this).parent().siblings().removeClass("active");
+      $(this).addClass("active");
+
+      $(".tab").removeClass("active");
+      $(id).addClass("active");
     });
   });
