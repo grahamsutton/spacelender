@@ -2,13 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$primary-color: #554444;
-$secondary-color: #994444;
-$third-color: #999999;
-$fourth-color: #cc6655;
-$fifth-color: #FFFFEE;
+$primary-color: #334466;
+$secondary-color: #999999;
+$third-color: #ffcc88;
+$fourth-color: #eeeecc;
+$fifth-color: #FAFAFA;
 
-// $primary-color: #556688;
+// $primary-color: #554422;
 // $secondary-color: #ffdd66;
 // $third-color: #66bbee;
 // $fourth-color: #99bbee;
@@ -25,24 +25,28 @@ textarea {
 	margin-bottom: 15px;
 }
 
-.panel {
-	border-radius: 0px !important;
+.panel.panel-default {
+	border: 1px solid $secondary-color !important;
 }
 
 
 // Buttons
+a.btn-primary,
 .btn-primary {
 	background: $primary-color !important;
 	border: 1px solid #EEE;
 	box-shadow: none !important;
-	color: #EEE !important;
+	color: $fifth-color !important;
+	border-radius: 0px !important;
 }
 
+a.btn-default,
 .btn-default {
 	background: transparent !important;
 	border: 1px solid $primary-color !important;
 	box-shadow: none !important;
 	color: $primary-color !important;
+	border-radius: 0px !important;
 }
 
 
@@ -63,8 +67,9 @@ textarea {
 }
 
 .navbar {
-	background-color: $fourth-color !important;
+	background-color: $fifth-color !important;
 	border-radius: 0px !important;
+	box-shadow: none !important;
 
 	input[type="text"],
 	input[type="password"],
@@ -74,17 +79,22 @@ textarea {
 	}
 
 	.navbar-brand {
-		color: $fifth-color !important;
+		color: $secondary-color !important;
 	}
 
 	a {
 		color: $secondary-color !important;
 	}
 
+	a.btn-primary {
+		color: $fifth-color !important;
+		font-weight: bold !important;
+	}
+
 	#nav-search-bar {
 		width: 260px;
 		box-shadow: inset 0 -1px 0 $secondary-color;
-		color: $fifth-color !important;
+		color: $primary-color !important;
 	}
 
 	#nav-search-bar-btn {
@@ -97,7 +107,7 @@ textarea {
 		border-bottom: 1px solid #EEE;
 		background: transparent;
 		box-shadow: none !important;
-		color: $fifth-color !important;
+		color: $primary-color !important;
 	}
 
 	#nav-search-bar-btn:hover {
@@ -120,7 +130,9 @@ textarea {
 		}
 	}
 
-
+	#list-space-nav-btn {
+		border-top: none !important;
+	}
 
 	.dropdown-menu {
 		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) !important;
@@ -149,6 +161,11 @@ textarea {
 
 	a {
 		color: #FFF !important;
+	}
+
+	#list-space-nav-btn {
+		border: none !important;
+		background: transparent !important;
 	}
 
 	.navbar-nav {
@@ -229,7 +246,8 @@ br {
 #search:-ms-input-placeholder  { color: #EEE !important; } /* ie */
 #search:-moz-placeholder  { color: #EEE !important; }
 
-.search-btns {
+.search-btns,
+a.search-btns {
 	float: right;
 	margin-top: 15px;
 	margin-right: 16px;
@@ -330,6 +348,8 @@ br {
 }
 
 #tab-display {
+	margin-bottom: 100px;
+
 	.tab {
 		display: none;
 	}
@@ -343,7 +363,7 @@ br {
 	li {
 		a {
 			font-size: 18px !important;
-			color: $third-color !important;
+			color: $secondary-color !important;
 		}
 
 		a:hover {
@@ -357,12 +377,33 @@ br {
 	}
 }
 
+.feature-list-item {
+  -webkit-animation-duration: 3s;
+  -webkit-animation-delay: 2s;
+  -webkit-animation-iteration-count: 2s;
+}
+
+.list-group {
+
+	border: none !important;
+
+	.list-group-item:first-child {
+		border-top-left-radius: 0px !important;
+		border-top-right-radius: 0px !important;
+	}
+
+	.list-group-item:last-child {
+		border-bottom-right-radius: 0px !important;
+		border-bottom-left-radius: 0px !important;
+	}
+}
+
 #footer {
 	background-color: $primary-color;
 	min-height: 320px;
-	height: 320px;
+	height: 3em;
 	bottom: 0;
-	margin-top: 320px;
+	// margin-top: 320px;
 
 	h1,
 	h2,

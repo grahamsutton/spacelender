@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
+
+gem 'puma'
 # Use pg as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -55,6 +57,8 @@ gem 'fullcalendar-rails'
 gem 'autonumeric-rails'
 
 gem 'owlcarousel-rails'
+
+gem 'animate-rails'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

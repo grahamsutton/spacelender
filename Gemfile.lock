@@ -36,6 +36,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    animate-rails (1.0.7)
+      rails
     arel (6.0.0)
     autonumeric-rails (1.9.33)
       jquery-rails (>= 2.0.2)
@@ -130,6 +132,8 @@ GEM
       cocaine (~> 0.5.3)
       mime-types
     pg (0.18.1)
+    puma (2.11.3)
+      rack (>= 1.1, < 2.0)
     rack (1.6.1)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -202,6 +206,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  animate-rails
   autonumeric-rails
   autoprefixer-rails
   aws-sdk (~> 1.5.7)
@@ -222,6 +227,7 @@ DEPENDENCIES
   owlcarousel-rails
   paperclip
   pg
+  puma
   rails (= 4.2.0)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

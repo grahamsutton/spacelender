@@ -18,6 +18,13 @@
       %ul.nav.navbar-nav.navbar-right
         - if @current_user
           %li
+            = link_to root_path, :id => "list-space-nav-btn", :class => "btn btn-primary" do
+              List A Space
+          %li
+            = link_to "Listings", listings_path
+          %li
+            = link_to "Reservations", root_path
+          %li
             = link_to messages_path do
               %i.fa.fa-inbox.fa-lg.fa-fw
           %li.dropdown

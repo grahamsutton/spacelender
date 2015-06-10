@@ -1,27 +1,22 @@
-.row
+.row.fight-navbar-margin
   .col-md-12
     #listing-slideshow.carousel.slide{"data-ride" => "carousel"}
       / Indicators
       %ol.carousel-indicators
-        - if @listing.pictures
-          - @listing.pictures.each_with_index do |pic, index|
-            - if index == 0
-              %li.active{"data-slide-to" => "0", "data-target" => "#listing-slideshow"}
-                = pic.image.url(:original)
-            - else
-              %li{"data-slide-to" => "1", "data-target" => "#listing-slideshow"}
-              %li{"data-slide-to" => "2", "data-target" => "#listing-slideshow"}
+        - @listing.pictures.each_with_index do |pic, index|
+          - if index == 0
+            %li.active{"data-slide-to" => "#{index}", "data-target" => "#listing-slideshow"}
+          - else
+            %li{"data-slide-to" => "#{index}", "data-target" => "#listing-slideshow"}
       / Wrapper for slides
       .carousel-inner{:role => "listbox"}
-        .item.active
-          %img{:alt => "...", :src => "..."}
-            .carousel-caption
-              \...
-        .item
-          %img{:alt => "...", :src => "..."}
-            .carousel-caption
-              \...
-        \...
+        - @listing.pictures.each_with_index do |pic, index|
+          - if index == 0
+            .item.active
+              = image_tag pic.image.url(:original), :class => "img-responsive"
+          - else
+            .item
+              = image_tag pic.image.url(:original), :class => "img-responsive"
       / Controls
       %a.left.carousel-control{"data-slide" => "prev", :href => "#listing-slideshow", :role => "button"}
         %span.glyphicon.glyphicon-chevron-left{"aria-hidden" => "true"}
@@ -29,3 +24,13 @@
       %a.right.carousel-control{"data-slide" => "next", :href => "#listing-slideshow", :role => "button"}
         %span.glyphicon.glyphicon-chevron-right{"aria-hidden" => "true"}
         %span.sr-only Next
+
+#listing-profile
+  .col-md-12
+    %h4
+      = @listing.name
+  .col-md-12
+    
+#listing-description.col-md-12
+  %p
+    = raw(@listing.description)

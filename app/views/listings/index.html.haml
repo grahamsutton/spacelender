@@ -1,32 +1,37 @@
-.container
-  #tab-container.col-md-12
-    .row
-      #tab-list-container.col-md-3
-        %ul.tab-list.list-unstyled
-          %li.active
-            = link_to "#my_listings" do
-              %i.fa.fa-newspaper-o.fa-fw
-              My Listings
-          %li
-            = link_to "#reservations" do
-              %i.fa.fa-key.fa-fw
-              Reservations
-      #tab-display.col-md-9
-        #my_listings.tab.active
-          = render 'layouts/my_listings'
-        #reservations.tab
-          = render 'layouts/reservations'
-= render 'layouts/footer'
+.row
+  .container
+    .col-md-2.col-md-offset-1
+      %ul.list-unstyled.list-group.features-list
+        %li
+          = link_to "#list-space", :class => "tab-link active" do
+            List Space
+        %li
+          = link_to "#listings", :class => "tab-link" do
+            Listings
+        %li
+          = link_to "#reservations", :class => "tab-link" do
+            Reservations
+        %li
+          = link_to "#payments", :class => "tab-link" do
+            Payments
+    .col-md-8
+      #list-space.tab.active
+        = render 'layouts/list_space'
+      #listings.tab
+        = render 'layouts/my_listings'
+      #reservations.tab
+        = render 'layouts/reservations'
+      #payments.tab
+          
+
 
 :javascript
   $(document).ready(function() {
-    $(".tab-list li a").on("click", function(e) {
+    $(".tab-link").on("click", function(e) {
       e.preventDefault();
 
-      var id = $(this).attr("href");
-
-      $(this).parent().siblings().removeClass("active");
-      $(this).addClass("active");
+      var id = $(this).attr('href');
+      var index;
 
       $(".tab").removeClass("active");
       $(id).addClass("active");

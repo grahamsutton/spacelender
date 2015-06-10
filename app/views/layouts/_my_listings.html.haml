@@ -1,19 +1,2 @@
 .panel.panel-default
-  %table.table.table-striped
-    %thead
-      %th Name
-      %th Rates
-      %th Created
-    %tbody
-      - @listings.each do |listing|
-        %tr
-          %td.col-md-4
-            = link_to listing.name, listing_path(listing)
-          %td.col-md-5
-            - listing.rates.each do |rate|
-              = number_to_currency(rate.amount)
-              = "/"
-              = rate.date_range
-              %br
-          %td.col-md-3
-            = listing.created_at.strftime("%B %d, %Y")
+  .panel-body.tab-display

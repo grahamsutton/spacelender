@@ -2,8 +2,14 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$primary-color: #002533;
-$secondary-color: #004B66;
+// $primary-color: #002533;
+// $secondary-color: #004B66;
+
+$primary-color: #334466;
+$secondary-color: #999999;
+$third-color: #ffcc88;
+$fourth-color: #eeeecc;
+$fifth-color: #FAFAFA;
 
 #address,
 #rates,
@@ -55,6 +61,81 @@ $secondary-color: #004B66;
 	color: #CCC !important;
 }
 
+.features-list li {
+	animation-duration: 10s;
+    animation-delay: 2s;
+    animation-iteration-count: 1;
+
+	-webkit-animation-duration: 3s;
+    -webkit-animation-delay: 2s;
+    -webkit-animation-iteration-count: 1;
+
+    padding: 15px;
+
+    a {
+    	font-size: 1em !important;
+    	color: $secondary-color !important;
+    }
+}
+
+.tab {
+	display: none;
+}
+
+.tab.active {
+	display: block;
+}
+
+.tab > .panel {
+	position: relative;
+	min-height: 200px;
+}
+
+.tab > .panel:after {
+	content: ' ';
+	height: 0px;
+	width: 0px;
+	position: absolute;
+	border: 20px solid transparent;
+	border-right-color: $primary-color;
+	right: 100%;
+}
+
+#list-space > .panel:after {
+	top: 5px;
+}
+
+#listings > .panel:after {
+	top: 60px;
+}
+
+#reservations > .panel:after {
+	top: 110px;
+}
+
+#payments > .panel:after {
+	top: 170px;
+}
+
+.carousel img {
+	max-width: none;
+}
+
 #listing-slideshow {
-	
+	height: 400px;
+	max-height: 400px;
+
+	.carousel-inner,
+	.item {
+		height: 100%;
+	}
+
+	img {
+		height: 100%;
+		width: 100%;
+	}
+}
+
+#listing-description {
+	background-color: #f5f5f5;
 }

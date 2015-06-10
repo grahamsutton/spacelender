@@ -5,6 +5,11 @@ class ListingsController < ApplicationController
 	# List all listings
 	def index
 		@listings = @current_user.listings
+		
+		@listing = @current_user.listings.build
+		@listing.build_location
+		@listing.rates.build
+		@listing.pictures.build
 	end
 
 	# Display Listing form
