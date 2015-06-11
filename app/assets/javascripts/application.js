@@ -18,6 +18,8 @@
 //= require fullcalendar
 //= require autonumeric
 //= require owl.carousel
+//= require underscore
+//= require gmaps/google
 //= require summernote
 //= require turbolinks
 //= require_tree .

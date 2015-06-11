@@ -60,6 +60,8 @@ gem 'owlcarousel-rails'
 
 gem 'animate-rails'
 
+gem 'gmaps4rails'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

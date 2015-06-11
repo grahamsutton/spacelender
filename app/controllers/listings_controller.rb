@@ -41,6 +41,7 @@ class ListingsController < ApplicationController
 	def show
 		@listing = Listing.find(params[:id])
 		@payment = Payment.new
+		@reservation = Reservation.new
 	end
 
 	# Update a Listing
