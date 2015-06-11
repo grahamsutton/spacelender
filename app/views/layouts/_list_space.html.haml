@@ -2,12 +2,36 @@
   .panel-body.tab-display
     .row
       = form_for @listing, :html => {:id => "newlisting_form", :multipart => true} do |f|
-        .col-md-8
-          .col-md-12
+        .col-md-12
+          %ul.list-unstyled.list-inline.col-md-12.text-center
+            %li
+              = link_to "#name", :class => "inner-tab-link active" do
+                Name & Desc.
+            %li
+              = link_to "#address", :class => "inner-tab-link" do
+                Location
+            %li
+              = link_to "#dates", :class => "inner-tab-link" do
+                Dates
+            %li
+              = link_to "#rates", :class => "inner-tab-link" do
+                Rates
+            %li
+              = link_to "#upload-pictures", :class => "inner-tab-link" do
+                Pics
+
+        .col-md-12
+          #name.inner-tab.active.col-md-12
             = f.text_field :name, :class => "form-control", :placeholder => "Name"
             = f.text_field :description, :id => "description", :class => "form-control", :placeholder => "Description", 'data-provider' =>  'summernote'
-         
-          #address.col-md-12
+            %hr
+            .row
+              .col-md-12
+                = button_tag :class => "next-btn next-btn-1 btn btn-default" do
+                  Next
+                  %i.fa.fa-chevron-right.fa-fw.fa-lg
+
+          #address.inner-tab.col-md-12
             %h4
               Address
             = f.fields_for :location do |l|
@@ -19,8 +43,15 @@
                   = l.select :state, options_for_select(us_states), {:prompt => "State"}, class: "form-control"
                 .col-md-2
                   = l.text_field :zip, :class => "form-control", :placeholder => "Zip"
+            %br
+            %br
+            .row
+              .col-md-12
+                = button_tag :id => "name-next", :class => "next-btn next-btn-2 btn btn-default" do
+                  Next
+                  %i.fa.fa-chevron-right.fa-fw.fa-lg
                 
-          #rates.col-md-12
+          #rates.inner-tab.col-md-12
             %h4
               Rates
               %span.add-subtract-rate-forms
@@ -29,6 +60,13 @@
 
             / Show at least one "Rates" form
             = render :partial => 'listings/rates_form', :locals => { :f => f }
+            %br
+            %br
+            .row
+              .col-md-12
+                = button_tag :id => "name-next", :class => "next-btn next-btn-3 btn btn-default" do
+                  Next
+                  %i.fa.fa-chevron-right.fa-fw.fa-lg
 
             #additional-rate-forms
             / I am not proud of this
@@ -46,10 +84,39 @@
                 });
               });
 
-          #upload-pictures.col-md-12
+          #upload-pictures.inner-tab.col-md-12
             %h4
               Upload Pictures
-          = f.fields_for :pictures do |p|
-            = p.file_field :image, :multiple => true, :name => "image[]"
-          .col-md-12
-            = f.submit "Post Listing", :class => "btn btn-primary"
+            = f.fields_for :pictures do |p|
+              = p.file_field :image, :multiple => true, :name => "image[]"
+            .col-md-12
+              = f.submit "Post Listing", :class => "btn btn-primary"
+
+:javascript
+  $(document).ready(function() {
+    // Enable Summernote
+    $('[data-provider="summernote"]').each(function(){
+      $(this).summernote({
+        height: 300
+       });
+    });
+
+    $(".next-btn").on("click", function(e) {
+      e.preventDefault();
+
+      var index = $(this).index();
+      $(".inner-tab-link").eq(index + 1).click();
+    });
+
+    $(".inner-tab-link").on("click", function(e) {
+      e.preventDefault();
+
+      var id = $(this).attr("href");
+
+      $(".inner-tab-link").removeClass("active");
+      $(this).addClass("active");
+
+      $(".inner-tab").removeClass("active");
+      $(id).addClass("active");
+    });
+  });

@@ -4,20 +4,17 @@ class ListingsController < ApplicationController
 
 	# List all listings
 	def index
-		@listings = @current_user.listings
-		
-		@listing = @current_user.listings.build
+		@listing = Listing.new
 		@listing.build_location
 		@listing.rates.build
 		@listing.pictures.build
+
+		@listings = @current_user.listings
 	end
 
 	# Display Listing form
 	def new
-		@listing = @current_user.listings.build
-		@listing.build_location
-		@listing.rates.build
-		@listing.pictures.build
+
 	end
 	
 	# Process to create the Listing

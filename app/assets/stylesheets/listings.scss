@@ -78,17 +78,31 @@ $fifth-color: #FAFAFA;
     }
 }
 
-.tab {
+.tab-link.active {
+	font-weight: bold;
+	color: $third-color !important;
+	font-size: 18px !important;
+	text-decoration: none !important;
+}
+
+.inner-tab-link.active {
+	font-weight: bold;
+	color: $third-color !important;
+}
+
+.tab,
+.inner-tab {
 	display: none;
 }
 
-.tab.active {
+.tab.active,
+.inner-tab.active {
 	display: block;
 }
 
 .tab > .panel {
 	position: relative;
-	min-height: 200px;
+	min-height: 400px;
 }
 
 .tab > .panel:after {
@@ -102,19 +116,23 @@ $fifth-color: #FAFAFA;
 }
 
 #list-space > .panel:after {
-	top: 5px;
+	top: 10px;
 }
 
 #listings > .panel:after {
-	top: 60px;
+	top: 65px;
 }
 
 #reservations > .panel:after {
-	top: 110px;
+	top: 115px;
 }
 
 #payments > .panel:after {
-	top: 170px;
+	top: 175px;
+}
+
+#reviews > .panel:after {
+	top: 235px;
 }
 
 .carousel img {
@@ -138,6 +156,10 @@ $fifth-color: #FAFAFA;
 
 #listing-description {
 	background-color: #A0A0A0;
+}
+
+.next-btn {
+	float: right;
 }
 
 #google-map {

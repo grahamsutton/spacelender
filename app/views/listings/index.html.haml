@@ -1,6 +1,6 @@
 .row
   .container
-    .col-md-2.col-md-offset-1
+    .col-md-2
       %ul.list-unstyled.list-group.features-list
         %li
           = link_to "#list-space", :class => "tab-link active" do
@@ -14,7 +14,7 @@
         %li
           = link_to "#payments", :class => "tab-link" do
             Payments
-    .col-md-8
+    .col-md-10
       #list-space.tab.active
         = render 'layouts/list_space'
       #listings.tab
@@ -22,6 +22,7 @@
       #reservations.tab
         = render 'layouts/reservations'
       #payments.tab
+= render 'layouts/footer'
           
 
 
@@ -32,6 +33,9 @@
 
       var id = $(this).attr('href');
       var index;
+
+      $(".tab-link").removeClass("active");
+      $(this).addClass("active");
 
       $(".tab").removeClass("active");
       $(id).addClass("active");
