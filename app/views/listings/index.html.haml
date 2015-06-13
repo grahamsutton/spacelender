@@ -1,20 +1,22 @@
-.row
+#listings-panel.row.fight-navbar-margin
   .container
-    .col-md-2
-      %ul.list-unstyled.list-group.features-list
-        %li
-          = link_to "#list-space", :class => "tab-link active" do
-            List Space
-        %li
-          = link_to "#listings", :class => "tab-link" do
-            Listings
-        %li
-          = link_to "#reservations", :class => "tab-link" do
-            Reservations
-        %li
-          = link_to "#payments", :class => "tab-link" do
-            Payments
-    .col-md-10
+    .col-md-3
+      .panel.panel-default
+        .panel-body
+          %ul.list-unstyled.list-group.features-list
+            %li
+              = link_to "#list-space", :class => "tab-link active" do
+                List Space
+            %li
+              = link_to "#listings", :class => "tab-link" do
+                Listings
+            %li
+              = link_to "#reservations", :class => "tab-link" do
+                Reservations
+            %li
+              = link_to "#payments", :class => "tab-link" do
+                Payments
+    .col-md-9
       #list-space.tab.active
         = render 'layouts/list_space'
       #listings.tab

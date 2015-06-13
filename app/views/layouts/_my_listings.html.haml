@@ -1,13 +1,16 @@
 .panel.panel-default
   .panel-body.tab-display
-    %table.table.table-striped
-      - @current_user.listings.each do |listing|
-        %tr
-          %td
-            = link_to listing.name, listing_path(listing)
-          %td
-            = listing.location.full_street_address
-    %br
-      .row
-        .col-md-12.text-center
-          = button_tag "See Older Listings", :class => "btn btn-default"
+    %strong
+      = pluralize(@current_user.listings.count, "listing")
+    active.
+  %table.table.table-striped
+    - @current_user.listings.each do |listing|
+      %tr
+        %td
+          = link_to listing.name, listing_path(listing)
+        %td
+          = listing.location.full_street_address
+  %br
+    .row
+      .col-md-12.text-center
+        = button_tag "See Older Listings", :class => "btn btn-default"

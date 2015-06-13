@@ -18,7 +18,7 @@
       %ul.nav.navbar-nav.navbar-right
         - if @current_user
           %li
-            = link_to root_path, :id => "list-space-nav-btn", :class => "btn btn-primary" do
+            = link_to listings_path, :id => "list-space-nav-btn" do
               List A Space
           %li
             = link_to "Listings", listings_path
