@@ -74,7 +74,7 @@ $fifth-color: #FAFAFA;
 
     a {
     	font-size: 1em !important;
-    	color: $secondary-color !important;
+    	color: $primary-color !important;
     }
 }
 
@@ -154,8 +154,13 @@ $fifth-color: #FAFAFA;
 	}
 }
 
+#listing-details {
+	background: url('swirl_pattern.png');
+	padding-top: 30px;
+}
+
 #listing-description {
-	background-color: #A0A0A0;
+	background-color: #F2F2F2;
 }
 
 .next-btn {

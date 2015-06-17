@@ -83,7 +83,7 @@ a.btn-default,
 	}
 
 	a {
-		color: $secondary-color !important;
+		color: $primary-color !important;
 	}
 
 	a.btn-primary {
@@ -400,6 +400,11 @@ a.search-btns {
 		border-bottom-right-radius: 0px !important;
 		border-bottom-left-radius: 0px !important;
 	}
+}
+
+#new_reservation .form-control {
+	width: auto !important;
+	display: inline;
 }
 
 #listings-panel {

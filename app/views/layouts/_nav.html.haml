@@ -10,7 +10,7 @@
         = link_to "SpaceLender", root_path, :class => "navbar-brand"
     #bs-example-navbar-collapse-1.collapse.navbar-collapse
       - if !current_page?(root_path)
-        = form_tag(listings_search_path,:class => 'navbar-form navbar-left')  do
+        = form_tag({:controller => "listings", :action => "search"},:class => 'navbar-form navbar-left', :method => :get)  do
           .form-group
             = text_field_tag :search, nil, :id => "nav-search-bar", :class => "form-control", :placeholder => "Search"
           %button#nav-search-bar-btn.btn.btn-default{:type => "submit"}

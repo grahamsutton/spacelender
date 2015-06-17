@@ -2,6 +2,8 @@ class UsersController < ApplicationController
 	before_filter :current_user
 	before_filter :redirect_if_logged_in, :only => :new
 
+	respond_to :html, :xml, :json
+
 	# Home Page
 	def index
 		@user = User.new
@@ -15,6 +17,7 @@ class UsersController < ApplicationController
 	# Profile Viewing
 	def show
 		@user = User.find(params[:id])
+		respond_with(@user)
 	end
 
 	# Registration Process

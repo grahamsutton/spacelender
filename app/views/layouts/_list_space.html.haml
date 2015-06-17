@@ -89,8 +89,8 @@
               Upload Pictures
             = f.fields_for :pictures do |p|
               = p.file_field :image, :multiple => true, :name => "image[]"
-            .col-md-12
-              = f.submit "Post Listing", :class => "btn btn-primary"
+          .col-md-12
+            = f.submit "Post Listing", :class => "btn btn-primary"
 
 :javascript
   $(document).ready(function() {
@@ -99,6 +99,10 @@
       $(this).summernote({
         height: 300
        });
+    });
+
+    $('#newlisting_form').submit(function(){
+      $("#description").val($('[data-provider="summernote"]').code());
     });
 
     $(".next-btn").on("click", function(e) {

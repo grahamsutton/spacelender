@@ -10,12 +10,13 @@ Rails.application.routes.draw do
   post 'sessions/create'
   get '/logout' => 'sessions#destroy', :as => :logout
   
-  post 'listings/search'
+  get 'listings/search' => 'listings#search'
   get 'listings/findnearme'
   
   resources :listings
   resources :messages
   resources :payments
+  resources :reservations
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

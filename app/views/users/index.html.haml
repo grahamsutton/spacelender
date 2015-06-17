@@ -17,13 +17,13 @@
           %small
             Find space for the things you need to do.
       .col-md-12
-        = form_tag(listings_search_path) do
+        = form_tag({:controller => "listings", :action => "search"}, :method => :get) do
           .input-group.search-input-group
             %span#search-icon-addon.input-group-addon
               %span.glyphicon.glyphicon-search
             = text_field_tag :search, nil, :class => "form-control", :placeholder => "        Search for spaces.", "aria-describedby" => "search-icon-addon"
           #search-btns.col-md-12
-            = button_tag :Search, :class => "btn btn-default search-btns", :value => "Search"
+            = submit_tag :Search, :class => "btn btn-default search-btns", :value => "Search"
             = link_to 'listings/findnearme', :class => "btn btn-default search-btns" do
               %span.glyphicon.glyphicon-map-marker
               Find Near Me

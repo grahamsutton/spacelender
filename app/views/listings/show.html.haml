@@ -1,4 +1,4 @@
-.row.fight-navbar-margin
+#carousel-container.row.fight-navbar-margin
   .col-md-12
     #listing-slideshow.carousel.slide{"data-ride" => "carousel"}
       / Indicators
@@ -25,63 +25,44 @@
         %span.glyphicon.glyphicon-chevron-right{"aria-hidden" => "true"}
         %span.sr-only Next
 
-#listing-profile
-  .col-md-3
-  .col-md-6
-    %h3
-      = @listing.name
-    %h4 
-      = @listing.location.street_address
-      = @listing.location.city
-      = @listing.location.state
-  .col-md-3
-
-#listing-description.col-md-12
-  .col-md-3
-  .col-md-6
-    %h3
-      Description
-    %p
-      = raw(@listing.description)
-  .col-md-3
-  
-#listing-profile
-  .col-md-3
-  .col-md-6
-    = form_for @reservation, :url => users_path, :html => {:id => "registration_form"} do |f|
-      %h3
-        Request Booking
-      %table.table
-        %thead
-          %th
-            Start
-          %th
-            End
-        %tbody
-          %tr
-            %td
-              = f.text_field :from_date, :class => "form-control", :placeholder => "Start Date"
-            %td
-              = f.text_field :to_date, :class => "form-control", :placeholder => "End Date"
-          %tr
-            %td
-              = f.submit "Request", :class => "btn btn-warning"
-            %td
-              = f.submit "Contact Renter", :class => "btn btn-info"
-  .col-md-3
-  
-#listing-description.col-md-12
-  .col-md-3
-  .col-md-6
-    %h3
-      About the Renter
-    %h4 
-      I am a cool dude, looking to rent my garage for whatever you need!
-  .col-md-3
-  
-#google-map.col-md-12
+#listing-details.col-md-12
   .col-md-12
-    #map
+    .col-md-12
+      .row
+        .col-md-7
+          .panel.panel-default
+            .panel-body
+              %h5
+                = @listing.name
+                %br
+                %br
+                %small
+                  = "#{@listing.location.city}, #{@listing.location.state}"
+        .col-md-5
+          .panel.panel-default
+            .panel-body
+                
+    .col-md-4
+      .panel.panel-default
+        .panel-body
+          .col-md-12.text-center
+            / Profile picture will go here
+            %h5
+              = @listing.user.first_name
+      .panel.panel-default
+        .panel-body
+          %h5
+            = @listing.location.street_address
+          %h6
+            = "#{@listing.location.city}, #{@listing.location.state}, #{@listing.location.zip}"
+    .col-md-8
+      .panel.panel-default
+        .panel-body
+          = raw(@listing.description)
+.row
+  #google-map
+    .col-md-12
+      #map
     
 
 = javascript_include_tag "//maps.google.com/maps/api/js?v=3.13&amp;sensor=false&amp;libraries=geometry"

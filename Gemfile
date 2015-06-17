@@ -62,6 +62,14 @@ gem 'animate-rails'
 
 gem 'gmaps4rails'
 
+gem 'responders'
+
+gem 'rabl'
+
+gem 'oj'
+
+gem 'bootstrap3-datetimepicker-rails'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

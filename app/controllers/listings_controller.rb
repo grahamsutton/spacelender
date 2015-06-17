@@ -2,6 +2,8 @@ class ListingsController < ApplicationController
 	before_filter :current_user
 	before_filter :require_login, :except => [:show, :search]
 
+	respond_to :html, :xml, :json
+
 	# List all listings
 	def index
 		@listing = Listing.new
@@ -60,8 +62,10 @@ class ListingsController < ApplicationController
 	
 	# search method
     def search
-      @listings = Listing.search(params[:search])
-      @search = params[:search].downcase
+      @listings = Listing.search(params[:search].downcase)
+      # @search = params[:search].downcase
+
+      respond_with(@listings)
     end
   
   private

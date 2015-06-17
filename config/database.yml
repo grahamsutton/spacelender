@@ -10,6 +10,7 @@ development:
   encoding: unicode
   database: spacemaker_db
   pool: 5
+  host: localhost
   username: 
   password: 
 
@@ -21,5 +22,6 @@ test:
   encoding: unicode
   database: spacemaker_db
   pool: 5
+  host: localhost
   username: 
   password: 
