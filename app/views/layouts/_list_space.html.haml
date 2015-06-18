@@ -1,8 +1,14 @@
+/========================
+/ "List A Space" Form
+/========================
+
 .panel.panel-default
   .panel-body.tab-display
-    .row
+    .form-container.row
       = form_for @listing, :html => {:id => "newlisting_form", :multipart => true} do |f|
         .col-md-12
+
+          / Tab List
           %ul.list-unstyled.list-inline.col-md-12.text-center
             %li
               = link_to "#name", :class => "inner-tab-link active" do
@@ -20,17 +26,21 @@
               = link_to "#upload-pictures", :class => "inner-tab-link" do
                 Pics
 
-        .col-md-12
+
+
+        / Tabs - Each Step is its own tab.
+        #steps.col-md-12
+
+
+          / Step 1: Name and Description
           #name.inner-tab.active.col-md-12
             = f.text_field :name, :class => "form-control", :placeholder => "Name"
             = f.text_field :description, :id => "description", :class => "form-control", :placeholder => "Description", 'data-provider' =>  'summernote'
-            %hr
-            .row
-              .col-md-12
-                = button_tag :class => "next-btn next-btn-1 btn btn-default" do
-                  Next
-                  %i.fa.fa-chevron-right.fa-fw.fa-lg
 
+
+
+
+          / Step 2: List the Address
           #address.inner-tab.col-md-12
             %h4
               Address
@@ -45,12 +55,17 @@
                   = l.text_field :zip, :class => "form-control", :placeholder => "Zip"
             %br
             %br
-            .row
-              .col-md-12
-                = button_tag :id => "name-next", :class => "next-btn next-btn-2 btn btn-default" do
-                  Next
-                  %i.fa.fa-chevron-right.fa-fw.fa-lg
-                
+
+
+
+
+          / Step 3: Specify Dates
+          #dates.inner-tab.col-md-12
+
+
+
+
+          / Step 4: Add Rates
           #rates.inner-tab.col-md-12
             %h4
               Rates
@@ -60,22 +75,22 @@
 
             / Show at least one "Rates" form
             = render :partial => 'listings/rates_form', :locals => { :f => f }
-            %br
-            %br
-            .row
-              .col-md-12
-                = button_tag :id => "name-next", :class => "next-btn next-btn-3 btn btn-default" do
-                  Next
-                  %i.fa.fa-chevron-right.fa-fw.fa-lg
 
+            / Div to hold additional rates if user clicks on the +/- 
             #additional-rate-forms
-            / I am not proud of this
+
+            / Adds and Removes extra rate forms 
             :javascript
               $(document).ready(function() {
                 $("#add-rate-form").on("click", function(e) {
+
+                  // Prevent the form from being accidentally submitted
                   e.preventDefault();
+
+                  // Append the "rates_form" partial when the #add-rate-form btn (+) is clicked
                   $("#additional-rate-forms").append("#{ escape_javascript( render :partial => 'listings/rates_form', :locals => {:f => f} ) }");
 
+                  // Hide the (+) sign if the number of rates_forms outgrows the number of options (hourly, weekly, etc)
                   if ($("#additional-rate-forms").children().length == parseInt("#{times.count}") - 1) {
                     $("#add-rate-form").hide();
                   } else {
@@ -84,16 +99,37 @@
                 });
               });
 
+
+
+
+          / Step 5: Upload Pictures
           #upload-pictures.inner-tab.col-md-12
             %h4
               Upload Pictures
             = f.fields_for :pictures do |p|
               = p.file_field :image, :multiple => true, :name => "image[]"
-          .col-md-12
-            = f.submit "Post Listing", :class => "btn btn-primary"
+            .row.next-prev-btns
+              .col-md-6.text-left
+                = render 'layouts/prev_btn'
+              .col-md-6
+                = f.submit "Post Listing", :class => "btn btn-primary form-control"
+
+
+  .panel-footer
+    .row.next-prev-btns
+      .col-md-6.text-left
+        = render 'layouts/prev_btn'
+      .col-md-6.text-right
+        = render 'layouts/next_btn'
+
+
+
 
 :javascript
   $(document).ready(function() {
+
+    var formSections = $(".inner-tab-link");
+
     // Enable Summernote
     $('[data-provider="summernote"]').each(function(){
       $(this).summernote({
@@ -101,17 +137,25 @@
        });
     });
 
+    // Retrieve value from Summernote text editor on "List A Space" form submission
     $('#newlisting_form').submit(function(){
       $("#description").val($('[data-provider="summernote"]').code());
     });
 
+
+    // Next and Previous Buttons for "List A Space" form
     $(".next-btn").on("click", function(e) {
       e.preventDefault();
-
-      var index = $(this).index();
-      $(".inner-tab-link").eq(index + 1).click();
+      formSections.filter('.active').parent().next('li').find('a').click();
     });
 
+    $(".prev-btn").on("click", function(e) {
+      e.preventDefault();
+      formSections.filter('.active').parent().prev('li').find('a').click();
+    });
+
+
+    // Tabs 
     $(".inner-tab-link").on("click", function(e) {
       e.preventDefault();
 
