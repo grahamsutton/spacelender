@@ -6,7 +6,7 @@
       %th Rates
       %th Created
     %tbody
-      - @listings.each do |listing|
+      - @results.each do |listing|
         %tr
           %td.col-md-3.search
             = link_to listing.name, listing_path(listing)

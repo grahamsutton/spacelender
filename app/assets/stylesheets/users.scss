@@ -250,6 +250,15 @@ br {
 #search:-ms-input-placeholder  { color: #EEE !important; } /* ie */
 #search:-moz-placeholder  { color: #EEE !important; }
 
+#city {
+	margin-left: -32px;
+}
+
+#city::-webkit-input-placeholder { color: #EEE !important; }
+#city::-moz-placeholder  { color: #EEE !important; } /* firefox 19+ */
+#city:-ms-input-placeholder  { color: #EEE !important; } /* ie */
+#city:-moz-placeholder  { color: #EEE !important; }
+
 .search-btns,
 a.search-btns {
 	float: right;

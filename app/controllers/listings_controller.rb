@@ -63,7 +63,14 @@ class ListingsController < ApplicationController
   # search method
     def search
       @listings = Listing.search(params[:search].downcase)
-      # @search = params[:search].downcase
+      @results = Array.new
+      @cityCoordinates = Geocoder.coordinates(params[:city])
+
+      @listings.each do |listing|
+      	if Location.near(@cityCoordinates, 50, :order => :distance)
+      		@results << listing
+      	end
+      end
 
       respond_with(@listings)
     end
