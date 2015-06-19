@@ -1,5 +1,8 @@
 .panel.panel-default
   .panel-body
+    - if flash[:notice]
+      .alert.alert-success
+        = flash[:notice]
     %strong
       = pluralize(@current_user.listings.count, "listing")
     active.

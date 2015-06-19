@@ -194,6 +194,10 @@ $fifth-color: #FAFAFA;
 	margin-top: -30px;
 }
 
+.dropzone-area:hover {
+	cursor: pointer;
+}
+
 .dropzone a.dz-remove, .dropzone-previews a.dz-remove {
 	background-image: -webkit-linear-gradient(top, #fafafa, #eee);
 	background-image: linear-gradient(to bottom, #fafafa, #eee);
