@@ -1,66 +1,66 @@
 class ListingsController < ApplicationController
-	before_filter :current_user
-	before_filter :require_login, :except => [:show, :search]
+  before_filter :current_user
+  before_filter :require_login, :except => [:show, :search]
 
-	respond_to :html, :xml, :json
+  respond_to :html, :xml, :json
 
-	# List all listings
-	def index
-		@listing = Listing.new
-		@listing.build_location
-		@listing.rates.build
-		@listing.pictures.build
+  # List all listings
+  def index
+    @listing = Listing.new
+    @listing.build_location
+    @listing.rates.build
+    @listing.pictures.build
 
-		@listings = @current_user.listings
-	end
+    @listings = @current_user.listings
+  end
 
-	# Display Listing form
-	def new
+  # Display Listing form
+  def new
 
-	end
-	
-	# Process to create the Listing
-	def create
-	    @listing = @current_user.listings.build(listing_params)
+  end
+  
+  # Process to create the Listing
+  def create
+      @listing = @current_user.listings.build(listing_params)
 
-	    if params[:image]
-		    params[:image].each do |image|
-		    	@listing.pictures.build(:image => image)
-		    end
-		end
+      if params[:image]
+        params[:image].each do |image|
+          @listing.pictures.build(:image => image)
+        end
+    end
 
-	    if @listing.save
-	      flash[:notice] = "Welcome to SpaceLender"
-	      redirect_to listings_path
-	    else
-	      flash.now[:alert] = "Uh-oh! Something's off here: "
-	      render :new
-	    end
-	end
+      if @listing.save
+        flash[:notice] = "Welcome to SpaceLender"
+        redirect_to listings_path
+      else
+        flash.now[:alert] = "Uh-oh! Something's off here: "
+        render :new
+      end
+  end
 
-	# Show a single Listing
-	def show
-		@listing = Listing.find(params[:id])
-		@payment = Payment.new
-		@reservation = Reservation.new
-	end
+  # Show a single Listing
+  def show
+    @listing = Listing.find(params[:id])
+    @payment = Payment.new
+    @reservation = Reservation.new
+  end
 
-	# Update a Listing
-	def update
+  # Update a Listing
+  def update
     
-	end
+  end
 
-	# Delete a Listing
-	def destroy
+  # Delete a Listing
+  def destroy
 
-	end
-	
-	def findnearme
-	  result = request.location
-	  flash[:notice] = "#{result.ip}"
-	end
-	
-	# search method
+  end
+  
+  def findnearme
+    result = request.location
+    flash[:notice] = "#{result.ip}"
+  end
+  
+  # search method
     def search
       @listings = Listing.search(params[:search].downcase)
       # @search = params[:search].downcase
