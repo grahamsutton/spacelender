@@ -140,10 +140,18 @@
 
 
 :javascript
+  
+  var has_images = false;
+  
   $(document).ready(function() {
   
     // disable auto discover
     Dropzone.autoDiscover = false;
+    
+    $(".dropzone-area").click(function(e){
+      $(".dropzone").click();
+      e.stopPropagation();
+    });
    
     // grap our upload form by its id
     $("#newlisting_form").dropzone({
@@ -170,6 +178,10 @@
         $(".dz-default.dz-message").remove();
 
         $(".dropzone-area").html(dzMessage);
+        
+        this.on("addedfile", function(file) { 
+          has_images = true;
+        });
     
         // First change the button to actually tell Dropzone to process the queue.
         this.element.querySelector("input[type=submit]").addEventListener("click", function(e) {
@@ -202,8 +214,10 @@
 
     // Submit form when Post Listing button is clicked because HAML was being stupid
     // and throwing an error
-    $("#post-listing").on("click", function() {
-      $("#newlisting_form").submit();
+    $("#post-listing-btn").on("click", function() {
+      if (has_images == false){
+        $("#newlisting_form").submit();
+      }
     });
 
 
@@ -215,7 +229,7 @@
     });
 
     // Retrieve value from Summernote text editor on "List A Space" form submission
-    $('#newlisting_form').submit(function(){
+    $('.inner-tab-link,.next-btn').click(function(){
       $("#description").val($('[data-provider="summernote"]').code());
     });
 

@@ -30,9 +30,12 @@ class ListingsController < ApplicationController
       end
 
       if @listing.save
-        #flash[:notice] = "Welcome to SpaceLender"
-        #redirect_to listings_path
-        render json: { message: "success" }, :status => 200
+        if params[:image]
+           render json: { message: "success" }, :status => 200
+        else
+          flash[:notice] = "Welcome to SpaceLender"
+          redirect_to listings_path
+        end
       else
         flash.now[:alert] = "Uh-oh! Something's off here: "
         render :new
