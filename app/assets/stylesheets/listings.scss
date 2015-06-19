@@ -78,6 +78,10 @@ $fifth-color: #FAFAFA;
     }
 }
 
+#list-a-space {
+	background: #FFF !important;
+}
+
 .tab-link.active {
 	font-weight: bold;
 	color: $third-color !important;
@@ -90,6 +94,10 @@ $fifth-color: #FAFAFA;
 	color: $third-color !important;
 }
 
+.inner-tab-link:hover {
+	cursor: pointer;
+}
+
 .tab,
 .inner-tab {
 	display: none;
@@ -98,6 +106,11 @@ $fifth-color: #FAFAFA;
 .tab.active,
 .inner-tab.active {
 	display: block;
+}
+
+.tab-display {
+	min-height: 400px;
+	background: #FFF !important;
 }
 
 .tab > .panel {
@@ -164,7 +177,40 @@ $fifth-color: #FAFAFA;
 }
 
 .next-prev-btns {
-	bottom: 0px !important;
+	display: none;
+}
+
+.next-prev-btns.active {
+	display: block;
+}
+
+.dropzone {
+	padding: 0px !important;
+}
+
+.dropzone-area {
+	min-height: 280px !important;
+	border: 1px dashed #CCC !important;
+	margin-top: -30px;
+}
+
+.dropzone a.dz-remove, .dropzone-previews a.dz-remove {
+	background-image: -webkit-linear-gradient(top, #fafafa, #eee);
+	background-image: linear-gradient(to bottom, #fafafa, #eee);
+	/*border-radius: 2px;*/
+	/*border: 1px solid #eee;*/
+	text-decoration: none;
+	display: block;
+	/*padding: 4px 5px;*/
+	text-align: center;
+	/*color: #aaa;*/
+	margin-top: 26px;
+
+  	background: transparent !important;
+	border: 1px solid $primary-color !important;
+	box-shadow: none !important;
+	color: $primary-color !important;
+	border-radius: 0px !important;
 }
 
 #google-map {

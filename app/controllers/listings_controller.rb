@@ -24,10 +24,10 @@ class ListingsController < ApplicationController
       @listing = @current_user.listings.build(listing_params)
 
       if params[:image]
-        params[:image].each do |image|
-          @listing.pictures.build(:image => image)
-        end
-    end
+          params[:image].each do |image|
+            @listing.pictures.build(:image => image)
+          end
+      end
 
       if @listing.save
         #flash[:notice] = "Welcome to SpaceLender"

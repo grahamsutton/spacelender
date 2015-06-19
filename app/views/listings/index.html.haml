@@ -8,7 +8,7 @@
               = link_to "#list-space", :class => "tab-link active" do
                 List Space
             %li
-              = link_to "#listings", :class => "tab-link" do
+              = link_to "#listings", :id => "my_listings_link", :class => "tab-link" do
                 Listings
             %li
               = link_to "#reservations", :class => "tab-link" do
@@ -30,6 +30,7 @@
 
 :javascript
   $(document).ready(function() {
+
     $(".tab-link").on("click", function(e) {
       e.preventDefault();
 
@@ -42,4 +43,8 @@
       $(".tab").removeClass("active");
       $(id).addClass("active");
     });
+
+    if ("#{params[:q]}" === "ml") {
+      $("#my_listings_link").click();
+    }
   });

@@ -2,10 +2,10 @@
 / "List A Space" Form
 /========================
 
-.panel.panel-default
-  .panel-body.tab-display
-    .form-container.row
-      = form_for @listing, :html => {:id => "newlisting_form", :multipart => true, :class => "dropzone"} do |f|
+#list-a-space.panel.panel-default
+  = form_for @listing, :html => {:id => "newlisting_form", :multipart => true, :class => "dropzone clearfix"} do |f|
+    .panel-body.tab-display
+      .form-container.row
         .col-md-12
 
           / Tab List
@@ -101,26 +101,40 @@
 
 
 
-
           / Step 5: Upload Pictures
           #upload-pictures.inner-tab.col-md-12
             %h4
               Upload Pictures
             = f.fields_for :pictures do |p|
-              = p.file_field :image, :name => "image[]"
-            .row.next-prev-btns
-              .col-md-6.text-left
-                = render 'layouts/prev_btn'
-              .col-md-6
-                = f.submit "Post Listing", :class => "btn btn-primary form-control"
+              = p.file_field :image, :name => "image[]", :style => "display: none;"
+            %br
+            %br
+            / The Dropzone area
+            .dropzone-area.col-md-12
+                
 
 
-  .panel-footer
-    .row.next-prev-btns
-      .col-md-6.text-left
-        = render 'layouts/prev_btn'
-      .col-md-6.text-right
-        = render 'layouts/next_btn'
+    / Next/Prev Buttons
+    .panel-footer
+
+      / Next Button only (First Tab)
+      .row.next-btn-only.next-prev-btns.active
+        .col-md-12.text-right
+          = render 'layouts/next_btn'
+
+      / Both buttons
+      .row.both-btns.next-prev-btns
+        .col-md-6.text-left
+          = render 'layouts/prev_btn'
+        .col-md-6.text-right
+          = render 'layouts/next_btn'
+
+      / Prev Button only (Last Tab)
+      .row.prev-btn-only.next-prev-btns
+        .col-md-6.text-left
+          = render 'layouts/prev_btn'
+        .col-md-6.text-right
+          = f.submit "Post Listing", :id => "post-listing-btn", :class => "btn btn-primary form-control"
 
 
 
@@ -145,10 +159,17 @@
       uploadMultiple: true,
       parallelUploads: 100,
       maxFiles: 100,
+      previewsContainer: ".dropzone-area",
+      clickable: true,
       
        // The setting up of the dropzone
       init: function() {
         var myDropzone = this;
+
+        var dzMessage = $(".dz-default.dz-message").clone();
+        $(".dz-default.dz-message").remove();
+
+        $(".dropzone-area").html(dzMessage);
     
         // First change the button to actually tell Dropzone to process the queue.
         this.element.querySelector("input[type=submit]").addEventListener("click", function(e) {
@@ -167,6 +188,7 @@
         this.on("successmultiple", function(files, response) {
           // Gets triggered when the files have successfully been sent.
           // Redirect user or notify of success.
+          window.location.href = "/listings?q=ml"
         });
         this.on("errormultiple", function(files, response) {
           // Gets triggered when there was an error sending the files.
@@ -177,6 +199,13 @@
 
 
     var formSections = $(".inner-tab-link");
+
+    // Submit form when Post Listing button is clicked because HAML was being stupid
+    // and throwing an error
+    $("#post-listing").on("click", function() {
+      $("#newlisting_form").submit();
+    });
+
 
     // Enable Summernote
     $('[data-provider="summernote"]').each(function(){
@@ -214,5 +243,19 @@
 
       $(".inner-tab").removeClass("active");
       $(id).addClass("active");
+
+
+      //Remove active class from Next/Prev buttons
+      $(".next-prev-btns").removeClass("active");
+
+      // Display Next/Prev buttons according to what tab is selected
+      if ($(id).is(":last-child")) {
+        $(".prev-btn-only").addClass("active");
+      } else if ($(id).is(":first-child")) {
+        $(".next-btn-only").addClass("active");
+      } else {
+        $(".both-btns").addClass("active");
+      }
     });
+
   });
