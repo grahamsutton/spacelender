@@ -70,6 +70,10 @@ gem 'oj'
 
 gem 'bootstrap3-datetimepicker-rails'
 
+gem 'jquery-ui-rails'
+
+gem 'gmaps-autocomplete-rails'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

@@ -12,6 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
+//= require gmaps-auto-complete
 //= require dropzone
 //= require bootstrap-sprockets
 //= require moment

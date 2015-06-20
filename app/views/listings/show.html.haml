@@ -66,10 +66,12 @@
 = render 'layouts/footer'
     
 
-= javascript_include_tag "//maps.google.com/maps/api/js?v=3.13&amp;sensor=false&amp;libraries=geometry"
-= javascript_include_tag "//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js"
-
 
 :javascript
   handler = Gmaps.build('Google');
-  handler.buildMap({ internal: {id: 'map' }});
+  handler.buildMap({ internal: {id: 'map'}, provider: { scrollwheel: false }}, function(){
+    var markers = handler.addMarkers(#{@coordinate});
+    handler.bounds.extendWith(markers);
+    handler.fitMapToBounds();
+    handler.getMap().setZoom(14);
+  });

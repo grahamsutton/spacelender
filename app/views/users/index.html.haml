@@ -25,7 +25,7 @@
                   %span.glyphicon.glyphicon-search
                 = text_field_tag :search, nil, :class => "form-control", :placeholder => "        Search for spaces.", "aria-describedby" => "search-icon-addon"
             .col-md-3
-              = text_field_tag :city, nil, :class => "form-control", :placeholder => "City"
+              = text_field_tag :city, nil, :class => "form-control", :placeholder => "City", :id => "city"
           #search-btns.col-md-12
             = submit_tag :Search, :class => "btn btn-default search-btns", :value => "Search"
             = link_to 'listings/findnearme', :class => "btn btn-default search-btns" do
@@ -88,6 +88,21 @@
 
 :javascript
   $(document).ready(function(event) {
+  
+    jQuery(function() {
+      var completer;
+    
+      completer = new GmapsCompleter({
+        inputField: '#city',
+        errorField: '#gmaps-error'
+      });
+    
+      completer.autoCompleteInit({
+        country: "us"
+      });
+    });
+  
+  
     $("#search").on("keyup", function() {
       var searchValue = $(this).val();
 

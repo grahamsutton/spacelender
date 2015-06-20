@@ -47,6 +47,9 @@ class ListingsController < ApplicationController
     @listing = Listing.find(params[:id])
     @payment = Payment.new
     @reservation = Reservation.new
+    @coordinate = [{ :lat => @listing.location.latitude, :lng => @listing.location.longitude }]
+    @coordinate = @coordinate.to_json
+    
   end
 
   # Update a Listing
@@ -60,24 +63,35 @@ class ListingsController < ApplicationController
   end
   
   def findnearme
-    result = request.location
-    flash[:notice] = "#{result.ip}"
+     @listings = Listing.all
+     @results = @listings.select { |listing| listing.location.distance_from(request.location.city) < 50 }
+     
+     render :text => request.location.city
   end
   
   # search method
-    def search
+  def search
+    
       @listings = Listing.search(params[:search].downcase)
       @results = Array.new
       @cityCoordinates = Geocoder.coordinates(params[:city])
-
-      @listings.each do |listing|
-      	if Location.near(@cityCoordinates, 50, :order => :distance)
-      		@results << listing
-      	end
+      
+      if !params[:city].nil? && params[:city] != ""
+        @results = @listings.select { |listing| listing.location.distance_from(@cityCoordinates) < 50 }
+      else
+        @listings.each do |listing|
+          @results << listing
+        end
       end
-
-      respond_with(@listings)
-    end
+      
+      @coordinates = @results.map do |listing|
+        { :lat => listing.location.latitude, :lng => listing.location.longitude }
+      end
+      
+      @coordinates = @coordinates.to_json
+      
+      respond_with(@results)
+  end
   
   private
   def listing_params
