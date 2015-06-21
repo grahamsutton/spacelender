@@ -38,7 +38,7 @@
               Name &amp; Description
               %br
               %small
-                Try to make sure your title for the listing really captures the essence of what your trying to lend out. The Description field should be used to further clarify the title says.
+                Try to make sure your title for the listing really captures the essence of what your trying to lend out. The Description field should be used to further clarify what the title says.
               %hr
             = f.text_field :name, :class => "form-control", :placeholder => "Name"
             = f.text_field :description, :id => "description", :class => "form-control", :placeholder => "Description", 'data-provider' =>  'summernote'
@@ -92,9 +92,9 @@
                 #specific_dates.date-selection-area
                   = f.fields_for :periods do |d|
                     #datepicker.input-daterange.input-group
-                      = d.text_field :start, :id => "start-date", :class => "input-sm form-control"
+                      = d.text_field :start, :id => "start-date", :class => "input-sm form-control", :contenteditable => false
                       %span.input-group-addon to
-                      = d.text_field :end, :id => "end-date", :class => "input-sm form-control"
+                      = d.text_field :end, :id => "end-date", :class => "input-sm form-control", :contenteditable => false
 
 
 
@@ -168,6 +168,8 @@
 
                 // Select the appropriate value
                 optionToSelect.attr("selected", "selected");
+
+                console.log(index);
               }
 
 
@@ -390,11 +392,52 @@
 
 
 
-    // Datepickers
-    $("#start-date").datepicker({
-      startDate: getTodayAsMMDDYYYY()
+    /* 
+     * Credit to: user2586273 from StackOverflow for this bit of code, which is found here:
+     * http://stackoverflow.com/questions/11933173/how-to-restrict-the-selectable-date-ranges-in-bootstrap-datepicker
+     * Thanks, bro.
+     */
+    var startDate = new Date('01/01/2012');
+    var FromEndDate = new Date();
+    var ToEndDate = new Date();
+
+    ToEndDate.setDate(ToEndDate.getDate()+365);
+
+    $('#start-date').datepicker({
+        weekStart: 1,
+        startDate: getTodayAsMMDDYYYY(),
+        autoclose: true
+    }).on('changeDate', function(selected){
+        startDate = new Date(selected.date.valueOf());
+        startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+        $('#end-date').datepicker('setStartDate', startDate);
+    }); 
+    
+    $('#end-date').datepicker({
+        weekStart: 1,
+        startDate: startDate,
+        endDate: ToEndDate,
+        autoclose: true
+    }).on('changeDate', function(selected){
+        FromEndDate = new Date(selected.date.valueOf());
+        FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
+        $('#start-date').datepicker('setEndDate', FromEndDate);
     });
 
-    $("#end-date").datepicker();
+
+    // var startDate = getTodayAsMMDDYYYY();
+
+    // // Datepickers
+    // $("#start-date").datepicker({
+    //   startDate: startDate
+    // }).on('changeDate', function(selected){
+    //     startDate = new Date(selected.date.valueOf());
+    //     startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+    //     $('.to_date').datepicker('setStartDate', startDate);
+    // }); ;
+
+    // $("#end-date").datepicker({
+    //   startDate: startDate
+    // });
 
   });

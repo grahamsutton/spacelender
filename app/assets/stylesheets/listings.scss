@@ -184,6 +184,24 @@ $fifth-color: #FAFAFA;
 	display: block;
 }
 
+.datepicker-days {
+	.day {
+		color: $primary-color !important;
+		border-radius: 0px;
+		border: 1px solid #CCC;
+	}
+
+	.disabled.day,
+	.new.day {
+		color: #999 !important;
+	}
+
+	.active.day {
+		color: #EEE !important;
+		background-color: $primary-color !important;
+	}
+}
+
 .dropzone {
 	padding: 0px !important;
 }
@@ -220,8 +238,6 @@ $fifth-color: #FAFAFA;
 #google-map {
   width: 100%;
 }
-
-
 
 #map {
   width: 100%; 
