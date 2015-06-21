@@ -7,8 +7,9 @@ class Listing < ActiveRecord::Base
   has_one :location, :dependent => :destroy
   has_many :rates, :dependent => :destroy
   has_many :pictures, :dependent => :destroy
+  has_many :periods, :dependent => :destroy
 
-  accepts_nested_attributes_for :location, :rates, :pictures
+  accepts_nested_attributes_for :location, :periods, :rates, :pictures
   
   # Search method
   def self.search(search)

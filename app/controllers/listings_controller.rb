@@ -8,6 +8,7 @@ class ListingsController < ApplicationController
   def index
     @listing = Listing.new
     @listing.build_location
+    @listing.periods.build
     @listing.rates.build
     @listing.pictures.build
 
@@ -95,6 +96,6 @@ class ListingsController < ApplicationController
   
   private
   def listing_params
-    params.require(:listing).permit(:name, :description, location_attributes: [:street_address, :city, :state, :zip], rates_attributes: [:amount, :date_range], pictures_attributes: [:image])
+    params.require(:listing).permit(:name, :description, location_attributes: [:street_address, :city, :state, :zip], periods_attributes: [:start, :end], rates_attributes: [:amount, :date_range], pictures_attributes: [:image])
   end
 end

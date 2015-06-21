@@ -74,6 +74,10 @@ gem 'jquery-ui-rails'
 
 gem 'gmaps-autocomplete-rails'
 
+gem 'bootstrap-datepicker-rails'
+
+gem 'nilify_blanks'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
