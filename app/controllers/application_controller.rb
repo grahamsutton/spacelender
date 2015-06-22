@@ -22,6 +22,14 @@ class ApplicationController < ActionController::Base
       return true
     end
   end
+  
+  def request_ip
+    if Rails.env.development? && params[:ip]
+      params[:ip]
+    else
+      request.remote_ip
+    end 
+  end
 
   def redirect_if_logged_in
     if current_user.nil?

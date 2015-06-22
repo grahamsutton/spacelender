@@ -64,10 +64,23 @@ class ListingsController < ApplicationController
   end
   
   def findnearme
+     Geocoder.configure(:timeout => 40)
      @listings = Listing.all
-     @results = @listings.select { |listing| listing.location.distance_from(request.location.city) < 50 }
+     @location = Array.new
+     location_info = Geocoder.search(request_ip)
+     location_info.each do |loc|
+      @location.push(loc.latitude)
+      @location.push(loc.longitude)
+     end
      
-     render :text => request.location.city
+     @results = @listings.select { |listing| listing.location.distance_from(@location) < 50 }
+     
+     @coordinates = @results.map do |listing|
+        { :lat => listing.location.latitude, :lng => listing.location.longitude }
+      end
+      
+      @coordinates = @coordinates.to_json
+
   end
   
   # search method
@@ -76,6 +89,8 @@ class ListingsController < ApplicationController
       @listings = Listing.search(params[:search].downcase)
       @results = Array.new
       @cityCoordinates = Geocoder.coordinates(params[:city])
+      
+      
       
       if !params[:city].nil? && params[:city] != ""
         @results = @listings.select { |listing| listing.location.distance_from(@cityCoordinates) < 50 }
