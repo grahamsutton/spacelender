@@ -1,31 +1,27 @@
-- if (@results.length > 0) 
-  .panel.panel-default
-    %table#table.table.table-striped
-      %thead
-        %th Name
-        %th Description
-        %th Rates
-        %th Created
-      %tbody
-        - @results.each do |listing|
-          %tr
-            %td.col-md-3.search
-              = link_to listing.name, listing_path(listing)
-            %td.col-md-4.search
-              = raw(listing.description)
-            %td.col-md-3.search
-              - listing.rates.each do |rate|
-                = number_to_currency(rate.amount)
-                = "/"
-                = rate.date_range
-                %br
-            %td.col-md-2
-              = listing.created_at.strftime("%B %d, %Y")
-         
-  .row
-    #google-map
+%style
+  html, body, #map { height: 100%; margin: 0px; }
+- if @results
+  #search-results-container.row.fight-navbar-margin
+    .col-md-7.left-column
+      / Filter settings
+
+      / Display results
       .col-md-12
-        #map
+        - @results.each do |listing|
+          .col-md-6
+            .panel.panel-default.search-result-container
+              .panel-heading
+                = listing.name
+              .search-result-carousel
+                - if listing.pictures
+                  - listing.pictures.each do |pic|
+                    .item
+                      = image_tag pic.image.url(:original)
+             
+    .col-md-5.right-column
+      #google-map
+        #map-outer-container.col-md-12
+          #map.search-results-map
 - else
   .panel.panel-default.text-center.col-md-12
     %h3
@@ -38,6 +34,17 @@
     $(document).ready(function(event) {
       myHilitor = new Hilitor("table");
       myHilitor.apply("#{@search}");
+
+
+      // Search Result Carousel of images
+      $(".search-result-carousel").owlCarousel({
+           items : 3,
+           itemsDesktop : [1199,3],
+           itemsDesktopSmall : [979,3]
+     
+      });
+
+      //if ($(".search-carousel")
       
     });
     
@@ -46,4 +53,5 @@
       var markers = handler.addMarkers(#{@coordinates});
       handler.bounds.extendWith(markers);
       handler.fitMapToBounds();
+      //handler.getMap().setZoom(14);
     });

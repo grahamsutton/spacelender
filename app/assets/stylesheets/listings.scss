@@ -11,6 +11,11 @@ $third-color: #ffcc88;
 $fourth-color: #eeeecc;
 $fifth-color: #FAFAFA;
 
+.col-no-pad {
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+
 #address,
 #rates,
 #upload-pictures {
@@ -243,3 +248,47 @@ $fifth-color: #FAFAFA;
   width: 100%; 
   height: 400px;
 }
+
+#map.search-results-map {
+  width: 100%; 
+  height: 100%;
+  position: relative !important;
+}
+
+.left-column,
+#map-outer-container {
+	padding-right: 0px !important;
+}
+
+.right-column,
+#map-outer-container {
+	padding-left: 0px !important;
+}
+
+#search-results-container {
+	background: url('swirl_pattern.png');
+	padding-top: 23px;
+}
+
+#search-results-container,
+.right-column,
+#google-map,
+#map-outer-container,
+#map {
+	height: 100% !important;
+}
+
+.search-result-container {
+	min-height: 210px;
+}
+
+.search-result-carousel .item{
+  margin: 3px;
+}
+.search-result-carousel .item img{
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+
