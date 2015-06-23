@@ -94,6 +94,21 @@ $fifth-color: #FAFAFA;
 	text-decoration: none !important;
 }
 
+.inner-tabs-list li {
+	margin-left: 10px !important;
+	margin-right: 10px !important;
+	text-align: center !important;
+}
+
+.inner-tabs-list li:last-child {
+	border-right: none !important;
+}
+
+.inner-tab-link {
+	color: $secondary-color !important;
+	text-decoration: none !important;
+}
+
 .inner-tab-link.active {
 	font-weight: bold;
 	color: $third-color !important;
@@ -101,6 +116,7 @@ $fifth-color: #FAFAFA;
 
 .inner-tab-link:hover {
 	cursor: pointer;
+	text-decoration: none !important;
 }
 
 .tab,

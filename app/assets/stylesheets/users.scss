@@ -18,6 +18,15 @@ body {
 	background-color: $fifth-color !important;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: $primary-color !important;
+}
+
 input[type="text"],
 input[type="password"],
 select,
@@ -26,7 +35,7 @@ textarea {
 }
 
 .panel.panel-default {
-	border: 1px solid $secondary-color !important;
+	border: none !important;
 }
 
 
@@ -47,6 +56,14 @@ a.btn-default,
 	box-shadow: none !important;
 	color: $primary-color !important;
 	border-radius: 0px !important;
+}
+
+
+// Summernote Buttons
+.note-editor {
+	.btn.btn-default {
+		border: none !important;
+	}
 }
 
 

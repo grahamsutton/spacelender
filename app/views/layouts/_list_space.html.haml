@@ -9,22 +9,22 @@
         .col-md-12
 
           / Tab List
-          %ul.list-unstyled.list-inline.col-md-12.text-center
+          %ul.list-unstyled.list-inline.col-md-12.text-center.inner-tabs-list
             %li
               = link_to "#name", :class => "inner-tab-link active" do
-                Name & Desc.
+                1. Name & Desc.
             %li
               = link_to "#address", :class => "inner-tab-link" do
-                Location
+                2. Location
             %li
               = link_to "#dates", :class => "inner-tab-link" do
-                Dates
+                3. Dates
             %li
               = link_to "#rates", :class => "inner-tab-link" do
-                Rates
+                4. Rates
             %li
               = link_to "#upload-pictures", :class => "inner-tab-link" do
-                Pics
+                5. Pics
 
 
 
@@ -301,9 +301,11 @@
     // Enable Summernote
     $('[data-provider="summernote"]').each(function(){
       $(this).summernote({
-        height: 300
+        height: 200
        });
     });
+
+    $('.note-toolbar .note-fontsize, .note-toolbar .note-color, .note-toolbar .note-para .dropdown-menu li:first, .note-toolbar .note-line-height').remove();
 
     // Retrieve value from Summernote text editor on "List A Space" form submission
     $('.inner-tab-link,.next-btn').click(function(){
