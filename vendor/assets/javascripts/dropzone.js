@@ -1329,7 +1329,7 @@
           inputName = input.getAttribute("name");
           inputType = input.getAttribute("type");
           
-          if (inputName == "null" || inputName == null || inputType == "null" || inputType == null || inputType == "file"){
+          if (inputName == "null" || inputName == null || inputType == "null" || inputType == "file"){
         	  continue;
           }
           
