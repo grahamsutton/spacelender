@@ -19,12 +19,14 @@
               = f.fields_for :location do |l|
                 = l.text_field :street_address, :class => "form-control", :placeholder => "Street Address"
                 .row
-                  .col-md-8
+                  .col-md-6
                     = l.text_field :city, :class => "form-control", :placeholder => "City"
                   .col-md-2
                     = l.select :state, options_for_select(us_states), {:prompt => "State"}, class: "form-control"
                   .col-md-2
                     = l.text_field :zip, :class => "form-control", :placeholder => "Zip"
+                  .col-md-2
+                    = l.text_field :country, options_for_select(countries), {:prompt => "Country"}, class: "form-control"
                   
             #rates.col-md-12
               %h4
