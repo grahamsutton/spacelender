@@ -1,9 +1,10 @@
 module ApplicationHelper
   def countries
-  [
-  "USA",
-  "CAN"
-  ]
+    [ 
+      ["United States", "US"],
+      ["Canada", "CA"],
+      ["Guatemala", "GU"]
+    ]
     
   end
   
