@@ -1,14 +1,14 @@
 %style
   html, body, #map { height: 100%; margin: 0px; }
 - if @results
-  #search-results-container.row.fight-navbar-margin
+  #search-results-container.row
     .col-md-7.left-column
       / Filter settings
 
       / Display results
       .col-md-12
         - @results.each do |listing|
-          .col-md-6
+          .col-md-12
             .panel.panel-default.search-result-container
               .panel-heading
                 = listing.name
@@ -34,6 +34,9 @@
     $(document).ready(function(event) {
       myHilitor = new Hilitor("table");
       myHilitor.apply("#{@search}");
+
+      // Make navbar fixed to the top
+      $(".navbar").addClass("navbar-fixed-top");
 
 
       // Search Result Carousel of images

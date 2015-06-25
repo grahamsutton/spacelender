@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150620040038) do
+ActiveRecord::Schema.define(version: 20150624153520) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,8 +111,9 @@ ActiveRecord::Schema.define(version: 20150620040038) do
     t.integer  "listing_id"
     t.float    "amount"
     t.string   "date_range"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "currency_type"
   end
 
   add_index "rates", ["listing_id"], name: "index_rates_on_listing_id", using: :btree

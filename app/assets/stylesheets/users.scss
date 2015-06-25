@@ -35,7 +35,7 @@ textarea {
 }
 
 .panel.panel-default {
-	border: none !important;
+	border: 1px solid $primary-color !important;
 }
 
 
@@ -87,6 +87,7 @@ a.btn-default,
 	background-color: $fifth-color !important;
 	border-radius: 0px !important;
 	box-shadow: none !important;
+	border-bottom: 1px solid $primary-color !important;
 
 	input[type="text"],
 	input[type="password"],
@@ -96,7 +97,7 @@ a.btn-default,
 	}
 
 	.navbar-brand {
-		color: $secondary-color !important;
+		color: $primary-color !important;
 	}
 
 	a {
@@ -175,6 +176,7 @@ a.btn-default,
 .navbar-homepage {
 	background: transparent !important;
 	box-shadow: none !important;
+	border-bottom: none !important;
 
 	a {
 		color: #FFF !important;

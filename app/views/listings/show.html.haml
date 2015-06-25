@@ -24,41 +24,53 @@
       %a.right.carousel-control{"data-slide" => "next", :href => "#listing-slideshow", :role => "button"}
         %span.glyphicon.glyphicon-chevron-right{"aria-hidden" => "true"}
         %span.sr-only Next
-
-#listing-details.col-md-12
-  .col-md-12
-    .col-md-12
-      .row
-        .col-md-7
-          .panel.panel-default
-            .panel-body
-              %h5
-                = @listing.name
-                %br
-                %br
+    .col-md-4.listing-name-display
+      .col-md-12
+        .panel.panel-default
+          .panel-body
+            %h5
+              = @listing.name
+              %br
+              %br
+            .row
+              .col-md-6
                 %small
                   = "#{@listing.location.city}, #{@listing.location.state}"
-        .col-md-5
-          .panel.panel-default
-            .panel-body
-                
-    .col-md-4
-      .panel.panel-default
-        .panel-body
-          .col-md-12.text-center
-            / Profile picture will go here
-            %h5
-              = @listing.user.first_name
-      .panel.panel-default
-        .panel-body
-          %h5
-            = @listing.location.street_address
-          %h6
-            = "#{@listing.location.city}, #{@listing.location.state}, #{@listing.location.zip}"
-    .col-md-8
-      .panel.panel-default
-        .panel-body
-          = raw(@listing.description)
+              .col-md-6.text-right
+                = button_tag "Book it!", :class => "btn btn-primary"
+            / .row
+            /   .col-md-12
+            /     #specific_dates.date-selection-area
+            /       = form_for @reservation do |f|
+            /         #datepicker.input-daterange.input-group
+            /           = f.text_field :from_date, :id => "start-date", :class => "input-sm form-control", :contenteditable => false
+            /           %span.input-group-addon to
+            /           = f.text_field :to_date, :id => "end-date", :class => "input-sm form-control", :contenteditable => false
+    .col-md-8.rate-display
+      .col-md-3.col-md-offset-9
+        .panel
+          .panel-body
+            %ul.list-unstyled.rates-list
+              - @listing.rates.each do |rate|
+                %li
+                  %span.rate-amount
+                    = number_to_currency(rate.amount).gsub(/\.00$/, "")
+                  %span.rate-date-range
+                    = rate.date_range
+
+
+#listing-details.col-md-12
+  .col-md-8.col-md-offset-4
+    .panel.panel-default
+      .panel-body
+        - if @listing.periods.first
+          %p
+            %strong
+              Last day available:
+              = @listing.periods.first.end
+
+        = raw(@listing.description)
+    
 .row
   #google-map
     .col-md-12
@@ -74,4 +86,69 @@
     handler.bounds.extendWith(markers);
     handler.fitMapToBounds();
     handler.getMap().setZoom(14);
+  });
+
+  $(document).ready(function() {
+    // Get today's date in mm/dd/yyyy format
+    function getTodayAsMMDDYYYY() {
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; //January is 0!
+      var yyyy = today.getFullYear();
+
+      if(dd<10) {
+          dd='0'+dd
+      } 
+
+      if(mm<10) {
+          mm='0'+mm
+      } 
+
+      return today = mm+'/'+dd+'/'+yyyy;
+    }
+
+    function makeOpaque() {
+      var section = $("#listing_periods_specific_dates").data("section");
+
+      if ($("#listing_periods_specific_dates").is(":checked")) {
+        $(section).css("opacity", "1.0");
+        $(section + " input").removeAttr("disabled");
+      } else {
+        $(section).css("opacity", "0.3");
+        $(section + " input").attr("disabled", "disabled");
+      }
+    }
+
+
+    /* 
+     * Credit to: user2586273 from StackOverflow for this bit of code, which is found here:
+     * http://stackoverflow.com/questions/11933173/how-to-restrict-the-selectable-date-ranges-in-bootstrap-datepicker
+     * Thanks, bro.
+     */
+    var startDate = new Date('01/01/2012');
+    var FromEndDate = new Date();
+    var ToEndDate = new Date();
+
+    ToEndDate.setDate(ToEndDate.getDate()+365);
+
+    $('#start-date').datepicker({
+        weekStart: 1,
+        startDate: getTodayAsMMDDYYYY(),
+        autoclose: true
+    }).on('changeDate', function(selected){
+        startDate = new Date(selected.date.valueOf());
+        startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+        $('#end-date').datepicker('setStartDate', startDate);
+    }); 
+    
+    $('#end-date').datepicker({
+        weekStart: 1,
+        startDate: startDate,
+        endDate: ToEndDate,
+        autoclose: true
+    }).on('changeDate', function(selected){
+        FromEndDate = new Date(selected.date.valueOf());
+        FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
+        $('#start-date').datepicker('setEndDate', FromEndDate);
+    });
   });
