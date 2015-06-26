@@ -26,17 +26,20 @@ class ListingsController < ApplicationController
   def create
       @listing = @current_user.listings.build(listing_params)
 
+      # If images selected, upload them to DB and S3
       if params[:image]
           params[:image].each do |image|
             @listing.pictures.build(:image => image)
           end
       end
 
+      # Save the listing
       if @listing.save
         flash[:notice] = "Your listing #{@listing.name} was added successfully."
         if params[:image]
            render json: { message: "success" }, :status => 200
         else
+          # Redirects to "My Listings" tab
           redirect_to "/listings?q=ml"
         end
       else
@@ -59,6 +62,7 @@ class ListingsController < ApplicationController
   def update
       @listing = Listing.find(params[:id])
     
+      # If images selected, upload them to DB and S3
       if params[:image]
           params[:image].each do |image|
             @listing.pictures.build(:image => image)
@@ -84,28 +88,30 @@ class ListingsController < ApplicationController
   end
   
   def findnearme
-     Geocoder.configure(:timeout => 40)
-     @listings = Listing.all
-     @location = Array.new
-     location_info = Geocoder.search(request_ip)
-     location_info.each do |loc|
-      @location.push(loc.latitude)
-      @location.push(loc.longitude)
-     end
+      Geocoder.configure(:timeout => 40)
+      @listings = Listing.all
+      @location = Array.new
+      location_info = Geocoder.search(request_ip)
+
+      location_info.each do |loc|
+        @location.push(loc.latitude)
+        @location.push(loc.longitude)
+      end
      
-     @results = @listings.select { |listing| listing.location.distance_from(@location) < 50 }
+      # Filter listings by distance
+      @results = @listings.select { |listing| listing.location.distance_from(@location) < 50 }
      
-     @coordinates = @results.map do |listing|
+      # Store coordinates for filtered results
+      @coordinates = @results.map do |listing|
         { :lat => listing.location.latitude, :lng => listing.location.longitude }
       end
       
+      # Get coordinates in json format
       @coordinates = @coordinates.to_json
-
   end
   
   # search method
   def search
-    
       @listings = Listing.search(params[:search].downcase)
       @results = Array.new
       @cityCoordinates = Geocoder.coordinates(params[:city])

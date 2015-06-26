@@ -1,22 +1,62 @@
 %style
-  html, body, #map { height: 100%; margin: 0px; }
+  body, #map { height: 100%; margin: 0px; }
 - if @results
   #search-results-container.row
     .col-md-7.left-column
       / Filter settings
+      .col-md-12
+        .col-md-12
+          .panel.panel-default
+            .panel-body
+              .row
+                .col-md-6
+                  = link_to "+ Filter Search", "#", :id => "filter-search-link"
+                .col-md-6.text-right
+                  Results for:
+                  %strong
+                    = params[:search]
+                  - if !params[:city].nil? && params[:city] != ""
+                    in
+                    %strong
+                      = params[:city]
+            #display-filter-settings
+              %hr
+              .row
+                .col-md-12
+                  Works for now
 
       / Display results
       .col-md-12
         - @results.each do |listing|
           .col-md-12
             .panel.panel-default.search-result-container
-              .panel-heading
-                = listing.name
-              .search-result-carousel
-                - if listing.pictures
-                  - listing.pictures.each do |pic|
-                    .item
-                      = image_tag pic.image.url(:original)
+              .panel-body
+                .col-md-6.info-side.text-right
+                  %big
+                    %strong
+                      = link_to listing.name, listing_path(listing)
+                  %p
+                    = "#{listing.location.city}, #{listing.location.state}"
+                  Posted by:
+                  = link_to listing.user.first_name, root_path, :class => "primary-color"
+                  %p
+                    = pluralize(listing.pictures.count, "photo")
+                .col-md-6.pictures-side
+                  .search-result-carousel
+                    - if listing.pictures
+                      - listing.pictures.each do |pic|
+                        .item
+                          = image_tag pic.image.url(:original)
+                .panel.panel-default.result-rates-display
+                  .panel-body
+                    %ul.list-unstyled
+                      - listing.rates.each do |rate|
+                        %li
+                          %span.rate-amount
+                            = number_to_currency(rate.amount).gsub(/\.00$/, "")
+                          %span.rate-date-range
+                            = rate.date_range
+      = render 'layouts/footer'
              
     .col-md-5.right-column
       #google-map
@@ -41,13 +81,19 @@
 
       // Search Result Carousel of images
       $(".search-result-carousel").owlCarousel({
-           items : 3,
+           items : 1,
            itemsDesktop : [1199,3],
            itemsDesktopSmall : [979,3]
      
       });
 
-      //if ($(".search-carousel")
+
+      // Shows the Filter Search settings when the link "Filter Search" link is clicked
+      $("#filter-search-link").on("click", function(e) {
+        e.preventDefault();
+
+        $("#display-filter-settings").slideToggle();
+      });
       
     });
     

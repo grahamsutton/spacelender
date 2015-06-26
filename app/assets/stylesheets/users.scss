@@ -58,6 +58,10 @@ a.btn-default,
 	border-radius: 0px !important;
 }
 
+a.primary-color {
+	color: $primary-color !important;
+}
+
 
 // Summernote Buttons
 .note-editor {
@@ -442,10 +446,11 @@ a.search-btns {
 
 
 #footer {
-	background-color: $primary-color;
+	background-color: $primary-color !important;
 	min-height: 320px;
 	height: 3em;
 	bottom: 0;
+	border-top: 1px solid $primary-color !important;
 	// margin-top: 320px;
 
 	h1,

@@ -38,14 +38,6 @@
                   = "#{@listing.location.city}, #{@listing.location.state}"
               .col-md-6.text-right
                 = button_tag "Book it!", :class => "btn btn-primary"
-            / .row
-            /   .col-md-12
-            /     #specific_dates.date-selection-area
-            /       = form_for @reservation do |f|
-            /         #datepicker.input-daterange.input-group
-            /           = f.text_field :from_date, :id => "start-date", :class => "input-sm form-control", :contenteditable => false
-            /           %span.input-group-addon to
-            /           = f.text_field :to_date, :id => "end-date", :class => "input-sm form-control", :contenteditable => false
     .col-md-8.rate-display
       .col-md-3.col-md-offset-9
         .panel
