@@ -16,8 +16,10 @@ class ListingsController < ApplicationController
   end
 
   # Display Listing form
-  def new
-
+  def edit
+    @listing = Listing.find(params[:id])
+    @coordinate = [{ :lat => @listing.location.latitude, :lng => @listing.location.longitude }]
+    @coordinate = @coordinate.to_json
   end
   
   # Process to create the Listing
@@ -55,7 +57,25 @@ class ListingsController < ApplicationController
 
   # Update a Listing
   def update
+      @listing = Listing.find(params[:id])
     
+      if params[:image]
+          params[:image].each do |image|
+            @listing.pictures.build(:image => image)
+          end
+      end
+
+      if @listing.update(listing_params)
+        flash[:notice] = "Your listing #{@listing.name} was updated successfully."
+        if params[:image]
+           render json: { message: "success" }, :status => 200
+        else
+          redirect_to "/listings?q=ml"
+        end
+      else
+        flash.now[:alert] = "Uh-oh! Something's off here: "
+        render :new
+      end
   end
 
   # Delete a Listing

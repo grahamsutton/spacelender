@@ -13,6 +13,8 @@
           = link_to listing.name, listing_path(listing)
         %td
           = listing.location.full_street_address
+        %td
+          = link_to "Edit", edit_listing_path(listing)
   %br
     .row
       .col-md-12.text-center

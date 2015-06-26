@@ -1,0 +1,418 @@
+/========================
+/ "List A Space" Form
+/========================
+
+.panel.panel-default
+  = form_for @listing, :html => {:id => "newlisting_form", :multipart => true, :class => "dropzone clearfix"} do |f|
+    .panel-body.tab-display
+      .form-container.row
+        .col-md-2
+
+
+        / Tabs - Each Step is its own tab.
+        .col-md-8
+
+
+          / Step 1: Name and Description
+          #name.col-md-12
+            %h4
+              Name &amp; Description
+              %br
+              %small
+                Try to make sure your title for the listing really captures the essence of what your trying to lend out. The Description field should be used to further clarify what the title says.
+              %hr
+            = f.text_field :name, :class => "form-control", :placeholder => "Name"
+            = f.text_field :description, :id => "description", :class => "form-control", :placeholder => "Description", 'data-provider' =>  'summernote'
+
+
+
+
+          / Step 2: List the Address
+          #address.col-md-12
+            %h4
+              Address
+              %br
+              %small
+                Don't worry! We only display the city name and state on SpaceLender. The full address is only given when someone books your listing.
+              %hr
+            = f.fields_for :location do |l|
+              = l.text_field :street_address, :class => "form-control", :placeholder => "Street Address"
+              .row
+                .col-md-6
+                  = l.text_field :city, :class => "form-control", :placeholder => "City"
+                .col-md-2
+                  = l.select :state, options_for_select(us_states), {:prompt => "State"}, class: "form-control"
+                .col-md-2
+                  = l.text_field :zip, :class => "form-control", :placeholder => "Zip"
+                .col-md-2
+                  = l.select :country, options_for_select(countries), {:prompt => "Country"}, class: "form-control"
+            %br
+            %br
+
+
+
+
+          / Step 3: Specify Dates
+          #dates.col-md-12
+            %h4
+              Dates
+              %br
+              %small
+                Select the dates you want this listing to be available.
+              %hr
+            #dates-selection.row
+              .col-md-12
+                = radio_button "listing", "periods", "always_available", :class => "date-selection", "data-section" => "#always_available", :checked => "checked"
+                %span
+                  Always Available
+                #always_available.date-selection-area
+
+                %br
+
+                = radio_button "listing", "periods", "specific_dates", :class => "date-selection", "data-section" => "#specific_dates"
+                %span
+                  Specific Dates
+                #specific_dates.date-selection-area
+                  = f.fields_for :periods do |d|
+                    #datepicker.input-daterange.input-group
+                      = d.text_field :start, :id => "start-date", :class => "input-sm form-control", :contenteditable => false
+                      %span.input-group-addon to
+                      = d.text_field :end, :id => "end-date", :class => "input-sm form-control", :contenteditable => false
+
+
+
+          / Step 4: Add Rates
+          #rates.col-md-12
+            %h4
+              Rates
+              %br
+              %small
+                Select how much you want to charge for this listing and choose a charge period.
+              %hr
+            .row
+              .col-md-12
+                %span.add-subtract-rate-forms
+                  %i#add-rate-form.fa.fa-plus-square-o.fa-lg{ :onclick => "addRateForm();"}
+                  %i#subtract-rate-form.fa.fa-minus-square-o.fa-lg{ :onclick => "subtractRateForm();"}
+
+            / Show at least one "Rates" form
+            = render :partial => 'listings/rates_form', :locals => { :f => f }
+
+            / Div to hold additional rates if user clicks on the +/- 
+            #additional-rate-forms
+
+            / Adds and Removes extra rate forms 
+            :javascript
+              var numOfRateForms = $(".rate-form").length;
+
+              function addRateForm() {
+                // Append the "rates_form" partial when the #add-rate-form btn (+) is clicked
+                $("#additional-rate-forms").append("#{ escape_javascript( render :partial => 'listings/rates_form', :locals => {:f => f} ) }");
+
+                // Hide if total number of forms hits limit
+                toggleAddSubtractButtons($("#additional-rate-forms").children().length);
+
+                // Add one to the number of forms counted
+                numOfRateForms++;
+
+                changeChargePeriodSelection(numOfRateForms);
+              }
+
+
+              // Remove the last "Rate row" when minus button is clicked
+              function subtractRateForm() {
+                $("#additional-rate-forms").children().last().remove();
+
+                // Unhide if total number of forms falls below limit
+                toggleAddSubtractButtons($("#additional-rate-forms").children().length);
+
+                // Decrement number of forms from the count
+                numOfRateForms--;
+
+                changeChargePeriodSelection(numOfRateForms);
+              }
+
+
+              // Hide the (+) or (-) sign if the number of rates_forms outgrows the number of options (hourly, weekly, etc)
+              function toggleAddSubtractButtons(numOfAddedForms) {
+                // numOfForms - 1, to account for the one form that is always showing.
+                if (numOfAddedForms == parseInt("#{times.count}") - 1) {
+                  $("#add-rate-form").hide();
+                } else {
+                  $("#add-rate-form").show();
+                }
+              }
+
+
+              // Change the dropdown default selection as forms are added
+              function changeChargePeriodSelection(numOfForms) {
+                var index = numOfForms - 1;  //Minus 1, because index is 0-based
+                var optionToSelect = $(".rate-form-select").eq(index).children().eq(index);
+
+                // Select the appropriate value
+                optionToSelect.attr("selected", "selected");
+
+                console.log(index);
+              }
+
+
+
+          / Step 5: Upload Pictures
+          #upload-pictures.col-md-12
+            %h4
+              Upload Pictures
+              %hr
+              %small
+                Although not required, adding photos will draw a bigger crowd to your listing and is a much more reliable source than the description alone. There are some things that words just can't tell!
+            = f.fields_for :pictures do |p|
+              = p.file_field :image, :name => "image[]", :style => "display: none;"
+            %br
+            %br
+            / The Dropzone area
+            .dropzone-area.col-md-12
+                
+
+
+    / Next/Prev Buttons
+    .panel-footer
+
+
+      / Prev Button only (Last Tab)
+      .row
+        .col-md-4.text-left
+        
+        .col-md-4.text-right
+          = f.submit "Post Listing", :id => "post-listing-btn", :class => "btn btn-primary form-control"
+
+
+
+
+:javascript
+  
+  var has_images = false;
+  
+  $(document).ready(function() {
+  
+    // disable auto discover
+    Dropzone.autoDiscover = false;
+    
+    $(".dropzone-area").click(function(e){
+      $(".dropzone").click();
+      e.stopPropagation();
+    });
+   
+    // grap our upload form by its id
+    $("#newlisting_form").dropzone({
+      // restrict image size to a maximum 1MB
+      maxFilesize: 1,
+      // changed the passed param to one accepted by
+      // our rails app
+      paramName: "image[]",
+      // show remove links on each image upload
+      addRemoveLinks: true,
+      // The configuration we've talked about above
+      autoProcessQueue: false,
+      uploadMultiple: true,
+      parallelUploads: 100,
+      maxFiles: 100,
+      previewsContainer: ".dropzone-area",
+      clickable: true,
+      
+       // The setting up of the dropzone
+      init: function() {
+        var myDropzone = this;
+
+        var dzMessage = $(".dz-default.dz-message").clone();
+        $(".dz-default.dz-message").remove();
+
+        $(".dropzone-area").html(dzMessage);
+        
+        this.on("addedfile", function(file) { 
+          has_images = true;
+        });
+    
+        // First change the button to actually tell Dropzone to process the queue.
+        this.element.querySelector("input[type=submit]").addEventListener("click", function(e) {
+          // Make sure that the form isn't actually being sent.
+          e.preventDefault();
+          e.stopPropagation();
+          myDropzone.processQueue();
+        });
+    
+        // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
+        // of the sending event because uploadMultiple is set to true.
+        this.on("sendingmultiple", function() {
+          // Gets triggered when the form is actually being sent.
+          // Hide the success button or the complete form.
+        });
+        this.on("successmultiple", function(files, response) {
+          // Gets triggered when the files have successfully been sent.
+          // Redirect user or notify of success.
+          window.location.href = "/listings?q=ml"
+        });
+        this.on("errormultiple", function(files, response) {
+          // Gets triggered when there was an error sending the files.
+          // Maybe show form again, and notify user of error
+        });
+      }
+    });
+
+
+
+    var formSections = $(".inner-tab-link");
+
+    // Submit form when Post Listing button is clicked because HAML was being stupid
+    // and throwing an error
+    $("#post-listing-btn").on("click", function() {
+      if (has_images == false){
+        $("#newlisting_form").submit();
+      }
+    });
+
+
+    // Enable Summernote
+    $('[data-provider="summernote"]').each(function(){
+      $(this).summernote({
+        height: 200
+       });
+    });
+
+    $('.note-toolbar .note-fontsize, .note-toolbar .note-color, .note-toolbar .note-para .dropdown-menu li:first, .note-toolbar .note-line-height').remove();
+
+    // Retrieve value from Summernote text editor on "List A Space" form submission
+    $('[data-provider="summernote"]').code($("#description").val());
+    $('.inner-tab-link,.next-btn').click(function(){
+      $("#description").val($('[data-provider="summernote"]').code());
+    });
+
+
+    // Next and Previous Buttons for "List A Space" form
+    $(".next-btn").on("click", function(e) {
+      e.preventDefault();
+      formSections.filter('.active').parent().next('li').find('a').click();
+    });
+
+    $(".prev-btn").on("click", function(e) {
+      e.preventDefault();
+      formSections.filter('.active').parent().prev('li').find('a').click();
+    });
+
+
+    // Tabs 
+    $(".inner-tab-link").on("click", function(e) {
+      e.preventDefault();
+
+      var id = $(this).attr("href");
+
+      $(".inner-tab-link").removeClass("active");
+      $(this).addClass("active");
+
+      $(".inner-tab").removeClass("active");
+      $(id).addClass("active");
+
+
+      //Remove active class from Next/Prev buttons
+      $(".next-prev-btns").removeClass("active");
+
+      // Display Next/Prev buttons according to what tab is selected
+      if ($(id).is(":last-child")) {
+        $(".prev-btn-only").addClass("active");
+      } else if ($(id).is(":first-child")) {
+        $(".next-btn-only").addClass("active");
+      } else {
+        $(".both-btns").addClass("active");
+      }
+    });
+
+    // Get today's date in mm/dd/yyyy format
+    function getTodayAsMMDDYYYY() {
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; //January is 0!
+      var yyyy = today.getFullYear();
+
+      if(dd<10) {
+          dd='0'+dd
+      } 
+
+      if(mm<10) {
+          mm='0'+mm
+      } 
+
+      return today = mm+'/'+dd+'/'+yyyy;
+    }
+
+    function makeOpaque() {
+      var section = $("#listing_periods_specific_dates").data("section");
+
+      if ($("#listing_periods_specific_dates").is(":checked")) {
+        $(section).css("opacity", "1.0");
+        $(section + " input").removeAttr("disabled");
+      } else {
+        $(section).css("opacity", "0.3");
+        $(section + " input").attr("disabled", "disabled");
+      }
+    }
+
+
+    
+    // Make Specific dates opaque.
+    makeOpaque();
+
+    // Date selection for Step 3
+    $(".date-selection").on("click", function() {
+      makeOpaque();
+    });
+
+
+
+
+    /* 
+     * Credit to: user2586273 from StackOverflow for this bit of code, which is found here:
+     * http://stackoverflow.com/questions/11933173/how-to-restrict-the-selectable-date-ranges-in-bootstrap-datepicker
+     * Thanks, bro.
+     */
+    var startDate = new Date('01/01/2012');
+    var FromEndDate = new Date();
+    var ToEndDate = new Date();
+
+    ToEndDate.setDate(ToEndDate.getDate()+365);
+
+    $('#start-date').datepicker({
+        weekStart: 1,
+        startDate: getTodayAsMMDDYYYY(),
+        autoclose: true
+    }).on('changeDate', function(selected){
+        startDate = new Date(selected.date.valueOf());
+        startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+        $('#end-date').datepicker('setStartDate', startDate);
+    }); 
+    
+    $('#end-date').datepicker({
+        weekStart: 1,
+        startDate: startDate,
+        endDate: ToEndDate,
+        autoclose: true
+    }).on('changeDate', function(selected){
+        FromEndDate = new Date(selected.date.valueOf());
+        FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
+        $('#start-date').datepicker('setEndDate', FromEndDate);
+    });
+
+
+    // var startDate = getTodayAsMMDDYYYY();
+
+    // // Datepickers
+    // $("#start-date").datepicker({
+    //   startDate: startDate
+    // }).on('changeDate', function(selected){
+    //     startDate = new Date(selected.date.valueOf());
+    //     startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+    //     $('.to_date').datepicker('setStartDate', startDate);
+    // }); ;
+
+    // $("#end-date").datepicker({
+    //   startDate: startDate
+    // });
+
+  });
