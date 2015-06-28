@@ -134,6 +134,10 @@ class ListingsController < ApplicationController
       
       respond_with(@results)
   end
+
+  def filter_search
+      
+  end
   
   private
   def listing_params

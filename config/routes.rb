@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   
   get 'listings/search' => 'listings#search'
   get 'listings/findnearme'
+  get 'listings/filter_search' => 'listings#filter_search'
   
   resources :listings
   resources :messages
