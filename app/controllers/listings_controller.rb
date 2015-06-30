@@ -127,7 +127,7 @@ class ListingsController < ApplicationController
       end
       
       @coordinates = @results.map do |listing|
-        { :lat => listing.location.latitude, :lng => listing.location.longitude }
+        { :lat => listing.location.latitude, :lng => listing.location.longitude, :id => listing.id }
       end
       
       @coordinates = @coordinates.to_json

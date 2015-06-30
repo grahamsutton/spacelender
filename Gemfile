@@ -78,6 +78,8 @@ gem 'bootstrap-datepicker-rails'
 
 gem 'nilify_blanks'
 
+gem 'tooltipster-rails'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

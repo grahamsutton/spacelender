@@ -204,7 +204,7 @@ $fifth-color: #FAFAFA;
 	position: absolute !important;
 	left: 20px !important;
 	top: 320px !important;
-	z-index: 2000 !important;
+	z-index: 1001 !important;
 
 	.panel.panel-default {
 		border: 1px solid $primary-color !important;
@@ -425,8 +425,7 @@ $fifth-color: #FAFAFA;
 			margin-bottom: 0px !important;
 
 			.panel-body {
-				padding-top: 0px !important;
-				padding-bottom: 0px !important;
+				padding: 0px 15px !important;
 			}
 
 			ul {
@@ -434,6 +433,10 @@ $fifth-color: #FAFAFA;
 			}
 		}
 	}
+}
+
+.no-results-css-fix {
+	margin-top: -23px !important;
 }
 
 .right-column {
@@ -474,6 +477,10 @@ $fifth-color: #FAFAFA;
 			cursor: grab !important;
 		}
 	}
+}
+
+.modal {
+	z-index: 1000000 !important;
 }
 
 

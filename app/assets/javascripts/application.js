@@ -23,6 +23,7 @@
 //= require autonumeric
 //= require owl.carousel
 //= require underscore
+//= require jquery.tooltipster.min.js
 //= require gmaps/google
 //= require summernote
 //= require turbolinks

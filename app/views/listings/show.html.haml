@@ -37,7 +37,7 @@
                 %small
                   = "#{@listing.location.city}, #{@listing.location.state}"
               .col-md-6.text-right
-                = button_tag "Book it!", :class => "btn btn-primary"
+                = button_tag "Book it!", :class => "btn btn-primary", "data-toggle" => "modal", "data-target" => "#reservation-modal"
     .col-md-8.rate-display
       .col-md-3.col-md-offset-9
         .panel
@@ -68,6 +68,24 @@
     .col-md-12
       #map
 = render 'layouts/footer'
+
+
+
+#reservation-modal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+        %h4.modal-title Select Rate
+      .modal-body
+        = form_for @reservation do |f|
+          - if @listing.rates
+            - @listing.rates.each do |rate|
+              = rate
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+        %button.btn.btn-primary{:type => "button"} Save changes
     
 
 

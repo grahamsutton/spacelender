@@ -1,7 +1,7 @@
 %style
   body, #map { height: 100%; margin: 0px; }
-- if @results
-  #search-results-container.row
+- if @results.count > 0
+  #search-results-container.row{ :class => ("no-results-css-fix" if @results.count == 0) }
     .col-md-7.left-column
       / Filter settings
       .col-md-12
@@ -70,9 +70,24 @@
         #map-outer-container.col-md-12
           #map.search-results-map
 - else
-  .panel.panel-default.text-center.col-md-12
-    %h3
-      No results
+  #search-results-container.row
+    .col-md-7.left-column
+      / Filter settings
+      .col-md-12
+        .col-md-12
+          .panel.panel-default
+            .panel-body
+              .row
+                .col-md-6
+                  = link_to "+ Filter Search", "#", :id => "filter-search-link"
+                .col-md-6.text-right
+                  Results for:
+                  %strong
+                    = params[:search]
+                  - if !params[:city].nil? && params[:city] != ""
+                    in
+                    %strong
+                      = params[:city]
 
 - if (@results.length > 0)           
   :javascript
@@ -101,13 +116,30 @@
 
         $("#display-filter-settings").slideToggle();
       });
+
+      // Tooltip for images on hover
+      $(".pictures-side").tooltipster({
+        content: $("<p><strong>Hold Click + Drag</strong> to the <strong>LEFT</strong> to see more photos!</p>"),
+        hideOnClick: true
+      });
       
-    });
+    }); //end document.ready
+
+
+
+
     
     var handler = Gmaps.build('Google');
+    var markers;
     handler.buildMap({ internal: {id: 'map'}, provider: { scrollwheel: false }}, function(){
-      var markers = handler.addMarkers(#{@coordinates});
+      markers = handler.addMarkers(#{@coordinates});
       handler.bounds.extendWith(markers);
       handler.fitMapToBounds();
       //handler.getMap().setZoom(14);
+
+      google.maps.event.trigger(markers, 'click');
+    });
+
+    $(".search-result-container").on("hover", function() {
+      
     });
