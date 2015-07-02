@@ -74,6 +74,25 @@ module ApplicationHelper
       ]
   	end
 
+  	# Translates phrases like "hourly" or "per hour" => "hour"
+  	def base_time(timePhrase)
+  		phrase = timePhrase.downcase
+
+  		if phrase.include? "hour"
+  			filtered = "hour"
+  		elsif phrase.include?("daily") || phrase.include?("day")
+  			filtered = "day"
+  		elsif phrase.include? "week"
+  			filtered = "week"
+  		elsif phrase.include? "month"
+  			filtered = "month"
+  		else
+  			filtered = timePhrase
+  		end
+
+  		filtered
+  	end
+
   	def card_types
   	  [
   	  	["Visa", "visa"],

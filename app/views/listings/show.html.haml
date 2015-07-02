@@ -52,7 +52,12 @@
 
 
 #listing-details.col-md-12
-  .col-md-8.col-md-offset-4
+  .col-md-4.user-display
+    .panel.panel-default
+      .panel-body
+        %h6.text-center
+          = @listing.user.first_name
+  .col-md-8
     .panel.panel-default
       .panel-body
         - if @listing.periods.first
@@ -77,15 +82,60 @@
       .modal-header
         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} &times;
-        %h4.modal-title Select Rate
+        / The modal title will change dynamically, so we can statically set the first tab's title for initial page load
+        %h4.modal-title.reservation-modal-title Select Rate
       .modal-body
         = form_for @reservation do |f|
-          - if @listing.rates
-            - @listing.rates.each do |rate|
-              = rate
+          #reservation-step-1.reservation-inner-tab.active.row{ "data-modal-title" => "Select Rate"}
+            .col-md-12
+              - if @listing.rates
+                - @listing.rates.each do |rate|
+                  = f.radio_button :rate, "#{number_to_currency(rate.amount)} #{rate.date_range}", :class => "rate-radio-btn", "data-time-range" => "#{base_time(rate.date_range)}",:checked => true
+                  = f.label :rate, "#{number_to_currency(rate.amount)} #{rate.date_range}", :value => "#{number_to_currency(rate.amount)} #{rate.date_range}"
+                  %br
+          #reservation-step-2.reservation-inner-tab.row{ "data-modal-title" => "Select Date"}
+            .col-md-12
+              #hour.time-range-section
+                .row
+                  .col-md-6
+                    %h5
+                      Pick Day
+                    = f.text_field :to_date, :id => "hourly-rate-selection", :class => "form-control"
+                  .col-md-6
+                    %h5
+                      Pick Time
+                    .row
+                      .col-md-12.start-time-container
+                        = f.label :start_time
+                        = f.text_field :start_time, :id => "start-time", :class => "form-control"
+                      .col-md-12
+                        = f.label :end_time
+                        = f.text_field :end_time, :id => "end-time", :class => "form-control"
+          #reservation-step-3.reservation-inner-tab.row{ "data-modal-title" => "Payment Method"}
+            .col-md-12
+              Add Payment
+          #reservation-step-4.reservation-inner-tab.row{ "data-modal-title" => "Review"}
+            .col-md-12
+              Review and Book
       .modal-footer
-        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
-        %button.btn.btn-primary{:type => "button"} Save changes
+        / Next Button only (First Tab)
+        .row.next-btn-only.next-prev-btns.active
+          .col-md-12.text-right
+            = render 'layouts/next_btn'
+
+        / Both buttons
+        .row.both-btns.next-prev-btns
+          .col-md-6.text-left
+            = render 'layouts/prev_btn'
+          .col-md-6.text-right
+            = render 'layouts/next_btn'
+
+        / Prev Button only (Last Tab)
+        .row.prev-btn-only.next-prev-btns
+          .col-md-6.text-left
+            = render 'layouts/prev_btn'
+          .col-md-6.text-right
+            
     
 
 
@@ -99,6 +149,92 @@
   });
 
   $(document).ready(function() {
+
+    // Array of tabs for Book It modal
+    var formSections = $(".reservation-inner-tab");
+
+
+    // Next Button clicked
+    $(".next-btn").on("click", function(e) {
+      e.preventDefault();
+
+      if ($("#reservation-step-1").hasClass("active")) {
+        var timeRange = $(".rate-radio-btn:checked").data("time-range");
+        
+        // Change from "Select Date" to "Select Time" if an hourly time range is selected
+        if (timeRange === "hour") {
+          $("#reservation-step-2").data("modal-title", "Select Date and Time");
+        } else {
+          $("#reservation-step-2").data("modal-title", "Select Date");
+        }
+      }
+
+      //Remove active class from Next/Prev buttons
+      $(".next-prev-btns").removeClass("active");
+
+      // Get current tab so we can remove active class from it after.
+      var currentTab = $(".reservation-inner-tab.active");
+
+      // Select new tab
+      formSections.filter('.active').next('.reservation-inner-tab').addClass("active");
+
+      // Remove active class from the former tab
+      currentTab.removeClass("active");
+
+      // Get the new tab that's active
+      var newTab = formSections.filter(".active");
+
+      // Set tab title for the "Book it!" modal
+      $(".reservation-modal-title").html(newTab.data("modal-title"));
+
+      // Set the appropriate Prev and Next buttons
+      if (newTab.is(":first-child")) {
+        $(".next-btn-only").addClass("active");
+      } else if (newTab.is(":last-child")) {
+        $(".prev-btn-only").addClass("active");
+      } else {
+        $(".both-btns").addClass("active");
+      }
+    });
+
+
+
+    // Prev Button clicked
+    $(".prev-btn").on("click", function(e) {
+      e.preventDefault();
+
+      //Remove active class from Next/Prev buttons
+      $(".next-prev-btns").removeClass("active");
+
+      // Get current tab so we can remove active class from it after.
+      var currentTab = $(".reservation-inner-tab.active");
+
+      // Select new tab
+      formSections.filter('.active').prev('.reservation-inner-tab').addClass("active");
+
+      // Remove active class from the former tab
+      currentTab.removeClass("active");
+
+      // Get the new tab that's active
+      var newTab = formSections.filter(".active");
+
+      // Set tab title for the "Book it!" modal
+      $(".reservation-modal-title").html(newTab.data("modal-title"));
+
+      // Set the appropriate Prev and Next buttons
+      if (newTab.is(":first-child")) {
+        $(".next-btn-only").addClass("active");
+      } else if (newTab.is(":last-child")) {
+        $(".prev-btn-only").addClass("active");
+      } else {
+        $(".both-btns").addClass("active");
+      }
+    });
+
+    
+
+
+
     // Get today's date in mm/dd/yyyy format
     function getTodayAsMMDDYYYY() {
       var today = new Date();
@@ -161,4 +297,20 @@
         FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
         $('#start-date').datepicker('setEndDate', FromEndDate);
     });
+
+
+
+    // Hourly time and date selection for Book it!
+    $('#hourly-rate-selection').datepicker({
+        startDate: getTodayAsMMDDYYYY(),
+        endDate: "#{@listing.periods.first.end}"
+    });
+
+
+    // Timepickers
+    $("#start-time").timepicker({
+
+    });
+
+    $("#end-time").timepicker();
   });

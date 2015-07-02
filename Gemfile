@@ -80,6 +80,8 @@ gem 'nilify_blanks'
 
 gem 'tooltipster-rails'
 
+gem 'bootstrap-timepicker-rails'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

@@ -12,7 +12,8 @@
                 .col-md-6
                   = link_to "+ Filter Search", "#", :id => "filter-search-link"
                 .col-md-6.text-right
-                  Results for:
+                  = @results.count
+                  results for:
                   %strong
                     = params[:search]
                   - if !params[:city].nil? && params[:city] != ""
@@ -48,6 +49,12 @@
                   = link_to listing.user.first_name, root_path, :class => "primary-color"
                   %p
                     = pluralize(listing.pictures.count, "photo")
+                  .row.text-left
+                    .col-md-12
+                      .col-md-12
+                        %i.fa.fa-star-o.fa-lg.fa-fw
+                        %small
+                          = link_to "Save"
                 .col-md-6.pictures-side
                   .search-result-carousel
                     - if listing.pictures
@@ -118,10 +125,10 @@
       });
 
       // Tooltip for images on hover
-      $(".pictures-side").tooltipster({
-        content: $("<p><strong>Hold Click + Drag</strong> to the <strong>LEFT</strong> to see more photos!</p>"),
-        hideOnClick: true
-      });
+      // $(".pictures-side").tooltipster({
+      //   content: $("<p><strong>Hold Click + Drag</strong> to the <strong>LEFT</strong> to see more photos!</p>"),
+      //   hideOnClick: true
+      // });
       
     }); //end document.ready
 

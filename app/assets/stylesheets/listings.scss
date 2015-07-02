@@ -219,7 +219,9 @@ $fifth-color: #FAFAFA;
 	z-index: 2000 !important;
 
 	.panel {
-		background: rgba(0, 0, 0, 0.7) !important;
+		/*background: rgba(0, 0, 0, 0.7) !important;*/
+		background: $primary-color !important;
+		opacity: 0.9 !important;
 		color: #EEE !important;
 		border-right: none !important;
 	}
@@ -258,6 +260,11 @@ $fifth-color: #FAFAFA;
 	display: block;
 }
 
+.datepicker {
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
+}
+
 .datepicker-days {
 	.day {
 		color: $primary-color !important;
@@ -278,6 +285,7 @@ $fifth-color: #FAFAFA;
 
 .dropzone {
 	padding: 0px !important;
+	background: #FFF !important;
 }
 
 .dropzone-area {
@@ -365,6 +373,7 @@ $fifth-color: #FAFAFA;
 .search-result-container {
 	min-height: 210px;
 	position: relative !important;
+	margin-bottom: 60px !important;
 
 	.panel-body {
 		min-height: inherit !important;
@@ -417,15 +426,24 @@ $fifth-color: #FAFAFA;
 
 
 		.result-rates-display {
-			background: rgba(0,0,0,0.7);
+			/*background: rgba(0,0,0,0.8);*/
+			background: $primary-color !important;
+			opacity: 1.0 !important;
 			color: #EEE !important;
 			position: absolute !important;
-			top: 120px !important;
-			left: -10px !important;
+			top: -10px !important;
+			left: 20px !important;
 			margin-bottom: 0px !important;
 
 			.panel-body {
 				padding: 0px 15px !important;
+				/*content: ' ';
+				height: 0px;
+				width: 0px;
+				position: absolute;
+				border: 20px solid transparent;
+				border-right-color: $primary-color;
+				right: 100%;*/
 			}
 
 			ul {
@@ -481,6 +499,47 @@ $fifth-color: #FAFAFA;
 
 .modal {
 	z-index: 1000000 !important;
+}
+
+.user-display {
+	margin-top: 40px !important;
+}
+
+.reservation-inner-tab.active {
+	display: block;
+}
+
+.reservation-inner-tab {
+	display: none;
+}
+
+.add-upload-pictures {
+	display: none;
+}
+
+.step {
+	margin-bottom: 60px !important;
+}
+
+#reservation-modal {
+
+	.modal-body {
+		padding-bottom: 68px !important;
+	}
+
+	.modal-content {
+		min-height: 300px !important;
+	}
+
+	.modal-footer {
+		bottom: 0px !important;
+		position: absolute !important;
+		width: 100% !important;
+	}
+
+	.start-time-container {
+		margin-bottom: 20px;
+	}
 }
 
 

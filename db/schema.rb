@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150624153520) do
+ActiveRecord::Schema.define(version: 20150702000518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,6 +125,8 @@ ActiveRecord::Schema.define(version: 20150624153520) do
     t.datetime "to_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.time     "start_time"
+    t.time     "end_time"
   end
 
   add_index "reservations", ["listing_id"], name: "index_reservations_on_listing_id", using: :btree
