@@ -540,8 +540,27 @@ $fifth-color: #FAFAFA;
 	.start-time-container {
 		margin-bottom: 20px;
 	}
+
+	.success-validation {
+		color: #00CC00 !important;
+	}
+
+	.warning-validation {
+		color: #CCCC00 !important;
+	}
+
+	.error-validation {
+		color: #FF6161 !important;
+	}
 }
 
+.ui-timepicker-wrapper {
+	z-index: 10000000 !important;
+}
+
+.small-disclaimer {
+	font-size: 10px !important;
+}
 
 
 

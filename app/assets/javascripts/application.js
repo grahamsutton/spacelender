@@ -24,7 +24,8 @@
 //= require owl.carousel
 //= require underscore
 //= require jquery.tooltipster.min.js
-//= require bootstrap-timepicker
+//= require jquery.timepicker.js
+//= require jquery.datepair.js
 //= require gmaps/google
 //= require summernote
 //= require turbolinks

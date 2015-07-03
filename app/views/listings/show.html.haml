@@ -96,21 +96,45 @@
           #reservation-step-2.reservation-inner-tab.row{ "data-modal-title" => "Select Date"}
             .col-md-12
               #hour.time-range-section
+                #hour-times.row
+                  .col-md-3
+                    = f.label :start_date
+                    %br
+                    = f.text_field :from_date, :id => "start-date", :class => "form-control date start"
+                  .col-md-3
+                    = f.label :start_time
+                    %br
+                    = f.text_field :start_time, :id => "start-time", :class => "form-control time start"
+                  .col-md-3
+                    = f.label :end_time
+                    %br
+                    = f.text_field :end_time, :id => "end-time", :class => "form-control time end"
+                  .col-md-3
+                    = f.label :end_date
+                    %br
+                    = f.text_field :to_date, :id => "end-date", :class => "form-control date end"
                 .row
-                  .col-md-6
-                    %h5
-                      Pick Day
-                    = f.text_field :to_date, :id => "hourly-rate-selection", :class => "form-control"
-                  .col-md-6
-                    %h5
-                      Pick Time
+                  #hour-times.validation-message.col-md-6
+                  #total-time.validation-message.col-md-6.text-right
                     .row
-                      .col-md-12.start-time-container
-                        = f.label :start_time
-                        = f.text_field :start_time, :id => "start-time", :class => "form-control"
-                      .col-md-12
-                        = f.label :end_time
-                        = f.text_field :end_time, :id => "end-time", :class => "form-control"
+                      .col-md-6
+                        %small
+                          Total Time:
+                      .col-md-6
+                        %span.total-time-amount
+                          0 hrs
+                    .row
+                      .col-md-6
+                        %small
+                          Est. Total*:
+                      .col-md-6
+                        %span.estimated-total-amount
+                          $0.00
+                  .row
+                    .col-md-12
+                      .col-md-6.col-md-offset-6.text-right
+                        %small.small-disclaimer
+                          * Does not include service fees.
           #reservation-step-3.reservation-inner-tab.row{ "data-modal-title" => "Payment Method"}
             .col-md-12
               Add Payment
@@ -152,19 +176,21 @@
 
     // Array of tabs for Book It modal
     var formSections = $(".reservation-inner-tab");
-
+    var timeRange = "";
 
     // Next Button clicked
     $(".next-btn").on("click", function(e) {
       e.preventDefault();
 
       if ($("#reservation-step-1").hasClass("active")) {
-        var timeRange = $(".rate-radio-btn:checked").data("time-range");
+        timeRange = $(".rate-radio-btn:checked").data("time-range");
         
         // Change from "Select Date" to "Select Time" if an hourly time range is selected
         if (timeRange === "hour") {
           $("#reservation-step-2").data("modal-title", "Select Date and Time");
+          spanMultipleDays = false;
         } else {
+          timeRange = "";
           $("#reservation-step-2").data("modal-title", "Select Date");
         }
       }
@@ -194,6 +220,10 @@
         $(".prev-btn-only").addClass("active");
       } else {
         $(".both-btns").addClass("active");
+      }
+
+      if ($("#reservation-step-2").hasClass("active")) {
+        $(".next-btn").attr("disabled", "disabled");
       }
     });
 
@@ -277,17 +307,22 @@
 
     ToEndDate.setDate(ToEndDate.getDate()+365);
 
-    $('#start-date').datepicker({
-        weekStart: 1,
-        startDate: getTodayAsMMDDYYYY(),
-        autoclose: true
-    }).on('changeDate', function(selected){
-        startDate = new Date(selected.date.valueOf());
-        startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
-        $('#end-date').datepicker('setStartDate', startDate);
-    }); 
-    
-    $('#end-date').datepicker({
+    // $('#stat-date').datepicker({
+    //     weekStart: 1,
+    //     startDate: getTodayAsMMDDYYYY(),
+    //     autoclose: true
+    // }).on('changeDate', function(selected){
+    //     startDate = new Date(selected.date.valueOf());
+    //     startDate.setDate(startDate.getDate(new Date(selected.date./valueOf())));
+    //     $('#end-date').datepicker('setStartDate', startDate);
+
+    //     if (timeRange === "hour") {
+    //       $("#end-date").datepicker('setEndDate', startDate);
+    //       $("#end-date").val($.datepicker.formatDate('mm/dd/yy', startDate));
+    //     }
+    // });
+
+    $('#nd-date').datepicker({
         weekStart: 1,
         startDate: startDate,
         endDate: ToEndDate,
@@ -295,22 +330,142 @@
     }).on('changeDate', function(selected){
         FromEndDate = new Date(selected.date.valueOf());
         FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
-        $('#start-date').datepicker('setEndDate', FromEndDate);
+        // $('#start-date').datepicker('setStartDate', FromEndDate);
     });
 
 
 
-    // Hourly time and date selection for Book it!
-    $('#hourly-rate-selection').datepicker({
-        startDate: getTodayAsMMDDYYYY(),
-        endDate: "#{@listing.periods.first.end}"
+
+
+
+
+
+    
+    Date.prototype.addHours = function(h) {
+      this.setHours(this.getHours() + h);
+      return this;
+    }
+
+    // Calculate minimum time
+    var coeff = Math.ceil(1000 * 60) * 30;
+    var date = new Date();
+    var rounded = new Date(Math.round(date.getTime() / coeff) * coeff);
+    // Create Datepair object
+    var hourTimes = document.getElementById('hour-times');
+    var hourTimesDatepair = new Datepair(hourTimes);
+
+
+
+    // Initialize "Start Time" picker
+    $('#start-time').timepicker({
+        minTime: rounded.addHours(0.5),
+        'timeFormat': 'g:ia',
+        disableTextInput: true
+    }).on("selectTime", function() {
+        var startTime = $("#start-time").timepicker('getTime');
+        console.log(startTime);
+
+        // Initialize "End Time" after a Start Time has been set
+        $("#end-time").timepicker({ 
+          minTime: rounded.addHours(2),
+          'showDuration': true,
+          'timeFormat': 'g:ia',
+          disableTextInput: true
+        });
     });
 
 
-    // Timepickers
-    $("#start-time").timepicker({
-
+    // Initialize datepickers
+    $('#hour-times .date').datepicker({
+        'format': 'mm/dd/yyyy',
+        'autoclose': true,
+        'startDate': getTodayAsMMDDYYYY()
+    }).on("changeDate", function(selected) {
+        var selectedDate = new Date(selected.date);
+        var incrementedEndDate = selectedDate.setDate(getDate() + 1);
+        $('#end-date').datepicker('setStartDate', selected.date);
+        $('#end-date').datepicker('setEndDate', incrementedEndDate.);
     });
 
-    $("#end-time").timepicker();
+
+    // Datepair handlers (date range validation)
+    $('#hour-times').on('rangeSelected', function(){
+        // Success message
+        $('#hour-times.validation-message').html('<span class="success-validation"><i class="fa fa-check-circle fa-lg fa-fw"></i> Valid range selected</span>');
+
+        // Get rates
+        var rates = #{@listing.rates.to_json};
+        var hourlyRate;
+
+        // Get hourly rate
+        for (var i = 0; i < rates.length; i++) {
+          if (rates[i].date_range === "per hour") {
+            hourlyRate = rates[i].amount;
+          }
+        }
+
+        // Enable "Next" button when range is valid
+        $(".next-btn").removeAttr("disabled");
+
+        var timeDifference = parseRange($("#start-time").val(), $("#end-time").val());
+
+        // Append TOTAL TIME
+        if (timeDifference === 1) {
+          // Singular of "hours" => "hour"
+          $(".total-time-amount").text(timeDifference + " hr");
+        } else {
+          // Plural of "hours"
+          $(".total-time-amount").text(timeDifference + " hrs");
+        }
+
+        // Append EST. TOTAL
+        $(".estimated-total-amount").text("$" + (hourlyRate * timeDifference) + ".00");
+
+
+    }).on('rangeIncomplete', function(){
+        // Warning message
+        $('#hour-times.validation-message').html('<span class="warning-validation"><i class="fa fa-exclamation-circle fa-lg fa-fw"></i> Incomplete range</span>');
+
+        // Disable Next button if range is incomplete
+        if ($("#reservation-step-2").hasClass("active")) {
+          $(".next-btn").attr("disabled", "disabled");
+        }
+
+        clearSubtotals();
+
+
+    }).on('rangeError', function(){
+        // Error message
+        $('#hour-times.validation-message').html('<span class="error-validation"><i class="fa fa-exclamation-circle fa-lg fa-fw"></i> Invalid range</span>');
+
+        // Disable Next button if range is invalid
+        if ($("#reservation-step-2").hasClass("active")) {
+          $(".next-btn").attr("disabled", "disabled");
+        }
+
+        clearSubtotals();
+    });
+
+    function clearSubtotals() {
+      $(".total-time-amount").text("");
+      $(".estimated-total-amount").text("");
+    }
+
+
+
+
+
+    function parseRange(startingTime, endingTime) {
+      var minutes = parseTime(endingTime) - parseTime(startingTime);
+      var hours = minutes / 60;
+      return hours;
+    }
+
+
+    function parseTime(time) {
+      var timeSplit = time.replace("am", "").replace("pm", "");
+      timeSplit = timeSplit.split(":");
+      return parseInt(timeSplit[0]) * 60 + parseInt(timeSplit[1]);
+    }
+
   });
