@@ -5,7 +5,7 @@
 $primary-color: #334466;
 $secondary-color: #999999;
 $third-color: #ffcc88;
-$fourth-color: #eeeecc;
+$fourth-color: #CDDEEE;
 $fifth-color: #FAFAFA;
 
 // $primary-color: #554422;
@@ -27,6 +27,10 @@ h6 {
 	color: $primary-color !important;
 }
 
+hr {
+	border-top: 1px solid $third-color !important;
+}
+
 input[type="text"],
 input[type="password"],
 select,
@@ -36,6 +40,25 @@ textarea {
 
 .panel.panel-default {
 	border: 1px solid $primary-color !important;
+
+	.panel-footer {
+		background-color: $fifth-color !important;
+	}
+}
+
+.modal-footer {
+	a.btn-primary-submit,
+	.btn-primary-submit {
+		background: $primary-color !important;
+		border: 1px solid #EEE;
+		box-shadow: none !important;
+		color: $fifth-color !important;
+		border-radius: 0px !important;
+	}
+}
+
+.alert.alert-danger {
+	background-color: #B33600 !important;
 }
 
 

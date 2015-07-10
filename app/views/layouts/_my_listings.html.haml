@@ -1,20 +1,75 @@
 .panel.panel-default
   .panel-body
     - if flash[:notice]
-      .alert.alert-success
+      .alert.alert-success.alert-dismissible
+        = button_tag :type => "button", :class => "close", "data-dismiss" => "alert", "aria-label" => "Close" do
+          %span{ "aria-hidden" => true }
+            &times;
         = flash[:notice]
+    - elsif flash[:danger]
+      .alert.alert-danger.alert-dismissible
+        = button_tag :type => "button", :class => "close", "data-dismiss" => "alert", "aria-label" => "Close" do
+          %span{ "aria-hidden" => true }
+            &times;
+        = flash[:danger]
+    - elsif flash[:message]
+      / NEUTRAL alert
+      .alert.alert-warning.alert-dismissible
+        = button_tag :type => "button", :class => "close", "data-dismiss" => "alert", "aria-label" => "Close" do
+          %span{ "aria-hidden" => true }
+            &times;
+        = flash[:message]
+    
     %strong
-      = pluralize(@current_user.listings.count, "listing")
+      = pluralize(@activeListings.count, "listing")
     active.
-  %table.table.table-striped
-    - @current_user.listings.each do |listing|
-      %tr
-        %td
-          = link_to listing.name, listing_path(listing)
-        %td
-          = listing.location.full_street_address
-        %td
-          = link_to "Edit", edit_listing_path(listing)
+    = " | "
+    %strong
+      = pluralize(@inactiveListings.count, "listing")
+    inactive.
+  - if @activeListings.count > 0
+    %table.table.table-striped
+      %caption
+        Active
+      - @activeListings.each do |listing|
+        %tr
+          %td
+            = link_to listing.name, listing_path(listing)
+          %td
+            = listing.location.full_street_address
+          %td
+            = link_to "Edit", edit_listing_path(listing)
+          - if listing.active?
+            %td
+              = link_to "Deactivate", deactivate_listing_path(listing), :method => :post
+          - else
+            %td
+              = link_to "Reactivate", reactivate_listing_path(listing), :method => :post
+            %td
+              = link_to listing_path(listing), :method => :delete do
+                %i.fa.fa-remove.fa-lg.fa-fw
+    %br
+  - if @inactiveListings.count > 0
+    %table.table.table-striped
+      %caption
+        Inactive
+      - @inactiveListings.each do |listing|
+        %tr
+          %td
+            = link_to listing.name, listing_path(listing)
+          %td
+            = listing.location.full_street_address
+          %td
+            = link_to "Edit", edit_listing_path(listing)
+          - if listing.active?
+            %td
+              = link_to "Deactivate", deactivate_listing_path(listing), :method => :post
+          - else
+            %td
+              = link_to "Reactivate", reactivate_listing_path(listing), :method => :post
+            %td
+              = link_to listing_path(listing), :method => :delete do
+                %i.fa.fa-remove.fa-lg.fa-fw
   %br
     .row
       .col-md-12.text-center

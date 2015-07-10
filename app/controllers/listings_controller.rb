@@ -13,7 +13,13 @@ class ListingsController < ApplicationController
     @listing.pictures.build
 
     @listings = @current_user.listings
+
+    # Get Active and Inactive listings
+    @activeListings = @listings.where(:active => true)
+    @inactiveListings = @listings.where(:active => false)
   end
+
+
 
   # Display Listing form
   def edit
@@ -21,10 +27,12 @@ class ListingsController < ApplicationController
     @coordinate = [{ :lat => @listing.location.latitude, :lng => @listing.location.longitude }]
     @coordinate = @coordinate.to_json
   end
+
+
   
   # Process to create the Listing
   def create
-      @listing = @current_user.listings.build(listing_params)
+      @listing = @current_user.listings.find_or_initialize(listing_params)
 
       # If images selected, upload them to DB and S3
       if params[:image]
@@ -35,7 +43,7 @@ class ListingsController < ApplicationController
 
       # Save the listing
       if @listing.save
-        flash[:notice] = "Your listing #{@listing.name} was added successfully."
+        flash[:notice] = "Your listing \"#{@listing.name}\" was added successfully."
         if params[:image]
            render json: { message: "success" }, :status => 200
         else
@@ -48,15 +56,22 @@ class ListingsController < ApplicationController
       end
   end
 
+
+
   # Show a single Listing
   def show
     @listing = Listing.find(params[:id])
-    @payment = Payment.new
-    @reservation = Reservation.new
+
+    # Build Reservation's sub-attributes
+    @reservation = @listing.reservations.build
+    @reservation.build_rate
+    @reservation.build_period
+
     @coordinate = [{ :lat => @listing.location.latitude, :lng => @listing.location.longitude }]
     @coordinate = @coordinate.to_json
-    
   end
+
+
 
   # Update a Listing
   def update
@@ -82,10 +97,18 @@ class ListingsController < ApplicationController
       end
   end
 
+
+
   # Delete a Listing
   def destroy
-
+    @listing = Listing.find(params[:id])
+    if @listing.destroy
+      flash[:danger] = "The listing \"#{@listing.name}\" was deleted."
+      redirect_to "/listings?q=ml"
+    end
   end
+
+
   
   def findnearme
       Geocoder.configure(:timeout => 40)
@@ -109,6 +132,8 @@ class ListingsController < ApplicationController
       # Get coordinates in json format
       @coordinates = @coordinates.to_json
   end
+
+
   
   # search method
   def search
@@ -135,12 +160,44 @@ class ListingsController < ApplicationController
       respond_with(@results)
   end
 
+
+
+  # Deactivates a listing
+  def deactivate
+    @listing = Listing.find(params[:id])
+
+    if @listing.update_column(:active, false)
+      flash[:message] = "\"#{@listing.name}\" was deactivated."
+      redirect_to "/listings?q=ml"
+    else
+      flash[:danger] = "\"#{@listing.name}\" could not be deactivated. Please contact us at support@spacelender.com if this problem keeps happening."
+    end
+  end
+
+
+
+  # Reactivates a listing
+  def reactivate
+    @listing = Listing.find(params[:id])
+
+    if @listing.update_column(:active, true)
+      flash[:notice] = "\"#{@listing.name}\" was reactivated."
+      redirect_to "/listings?q=ml"
+    else
+      flash[:danger] = "\"#{@listing.name}\" could not be reactivated. Please contact us at support@spacelender.com if this problem keeps happening."
+    end
+  end
+
+
+
   def filter_search
       
   end
+
+  
   
   private
   def listing_params
-    params.require(:listing).permit(:name, :description, location_attributes: [:street_address, :city, :state, :zip, :country], periods_attributes: [:start, :end], rates_attributes: [:amount, :date_range], pictures_attributes: [:image])
+    params.require(:listing).permit(:name, :description, location_attributes: [:street_address, :city, :state, :zip, :country], periods_attributes: [:start, :end], rates_attributes: [:amount, :date_range], pictures_attributes: [:image], reservations_attributes: [period_attributes: [:start_date, :end_date, :start_time, :end_time]])
   end
 end

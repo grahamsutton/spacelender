@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150702000518) do
+ActiveRecord::Schema.define(version: 20150709165336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,29 +70,16 @@ ActiveRecord::Schema.define(version: 20150702000518) do
 
   add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
 
-  create_table "payments", force: :cascade do |t|
-    t.integer  "reservation_id"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "card_type"
-    t.integer  "card_number"
-    t.integer  "card_verification"
-    t.date     "card_expires_on"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-  end
-
-  add_index "payments", ["reservation_id"], name: "index_payments_on_reservation_id", using: :btree
-
   create_table "periods", force: :cascade do |t|
-    t.integer  "listing_id"
-    t.date     "start"
-    t.date     "end"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer "periodic_id"
+    t.string  "periodic_type"
+    t.date    "start"
+    t.date    "end"
+    t.time    "start_time"
+    t.time    "end_time"
   end
 
-  add_index "periods", ["listing_id"], name: "index_periods_on_listing_id", using: :btree
+  add_index "periods", ["periodic_type", "periodic_id"], name: "index_periods_on_periodic_type_and_periodic_id", using: :btree
 
   create_table "pictures", force: :cascade do |t|
     t.string   "caption"
@@ -108,15 +95,15 @@ ActiveRecord::Schema.define(version: 20150702000518) do
   add_index "pictures", ["listing_id"], name: "index_pictures_on_listing_id", using: :btree
 
   create_table "rates", force: :cascade do |t|
-    t.integer  "listing_id"
+    t.integer  "rateable_id"
+    t.string   "rateable_type"
     t.float    "amount"
-    t.string   "date_range"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.string   "currency_type"
+    t.integer  "date_range"
   end
 
-  add_index "rates", ["listing_id"], name: "index_rates_on_listing_id", using: :btree
+  add_index "rates", ["rateable_type", "rateable_id"], name: "index_rates_on_rateable_type_and_rateable_id", using: :btree
 
   create_table "reservations", force: :cascade do |t|
     t.integer  "listing_id"
@@ -147,9 +134,6 @@ ActiveRecord::Schema.define(version: 20150702000518) do
   add_foreign_key "listings", "users"
   add_foreign_key "locations", "listings"
   add_foreign_key "messages", "users"
-  add_foreign_key "payments", "reservations"
-  add_foreign_key "periods", "listings"
   add_foreign_key "pictures", "listings"
-  add_foreign_key "rates", "listings"
   add_foreign_key "reservations", "listings"
 end

@@ -1,3 +1,4 @@
+= flash[:notice]
 #carousel-container.row.fight-navbar-margin
   .col-md-12
     #listing-slideshow.carousel.slide{"data-ride" => "carousel"}
@@ -85,62 +86,57 @@
         / The modal title will change dynamically, so we can statically set the first tab's title for initial page load
         %h4.modal-title.reservation-modal-title Select Rate
       .modal-body
-        = form_for @reservation do |f|
-          #reservation-step-1.reservation-inner-tab.active.row{ "data-modal-title" => "Select Rate"}
-            .col-md-12
-              - if @listing.rates
-                - @listing.rates.each do |rate|
-                  = f.radio_button :rate, "#{number_to_currency(rate.amount)} #{rate.date_range}", :class => "rate-radio-btn", "data-time-range" => "#{base_time(rate.date_range)}",:checked => true
-                  = f.label :rate, "#{number_to_currency(rate.amount)} #{rate.date_range}", :value => "#{number_to_currency(rate.amount)} #{rate.date_range}"
-                  %br
-          #reservation-step-2.reservation-inner-tab.row{ "data-modal-title" => "Select Date"}
-            .col-md-12
-              #hour.time-range-section
-                #hour-times.row
-                  .col-md-3
-                    = f.label :start_date
-                    %br
-                    = f.text_field :from_date, :id => "start-date", :class => "form-control date start"
-                  .col-md-3
-                    = f.label :start_time
-                    %br
-                    = f.text_field :start_time, :id => "start-time", :class => "form-control time start"
-                  .col-md-3
-                    = f.label :end_time
-                    %br
-                    = f.text_field :end_time, :id => "end-time", :class => "form-control time end"
-                  .col-md-3
-                    = f.label :end_date
-                    %br
-                    = f.text_field :to_date, :id => "end-date", :class => "form-control date end"
-                .row
-                  #hour-times.validation-message.col-md-6
-                  #total-time.validation-message.col-md-6.text-right
-                    .row
+
+        / BOOK IT Form
+        = form_for @listing do |ff|
+          = ff.fields_for :reservation do |f|
+            #reservation-step-1.reservation-inner-tab.active.row{ "data-modal-title" => "Select Rate"}
+              .col-md-12
+                = f.fields_for :rate do |r|
+                  - if @listing.rates
+                    - @listing.rates.each do |rate|
+                      = r.radio_button :rate, "#{number_to_currency(rate.amount)} #{rate.date_range}", :class => "rate-radio-btn", "data-time-range" => "#{rate.date_range}", :value => "#{rate.id}",:checked => true
+                      = r.label :rate, "#{number_to_currency(rate.amount)} #{rate.date_range}", :value => "#{number_to_currency(rate.amount)} #{rate.date_range}"
+                      %br
+            #reservation-step-2.reservation-inner-tab.row{ "data-modal-title" => "Select Date"}
+              .col-md-12
+                #hour.time-range-section
+                  #hour-times.row
+                    = fields_for :period do |p|
                       .col-md-6
-                        %small
-                          Total Time:
+                        = p.label :start
+                        = p.text_field :start, :id => "start", :class => "form-control"
                       .col-md-6
-                        %span.total-time-amount
-                          0 hrs
-                    .row
-                      .col-md-6
-                        %small
-                          Est. Total*:
-                      .col-md-6
-                        %span.estimated-total-amount
-                          $0.00
+                        = p.label :end
+                        = p.text_field :end, :id => "end", :class => "form-control"
                   .row
-                    .col-md-12
-                      .col-md-6.col-md-offset-6.text-right
-                        %small.small-disclaimer
-                          * Does not include service fees.
-          #reservation-step-3.reservation-inner-tab.row{ "data-modal-title" => "Payment Method"}
-            .col-md-12
-              Add Payment
-          #reservation-step-4.reservation-inner-tab.row{ "data-modal-title" => "Review"}
-            .col-md-12
-              Review and Book
+                    #hour-times.validation-message.col-md-6
+                    #total-time.validation-message.col-md-6.text-right
+                      .row
+                        .col-md-6
+                          %small
+                            Total Time:
+                        .col-md-6
+                          %span.total-time-amount
+                            0 hrs
+                      .row
+                        .col-md-6
+                          %small
+                            Est. Total*:
+                        .col-md-6
+                          %span.estimated-total-amount
+                            $0.00
+                    .row
+                      .col-md-12
+                        .col-md-6.col-md-offset-6.text-right
+                          %small.small-disclaimer
+                            * Does not include service fees.
+            #reservation-step-3.reservation-inner-tab.row{ "data-modal-title" => "Payment Method"}
+              .col-md-12
+                Payment
+            #reservation-step-4.reservation-inner-tab.row{ "data-modal-title" => "Review"}
+              .col-md-12
+                Review and Book
       .modal-footer
         / Next Button only (First Tab)
         .row.next-btn-only.next-prev-btns.active
@@ -159,7 +155,7 @@
           .col-md-6.text-left
             = render 'layouts/prev_btn'
           .col-md-6.text-right
-            
+            = button_tag "Place Order", :id => "place-order", :class => "btn btn-primary btn-primary-submit form-control"
     
 
 
@@ -186,7 +182,7 @@
         timeRange = $(".rate-radio-btn:checked").data("time-range");
         
         // Change from "Select Date" to "Select Time" if an hourly time range is selected
-        if (timeRange === "hour") {
+        if (timeRange === "hourly") {
           $("#reservation-step-2").data("modal-title", "Select Date and Time");
           spanMultipleDays = false;
         } else {
@@ -262,6 +258,58 @@
     });
 
     
+    var totalHours;
+
+    // DateTime pickers for Start and End dates
+    $("#start").datetimepicker({
+      minDate: new Date(),
+      sideBySide: true,
+      stepping: 15
+    }).on("dp.change", function(e) {
+      var selectedDate = e.date;
+      $("#end").data("DateTimePicker").minDate(selectedDate);
+      //$("#end").data("DateTimePicker").maxDate(selectedDate.add('days', 1));
+    });
+
+    $("#end").datetimepicker({
+      sideBySide: true,
+      stepping: 15
+    }).on("dp.change", function(e) {
+      var selectedDate = e.date;
+      $("#start").data("DateTimePicker").maxDate(selectedDate);
+
+
+      totalHours = getTotalHours($("#start").val(), $("#end").val());
+      $(".total-time-amount").html(totalHours + " hrs");
+
+      var estimatedTotal = totalHours * #{@listing.rates.hourly.first.amount};
+      $(".estimated-total-amount").html("$" + estimatedTotal + ".00");
+
+      console.log(estimatedTotal + " " + totalHours);
+    });
+
+    function getTotalHours(startTime, endTime) {
+      return moment.utc(moment(endTime, "MM/DD/YYYY HH:mm A").diff(moment(startTime, "MM/DD/YYYY HH:mm A"))).format("H");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -295,42 +343,8 @@
       }
     }
 
-
-    /* 
-     * Credit to: user2586273 from StackOverflow for this bit of code, which is found here:
-     * http://stackoverflow.com/questions/11933173/how-to-restrict-the-selectable-date-ranges-in-bootstrap-datepicker
-     * Thanks, bro.
-     */
-    var startDate = new Date('01/01/2012');
-    var FromEndDate = new Date();
-    var ToEndDate = new Date();
-
-    ToEndDate.setDate(ToEndDate.getDate()+365);
-
-    // $('#stat-date').datepicker({
-    //     weekStart: 1,
-    //     startDate: getTodayAsMMDDYYYY(),
-    //     autoclose: true
-    // }).on('changeDate', function(selected){
-    //     startDate = new Date(selected.date.valueOf());
-    //     startDate.setDate(startDate.getDate(new Date(selected.date./valueOf())));
-    //     $('#end-date').datepicker('setStartDate', startDate);
-
-    //     if (timeRange === "hour") {
-    //       $("#end-date").datepicker('setEndDate', startDate);
-    //       $("#end-date").val($.datepicker.formatDate('mm/dd/yy', startDate));
-    //     }
-    // });
-
-    $('#nd-date').datepicker({
-        weekStart: 1,
-        startDate: startDate,
-        endDate: ToEndDate,
-        autoclose: true
-    }).on('changeDate', function(selected){
-        FromEndDate = new Date(selected.date.valueOf());
-        FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
-        // $('#start-date').datepicker('setStartDate', FromEndDate);
+    $("#place-order").on("click", function() {
+      $(".edit_listing").submit();
     });
 
 
@@ -347,32 +361,13 @@
     }
 
     // Calculate minimum time
-    var coeff = Math.ceil(1000 * 60) * 30;
+    var coeff = Math.floor(1000 * 60) * 30;
     var date = new Date();
     var rounded = new Date(Math.round(date.getTime() / coeff) * coeff);
     // Create Datepair object
     var hourTimes = document.getElementById('hour-times');
     var hourTimesDatepair = new Datepair(hourTimes);
 
-
-
-    // Initialize "Start Time" picker
-    $('#start-time').timepicker({
-        minTime: rounded.addHours(0.5),
-        'timeFormat': 'g:ia',
-        disableTextInput: true
-    }).on("selectTime", function() {
-        var startTime = $("#start-time").timepicker('getTime');
-        console.log(startTime);
-
-        // Initialize "End Time" after a Start Time has been set
-        $("#end-time").timepicker({ 
-          minTime: rounded.addHours(2),
-          'showDuration': true,
-          'timeFormat': 'g:ia',
-          disableTextInput: true
-        });
-    });
 
 
     // Initialize datepickers
@@ -382,69 +377,10 @@
         'startDate': getTodayAsMMDDYYYY()
     }).on("changeDate", function(selected) {
         var selectedDate = new Date(selected.date);
-        var incrementedEndDate = selectedDate.setDate(getDate() + 1);
         $('#end-date').datepicker('setStartDate', selected.date);
-        $('#end-date').datepicker('setEndDate', incrementedEndDate.);
+        $('#end-date').datepicker('setEndDate', selected.date);
     });
 
-
-    // Datepair handlers (date range validation)
-    $('#hour-times').on('rangeSelected', function(){
-        // Success message
-        $('#hour-times.validation-message').html('<span class="success-validation"><i class="fa fa-check-circle fa-lg fa-fw"></i> Valid range selected</span>');
-
-        // Get rates
-        var rates = #{@listing.rates.to_json};
-        var hourlyRate;
-
-        // Get hourly rate
-        for (var i = 0; i < rates.length; i++) {
-          if (rates[i].date_range === "per hour") {
-            hourlyRate = rates[i].amount;
-          }
-        }
-
-        // Enable "Next" button when range is valid
-        $(".next-btn").removeAttr("disabled");
-
-        var timeDifference = parseRange($("#start-time").val(), $("#end-time").val());
-
-        // Append TOTAL TIME
-        if (timeDifference === 1) {
-          // Singular of "hours" => "hour"
-          $(".total-time-amount").text(timeDifference + " hr");
-        } else {
-          // Plural of "hours"
-          $(".total-time-amount").text(timeDifference + " hrs");
-        }
-
-        // Append EST. TOTAL
-        $(".estimated-total-amount").text("$" + (hourlyRate * timeDifference) + ".00");
-
-
-    }).on('rangeIncomplete', function(){
-        // Warning message
-        $('#hour-times.validation-message').html('<span class="warning-validation"><i class="fa fa-exclamation-circle fa-lg fa-fw"></i> Incomplete range</span>');
-
-        // Disable Next button if range is incomplete
-        if ($("#reservation-step-2").hasClass("active")) {
-          $(".next-btn").attr("disabled", "disabled");
-        }
-
-        clearSubtotals();
-
-
-    }).on('rangeError', function(){
-        // Error message
-        $('#hour-times.validation-message').html('<span class="error-validation"><i class="fa fa-exclamation-circle fa-lg fa-fw"></i> Invalid range</span>');
-
-        // Disable Next button if range is invalid
-        if ($("#reservation-step-2").hasClass("active")) {
-          $(".next-btn").attr("disabled", "disabled");
-        }
-
-        clearSubtotals();
-    });
 
     function clearSubtotals() {
       $(".total-time-amount").text("");

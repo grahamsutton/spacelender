@@ -258,6 +258,10 @@ $fifth-color: #FAFAFA;
 
 .next-prev-btns.active {
 	display: block;
+
+	button {
+		background-color: $fifth-color !important;
+	}
 }
 
 .datepicker {
@@ -286,6 +290,7 @@ $fifth-color: #FAFAFA;
 .dropzone {
 	padding: 0px !important;
 	background: #FFF !important;
+	border: none !important;
 }
 
 .dropzone-area {
@@ -554,12 +559,36 @@ $fifth-color: #FAFAFA;
 	}
 }
 
+.ui-timepicker-with-duration {
+	.ui-timepicker-list {
+		li:first-child {
+			display: none;
+		}
+	}
+}
+
 .ui-timepicker-wrapper {
 	z-index: 10000000 !important;
 }
 
 .small-disclaimer {
 	font-size: 10px !important;
+}
+
+#reservation_card_card_expires_on_1i,
+#reservation_card_card_expires_on_2i {
+	width: auto !important;
+	display: inline !important;
+}
+
+.timepicker-picker {
+	.btn {
+		box-shadow: none !important;
+
+		.glyphicon {
+			color: $primary-color !important;
+		}
+	}
 }
 
 

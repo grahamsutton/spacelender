@@ -5,11 +5,14 @@ class Listing < ActiveRecord::Base
   belongs_to :user
   
   has_one :location, :dependent => :destroy
-  has_many :rates, :dependent => :destroy
+  has_many :rates, :as => :rateable, :dependent => :destroy
   has_many :pictures, :dependent => :destroy
-  has_many :periods, :dependent => :destroy
+  has_many :periods, :as => :periodic, :dependent => :destroy
+  has_many :reservations, :dependent => :destroy
 
-  accepts_nested_attributes_for :location, :periods, :rates, :pictures
+  accepts_nested_attributes_for :location, :periods, :pictures
+  accepts_nested_attributes_for :rates,
+                                :reject_if => proc { |attributes| attributes['amount'].blank? }
   
   # Search method
   def self.search(search)

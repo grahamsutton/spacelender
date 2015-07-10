@@ -26,6 +26,8 @@
 //= require jquery.tooltipster.min.js
 //= require jquery.timepicker.js
 //= require jquery.datepair.js
+//= require jquery.validate
+//= require jquery.validate.additional-methods
 //= require gmaps/google
 //= require summernote
 //= require turbolinks
