@@ -113,26 +113,26 @@
                 = f.fields_for :rates, @listing.rates.build do |r|
                   .row.rate-form
                     .col-md-6
-                      = r.text_field :amount, :class => "form-control", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}
+                      = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}
                     .col-md-6
                       = r.text_field :date_range, :class => "form-control", :value => "hourly", :readonly => "readonly"
                 = f.fields_for :rates, @listing.rates.build do |r|
                   .row.rate-form
                     .col-md-6
-                      = r.text_field :amount, :class => "form-control", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}
+                      = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}
                     .col-md-6
                       = r.text_field :date_range, :class => "form-control", :value => "daily", :readonly => "readonly"
                 / Show at least one "Rates" form
                 = f.fields_for :rates, @listing.rates.build do |r|
                   .row.rate-form
                     .col-md-6
-                      = r.text_field :amount, :class => "form-control", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}
+                      = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}
                     .col-md-6
                       = r.text_field :date_range, :class => "form-control", :value => "weekly", :readonly => "readonly"
                 = f.fields_for :rates, @listing.rates.build do |r|
                   .row.rate-form
                     .col-md-6
-                      = r.text_field :amount, :class => "form-control", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}
+                      = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}
                     .col-md-6
                       = r.text_field :date_range, :class => "form-control", :value => "monthly", :readonly => "readonly"
                   
@@ -248,6 +248,8 @@
         });
       }
     });
+
+    $(".autonumeric-amount").autoNumeric();
 
 
 

@@ -1,6 +1,6 @@
 class ListingsController < ApplicationController
   before_filter :current_user
-  before_filter :require_login, :except => [:show, :search]
+  before_filter :require_login, :except => [:show, :search, :update, :edit]
 
   respond_to :html, :xml, :json
 
@@ -32,7 +32,7 @@ class ListingsController < ApplicationController
   
   # Process to create the Listing
   def create
-      @listing = @current_user.listings.find_or_initialize(listing_params)
+      @listing = @current_user.listings.build(listing_params)
 
       # If images selected, upload them to DB and S3
       if params[:image]
@@ -106,6 +106,23 @@ class ListingsController < ApplicationController
       flash[:danger] = "The listing \"#{@listing.name}\" was deleted."
       redirect_to "/listings?q=ml"
     end
+  end
+
+
+  def reserve
+      @listing = Listing.find(params[:id])
+
+      # Set the selected Rate
+      listings_params[:reservations][:amount] = @listing.rates.hourly.first.amount
+      listings_params[:reservations][:date_range] = @listing.rates.hourly.first.date_range
+
+      @reservation = @listing.reservations.build(listing_params)
+
+      if @reservation.save
+        # TODO : FINISH THIS SHIT.
+      else
+
+      end
   end
 
 
@@ -198,6 +215,6 @@ class ListingsController < ApplicationController
   
   private
   def listing_params
-    params.require(:listing).permit(:name, :description, location_attributes: [:street_address, :city, :state, :zip, :country], periods_attributes: [:start, :end], rates_attributes: [:amount, :date_range], pictures_attributes: [:image], reservations_attributes: [period_attributes: [:start_date, :end_date, :start_time, :end_time]])
+    params.require(:listing).permit(:name, :description, location_attributes: [:street_address, :city, :state, :zip, :country], periods_attributes: [:start, :end], rates_attributes: [:amount, :date_range], pictures_attributes: [:image], reservations_attributes: [rate_attributes: [:amount, :date_range], period_attributes: [:start, :end]])
   end
 end

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'listings/filter_search' => 'listings#filter_search'
   post 'listings/:id/deactivating' => 'listings#deactivate', :as => :deactivate_listing
   post 'listings/:id/reactivating' => 'listings#reactivate', :as => :reactivate_listing
+  put 'listings/:id/reserve' => 'listings#reserve', :as => :reserve_listing
   
   resources :listings
   resources :messages
