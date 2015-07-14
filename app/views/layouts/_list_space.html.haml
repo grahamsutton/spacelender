@@ -88,10 +88,12 @@
                   Specific Dates
                 #specific_dates.date-selection-area
                   = f.fields_for :periods do |d|
-                    #datepicker.input-daterange.input-group
-                      = d.text_field :start, :id => "start-date", :class => "input-sm form-control", :contenteditable => false
-                      %span.input-group-addon to
-                      = d.text_field :end, :id => "end-date", :class => "input-sm form-control", :contenteditable => false
+                    #datepicker
+                      .row
+                        .col-md-6
+                          = d.datetime_select :start
+                        .col-md-6
+                          = d.datetime_select :end
 
 
 
