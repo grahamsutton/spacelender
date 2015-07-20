@@ -91,9 +91,9 @@
                     #datepicker
                       .row
                         .col-md-6
-                          = d.datetime_select :start
+                          = d.text_field :start, :id => "start-date", :class => "form-control", :placeholder => "Start"
                         .col-md-6
-                          = d.datetime_select :end
+                          = d.text_field :end, :id => "end-date", :class => "form-control", :placeholder => "End"
 
 
 

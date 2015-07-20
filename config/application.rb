@@ -25,5 +25,7 @@ module Spacemaker
 
     # For custom validations, so you can use syntax like "validates :some_field, :my_custom_validator: true"
     config.autoload_paths += %W["#{config.root}/app/validators/"]
+
+    config.stripe.publishable_key = 'pk_test_uBxr1leBtJ52vOzNYKH458LL'
   end
 end

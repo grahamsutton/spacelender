@@ -79,7 +79,7 @@ $fifth-color: #FAFAFA;
 
     a {
     	font-size: 1em !important;
-    	color: $primary-color !important;
+    	color: $primary-color;
     }
 }
 
@@ -157,24 +157,28 @@ $fifth-color: #FAFAFA;
 	right: 100%;
 }
 
+#main-dashboard > .panel:after {
+	top: 15px;
+}
+
 #list-space > .panel:after {
-	top: 25px;
+	top: 120px;
 }
 
 #listings > .panel:after {
-	top: 80px;
+	top: 65px;
 }
 
 #reservations > .panel:after {
-	top: 130px;
-}
-
-#payments > .panel:after {
 	top: 175px;
 }
 
+#payments > .panel:after {
+	top: 165px;
+}
+
 #reviews > .panel:after {
-	top: 235px;
+	top: 225px;
 }
 
 #carousel-container {
@@ -591,15 +595,30 @@ $fifth-color: #FAFAFA;
 	}
 }
 
-.rate-radio-collection {
+.rate-radio-btn {
+	display: inline-block !important;
+}
 
-	input {
-		display: block;
-	}
+.add-more-photos-box {
+	display: none;
+}
 
-	label {
-		display: inline;
+.edit-picture {
+	position: relative;
+
+	.delete-image-checkbox {
+		position: absolute;
+		top: 0 !important;
+		right: 0 !important;
 	}
+}
+
+.nav-link-active {
+	border-bottom: 2px solid $primary-color !important;
+}
+
+.list-group-item.actively {
+	border-left: 2px solid $primary-color !important;
 }
 
 

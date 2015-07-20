@@ -20,7 +20,7 @@
           %li
             = link_to listings_path, :id => "list-space-nav-btn" do
               List A Space
-          %li
+          %li{:class => ("nav-link-active" unless !current_page?(listings_path))}
             = link_to "Dashboard", listings_path
           %li
             = link_to messages_path do

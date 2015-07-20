@@ -80,87 +80,94 @@
 #reservation-modal.modal.fade
   .modal-dialog
     .modal-content
-      .modal-header
-        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-          %span{"aria-hidden" => "true"} &times;
-        / The modal title will change dynamically, so we can statically set the first tab's title for initial page load
-        %h4.modal-title.reservation-modal-title Select Rate
-      .modal-body
+      = form_for [@listing, @reservation], :html => { :id => "new-reservation-form" } do |f|
+        .modal-header
+          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} &times;
+          / The modal title will change dynamically, so we can statically set the first tab's title for initial page load
+          %h4.modal-title.reservation-modal-title Select Rate
+        .modal-body
 
-        / BOOK IT Form
-        = form_for @listing, :url => { :controller => "listings", :action => "reserve"} do |ff|
-          = ff.fields_for :reservation do |f|
-            #reservation-step-1.reservation-inner-tab.active.row{ "data-modal-title" => "Select Rate"}
-              .col-md-12.rate-radio-collection
-                = f.fields_for :rate do |r|
-                  - if @listing.rates
-                    = collection_radio_buttons(:rate, :date_range, @listing.rates, :date_range, :amount_with_date_range) do |rate|
-                      .radio
-                        = rate.label { rate.radio_button }
-                    / - @listing.rates.each do |rate|
-                    /   = r.radio_button :rate, "#{number_to_currency(rate.amount)} #{rate.date_range}", :class => "rate-radio-btn", "data-time-range" => "#{rate.date_range}", :value => "#{rate.id}",:checked => true
-                    /   = r.label :rate, "#{number_to_currency(rate.amount)} #{rate.date_range}", :value => "#{number_to_currency(rate.amount)} #{rate.date_range}"
-                    /   %br
-            #reservation-step-2.reservation-inner-tab.row{ "data-modal-title" => "Select Date"}
-              .col-md-12
-                #hour.time-range-section
-                  #hour-times.row
-                    = fields_for :period do |p|
-                      .col-md-6
-                        = p.label :start
-                        = p.text_field :start, :id => "start", :class => "form-control"
-                      .col-md-6
-                        = p.label :end
-                        = p.text_field :end, :id => "end", :class => "form-control"
-                      .col-md-12
-                        .date-range-status
+          / BOOK IT Form
+          = hidden_field_tag :stripeToken, :id => "stripeToken", :value => ""
+          #reservation-step-1.reservation-inner-tab.active.row{ "data-modal-title" => "Select Rate"}
+            .col-md-12
+              = f.fields_for :rate do |r|
+                = r.hidden_field :date_range, :id => "date-range-hidden", :value => ""
+                - if @listing.rates
+                  - @listing.rates.each_with_index do |rate, index|
+                    .form-group{:id => "#{index}_rate"}
+                      = r.radio_button :amount, "#{rate.amount}", :class => "rate-radio-btn", "data-time-range" => "#{rate.date_range}", :value => "#{rate.amount}",:checked => true
+                      = r.label :rate, "#{number_to_currency(rate.amount)} #{rate.date_range}"
                       %br
-                  .row
-                    #total-time.validation-message.col-md-6.col-md-offset-6.col-md-pull-6
-                      .row
-                        .col-md-6
-                          %small
-                            Total Time:
-                        .col-md-6
-                          %span.total-time-amount
-                            0 hrs
-                      .row
-                        .col-md-6
-                          %small
-                            Est. Total*:
-                        .col-md-6
-                          %span.estimated-total-amount
-                            $0.00
+          #reservation-step-2.reservation-inner-tab.row{ "data-modal-title" => "Select Date"}
+            .col-md-12
+              #hour.time-range-section
+                #hour-times.row
+                  = f.fields_for :period do |p|
+                    .col-md-6
+                      = p.label :start
+                      = p.text_field :start, :id => "start", :class => "form-control"
+                    .col-md-6
+                      = p.label :end
+                      = p.text_field :end, :id => "end", :class => "form-control"
+                    .col-md-12
+                      .date-range-status
+                    %br
+                .row
+                  #total-time.validation-message.col-md-6.col-md-offset-6.col-md-pull-6
                     .row
-                      .col-md-12
-                        %small.small-disclaimer
-                          .col-md-6
-                            * Does not include service fees.
-            #reservation-step-3.reservation-inner-tab.row{ "data-modal-title" => "Payment Method"}
-              .col-md-12
-                Payment
-            #reservation-step-4.reservation-inner-tab.row{ "data-modal-title" => "Review"}
-              .col-md-12
-                Review and Book
-      .modal-footer
-        / Next Button only (First Tab)
-        .row.next-btn-only.next-prev-btns.active
-          .col-md-12.text-right
-            = render 'layouts/next_btn'
+                      .col-md-6
+                        %small
+                          Total Time:
+                      .col-md-6
+                        %span.total-time-amount
+                          0 hrs
+                    .row
+                      .col-md-6
+                        %small
+                          Est. Total*:
+                      .col-md-6
+                        %span.estimated-total-amount
+                          $0.00
+                  .row
+                    .col-md-12
+                      %small.small-disclaimer
+                        .col-md-6
+                          * Does not include service fees.
+          #reservation-step-3.reservation-inner-tab.row{ "data-modal-title" => "Payment Method"}
+            .col-md-12
+              = text_field_tag :card_number, "", :name => "", :class => "form-control", :placeholder => "Card Number", "data-stripe" => "number"
+              .row
+                .col-md-4
+                  = text_field_tag :cvc, "", :name => "", :class => "form-control", :placeholder => "CVC", "data-stripe" => "cvc"
+                .col-md-4
+                  = select_tag :exp_month, options_for_select(credit_card_months), { name: "", class: "form-control", "data-stripe" => "exp-month", :prompt => "Exp. Month (MM)" }
+                .col-md-4
+                  = text_field_tag :exp_year, "", :name => "", :class => "form-control", "data-stripe" => "exp-year", :placeholder => "Exp. Year (YYYY)", :size => 4
+          #reservation-step-4.reservation-inner-tab.row{ "data-modal-title" => "Review"}
+            .col-md-12
+              .payment-errors
+              Review and Book
+        .modal-footer
+          / Next Button only (First Tab)
+          .row.next-btn-only.next-prev-btns.active
+            .col-md-12.text-right
+              = render 'layouts/next_btn'
 
-        / Both buttons
-        .row.both-btns.next-prev-btns
-          .col-md-6.text-left
-            = render 'layouts/prev_btn'
-          .col-md-6.text-right
-            = render 'layouts/next_btn'
+          / Both buttons
+          .row.both-btns.next-prev-btns
+            .col-md-6.text-left
+              = render 'layouts/prev_btn'
+            .col-md-6.text-right
+              = render 'layouts/next_btn'
 
-        / Prev Button only (Last Tab)
-        .row.prev-btn-only.next-prev-btns
-          .col-md-6.text-left
-            = render 'layouts/prev_btn'
-          .col-md-6.text-right
-            = button_tag "Place Order", :id => "place-order", :class => "btn btn-primary btn-primary-submit form-control"
+          / Prev Button only (Last Tab)
+          .row.prev-btn-only.next-prev-btns
+            .col-md-6.text-left
+              = render 'layouts/prev_btn'
+            .col-md-6.text-right
+              = f.submit "Place Order", :id => "place-order", :class => "btn btn-primary btn-primary-submit form-control"
     
 
 
@@ -329,13 +336,6 @@
         $(".date-range-status").html("<span class='warning-validation'><i class='fa fa-exclamation-circle fa-lg fa-fw'></i> Incomplete range</span>");
       }
     }
-
-
-
-    // Form submission
-    $("#place-order").on("click", function() {
-      $(".edit_listing").submit();
-    });
 
 
     

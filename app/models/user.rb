@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
 	extend FriendlyId
 	friendly_id :slug_candidates, :use => [:slugged, :finders]
 
+	enum :role => [:normal, :employee, :admin]
+
 	# Associations
 	has_many :listings
 

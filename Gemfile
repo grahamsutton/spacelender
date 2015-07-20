@@ -82,11 +82,13 @@ gem 'tooltipster-rails'
 
 gem 'jquery-timepicker-rails'
 
-gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+gem 'stripe-rails'
 
 gem 'jquery-validation-rails'
 
 gem 'combined_time_select'
+
+gem 'jquery-turbolinks'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

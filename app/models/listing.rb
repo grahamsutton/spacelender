@@ -10,9 +10,11 @@ class Listing < ActiveRecord::Base
   has_many :periods, :as => :periodic, :dependent => :destroy
   has_many :reservations, :dependent => :destroy
 
-  accepts_nested_attributes_for :location, :periods, :pictures
+  accepts_nested_attributes_for :location, :periods, :pictures, :reservations
   accepts_nested_attributes_for :rates,
                                 :reject_if => proc { |attributes| attributes['amount'].blank? }
+
+  attr_accessor :stripeToken
   
   # Search method
   def self.search(search)

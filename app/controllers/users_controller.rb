@@ -26,6 +26,7 @@ class UsersController < ApplicationController
 
 		if @user.save
 			flash[:notice] = "Welcome to SpaceLender, #{@user.first_name}"
+			@user.normal! # Sets user role to "normal"
 			session[:user_id] = @user.id
 			redirect_to root_path
 		else

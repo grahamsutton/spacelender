@@ -101,28 +101,33 @@ module ApplicationHelper
   	  	["American Express", "american_express"]
   	  ]
   	end
-end
 
-module ActionView
-  module Helpers
-	  class FormBuilder 
-	      def date_select(method, options = {}, html_options = {})
-	        existing_date = @object.send(method) 
-	        formatted_date = existing_date.to_date.strftime("%F") if existing_date.present?
-	        @template.content_tag(:div, :class => "input-group") do    
-	          text_field(method, :value => formatted_date, :class => "form-control datepicker", :"data-date-format" => "MM-DD-YYYY") +
-	          @template.content_tag(:span, @template.content_tag(:span, "", :class => "glyphicon glyphicon-calendar") ,:class => "input-group-addon")
-	        end
-	      end
+  	def credit_card_months
+  		[
+  			["01 Jan", "01"],
+  			["02 Feb", "02"],
+  			["03 Mar", "03"],
+  			["04 Apr", "04"],
+  			["05 May", "05"],
+  			["06 Jun", "06"],
+  			["07 Jul", "07"],
+  			["08 Aug", "08"],
+  			["09 Sep", "09"],
+  			["10 Oct", "10"],
+  			["11 Nov", "11"],
+  			["12 Dec", "12"]
+  		]
+  	end
 
-	      def datetime_select(method, options = {}, html_options = {})
-	        existing_time = @object.send(method) 
-	        formatted_time = existing_time.to_time.strftime("%F %I:%M %p") if existing_time.present?
-	        @template.content_tag(:div, :class => "input-group") do    
-	          text_field(method, :value => formatted_time, :class => "form-control datetimepicker", :"data-date-format" => "MM-DD-YYYY hh:mm A") +
-	          @template.content_tag(:span, @template.content_tag(:span, "", :class => "glyphicon glyphicon-calendar") ,:class => "input-group-addon")
-	        end
-	      end
-	  end
-  end
+  	def credit_card_years
+  		@array = []
+  		index = 0
+
+  		# 15 year range
+  		yearLimit = 15
+
+  		(index..yearLimit).each do |i|
+  			# @array.push(["#{Time.now.year + i}", Time.now.year])
+  		end
+  	end
 end

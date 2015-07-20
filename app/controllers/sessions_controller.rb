@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
   		flash[:notice] = "Welcome back, #{@user.email}!"
 
       respond_with @user do |format|
-        format.html { redirect_to root_path }
+        format.html { redirect_to listings_path }
         format.json
       end
   	else

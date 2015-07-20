@@ -1,4 +1,6 @@
 class ListingsController < ApplicationController
+  require 'stripe'
+
   before_filter :current_user
   before_filter :require_login, :except => [:show, :search, :update, :edit]
 
@@ -109,23 +111,7 @@ class ListingsController < ApplicationController
   end
 
 
-  def reserve
-      @listing = Listing.find(params[:id])
-
-      # Set the selected Rate
-      listings_params[:reservations][:amount] = @listing.rates.hourly.first.amount
-      listings_params[:reservations][:date_range] = @listing.rates.hourly.first.date_range
-
-      @reservation = @listing.reservations.build(listing_params)
-
-      if @reservation.save
-        # TODO : FINISH THIS SHIT.
-      else
-
-      end
-  end
-
-
+  
   
   def findnearme
       Geocoder.configure(:timeout => 40)
@@ -215,6 +201,6 @@ class ListingsController < ApplicationController
   
   private
   def listing_params
-    params.require(:listing).permit(:name, :description, location_attributes: [:street_address, :city, :state, :zip, :country], periods_attributes: [:start, :end], rates_attributes: [:amount, :date_range], pictures_attributes: [:image], reservations_attributes: [rate_attributes: [:amount, :date_range], period_attributes: [:start, :end]])
+    params.require(:listing).permit(:id, :name, :description, :stripeToken, location_attributes: [:street_address, :city, :state, :zip, :country], periods_attributes: [:start, :end], rates_attributes: [:amount, :date_range], pictures_attributes: [:image], reservations_attributes: [rate_attributes: [:amount, :date_range], period_attributes: [:start, :end]])
   end
 end
