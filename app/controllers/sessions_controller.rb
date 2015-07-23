@@ -23,8 +23,9 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    @name = @current_user.email
   	session.delete(:user_id)
-	  redirect_to root_path, :notice => "See ya, #{@name}!"
+    cookies.delete("js.stripe.com")
+    flash[:notice] = "See ya later."
+	  redirect_to root_path
   end
 end

@@ -95,11 +95,12 @@
               = f.fields_for :rate do |r|
                 = r.hidden_field :date_range, :id => "date-range-hidden", :value => ""
                 - if @listing.rates
-                  - @listing.rates.each_with_index do |rate, index|
-                    .form-group{:id => "#{index}_rate"}
-                      = r.radio_button :amount, "#{rate.amount}", :class => "rate-radio-btn", "data-time-range" => "#{rate.date_range}", :value => "#{rate.amount}",:checked => true
-                      = r.label :rate, "#{number_to_currency(rate.amount)} #{rate.date_range}"
-                      %br
+                  .fieldset
+                    - @listing.rates.each_with_index do |rate, index|
+                      .form-group{:id => "#{index}_rate"}
+                        = r.radio_button :amount, "#{rate.amount}", :class => "rate-radio-btn", "data-time-range" => "#{rate.date_range}", :value => "#{rate.amount}"
+                        = r.label :rate, "#{number_to_currency(rate.amount)} #{rate.date_range}"
+                        %br
           #reservation-step-2.reservation-inner-tab.row{ "data-modal-title" => "Select Date"}
             .col-md-12
               #hour.time-range-section

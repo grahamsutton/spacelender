@@ -8,6 +8,16 @@ class ApplicationController < ActionController::Base
   	  @current_user ||= User.find(session[:user_id])
   end
 
+  def check_if_stripe_is_connected?
+    @current_user = current_user
+
+    if @current_user.publishable_key && @current_user.provider && @current_user.uid && @current_user.access_code
+      return true
+    else
+      return false
+    end
+  end
+
   def require_login
   	  if !current_user
   	  	flash[:notice] = "Please login before continuing."

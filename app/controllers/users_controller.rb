@@ -24,15 +24,20 @@ class UsersController < ApplicationController
 	def create
 		@user = User.new(user_params)
 
+		@user.encrypt_password
+
 		if @user.save
 			flash[:notice] = "Welcome to SpaceLender, #{@user.first_name}"
-			@user.normal! # Sets user role to "normal"
 			session[:user_id] = @user.id
-			redirect_to root_path
+			redirect_to listings_path
 		else
 			flash.now[:alert] = "Uh-oh! Something's off here: "
 			render :new
 		end
+	end
+
+	def stripe_prompt
+		
 	end
 
 	private

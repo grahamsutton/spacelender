@@ -361,53 +361,27 @@
 
 
 
-
-    /* 
-     * Credit to: user2586273 from StackOverflow for this bit of code, which is found here:
-     * http://stackoverflow.com/questions/11933173/how-to-restrict-the-selectable-date-ranges-in-bootstrap-datepicker
-     * Thanks, bro.
-     */
-    var startDate = new Date('01/01/2012');
-    var FromEndDate = new Date();
-    var ToEndDate = new Date();
-
-    ToEndDate.setDate(ToEndDate.getDate()+365);
-
-    $('#start-date').datepicker({
-        weekStart: 1,
-        startDate: getTodayAsMMDDYYYY(),
-        autoclose: true
-    }).on('changeDate', function(selected){
-        startDate = new Date(selected.date.valueOf());
-        startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
-        $('#end-date').datepicker('setStartDate', startDate);
-    }); 
-    
-    $('#end-date').datepicker({
-        weekStart: 1,
-        startDate: startDate,
-        endDate: ToEndDate,
-        autoclose: true
-    }).on('changeDate', function(selected){
-        FromEndDate = new Date(selected.date.valueOf());
-        FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
-        $('#start-date').datepicker('setEndDate', FromEndDate);
+    // DateTime pickers for Start and End dates
+    $("#start-date").datetimepicker({
+      format: "ddd, MMM D",
+      minDate: moment().add('hours', 3),
+      sideBySide: true,
+      stepping: 0
+    }).on("dp.change", function(e) {
+      var selectedDate = e.date;
+      $("#end").data("DateTimePicker").minDate(selectedDate.add('hours', 1));
+      //$("#end").data("DateTimePicker").defaultDate(selectedDate.add('hours', '1'));
+      //$("#end").data("DateTimePicker").maxDate(selectedDate.add('days', 1));
     });
 
-
-    // var startDate = getTodayAsMMDDYYYY();
-
-    // // Datepickers
-    // $("#start-date").datepicker({
-    //   startDate: startDate
-    // }).on('changeDate', function(selected){
-    //     startDate = new Date(selected.date.valueOf());
-    //     startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
-    //     $('.to_date').datepicker('setStartDate', startDate);
-    // }); ;
-
-    // $("#end-date").datepicker({
-    //   startDate: startDate
-    // });
+    $("#end-date").datetimepicker({
+      format: "ddd, MMM D",
+      sideBySide: true,
+      minDate: moment().add('hours', 4),
+      stepping: 0
+    }).on("dp.change", function(e) {
+      var selectedDate = e.date;
+      $("#start").data("DateTimePicker").maxDate(selectedDate.subtract('hours', 1));
+    });
 
   });

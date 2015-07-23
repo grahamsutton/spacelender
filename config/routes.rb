@@ -15,10 +15,14 @@ Rails.application.routes.draw do
   get 'listings/filter_search' => 'listings#filter_search'
   post 'listings/:id/deactivating' => 'listings#deactivate', :as => :deactivate_listing
   post 'listings/:id/reactivating' => 'listings#reactivate', :as => :reactivate_listing
-  
+  get 'users/stripe_prompt' => 'users#stripe_prompt', :as => :stripe_prompt
+
   resources :listings, shallow: true do
     resources :reservations
   end
+
+  # Handles stripe callback
+  get '/auth/stripe_connect/callback' => 'omniauth_callbacks#stripe_connect'
 
   resources :messages
   resources :payments

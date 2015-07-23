@@ -39,8 +39,14 @@ gem 'geocoder'
 
 gem 'friendly_id'
 
+gem 'omniauth'
+
+gem 'figaro'
+
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
+
+gem 'omniauth-stripe-connect'
 
 gem 'summernote-rails'
 

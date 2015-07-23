@@ -3,6 +3,7 @@ class ListingsController < ApplicationController
 
   before_filter :current_user
   before_filter :require_login, :except => [:show, :search, :update, :edit]
+  #before_filter :check_if_stripe_is_connected?
 
   respond_to :html, :xml, :json
 
@@ -14,7 +15,22 @@ class ListingsController < ApplicationController
     @listing.rates.build
     @listing.pictures.build
 
+    if @current_user.uid
+      @account = Stripe::Account.retrieve(@current_user.uid)
+    end
+
+    # Get current user's listings
     @listings = @current_user.listings
+    @reservations = []
+
+    # Get current user's reservations
+    @listings.each do |listing|
+      listing.reservations.each do |reservation|
+        @reservations << reservation
+      end
+    end
+
+    @stripe_is_connected = check_if_stripe_is_connected?
 
     # Get Active and Inactive listings
     @activeListings = @listings.where(:active => true)

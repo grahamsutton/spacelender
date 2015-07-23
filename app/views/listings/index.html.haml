@@ -9,9 +9,20 @@
           %li.list-group-item
             = link_to "#listings", :id => "my_listings_link", :class => "tab-link" do
               Listings
-          %li.list-group-item
-            = link_to "#list-space", :id => "list-a-space-link", :class => "tab-link" do
+          - if @stripe_is_connected
+            %li.list-group-item
+              = link_to "#list-space", :id => "list-a-space-link", :class => "tab-link" do
+                List A Space
+          - else
+            %li.list-group-item.disabled{ "data-toggle" => "tooltip", "data-placement" => "top", "title" => "Please Connect with Stripe first." }
               List A Space
+              %i.fa.fa-lock.fa-fw.fa-lg
+              %p.small-disclaimer
+                Requires a connected Stripe account
+            .tooltip.top{:role => "tooltip"}
+              .tooltip-arrow
+              .tooltip-inner
+                Please Connect with Stripe first.
           %li.list-group-item
             = link_to "#reservations", :class => "tab-link" do
               Reservations

@@ -22,11 +22,7 @@ $(document).ready(function() {
 			var token = response.id;
 
 			// Get checked rate
-			$(".rate-radio-btn").each(function(k, v) {
-				if ($(this).checked) {
-					$("#date-range-hidden").attr("value", $(this).data("time-range"));
-				}
-			});
+			$("#date-range-hidden").attr("value", $("input[name='reservation[rate_attributes][amount]']:checked").data("time-range"));
 
 			// Add stripe token
 			form.find("#stripeToken").attr("value", token);

@@ -5,16 +5,17 @@ class User < ActiveRecord::Base
 	enum :role => [:normal, :employee, :admin]
 
 	# Associations
-	has_many :listings
+	has_many :listings, :dependent => :destroy
 
 	# Validations
 	validates :email, presence: true, uniqueness: true
 	validates :password, presence: true
+	validates :publishable_key, :uniqueness => true
+	validates :uid, :uniqueness => true
+	validates :access_code, :uniqueness => true
 	# validates_confirmation_of :password
 
 	# Filters
-	before_save :encrypt_password
-
 	attr_accessor :password_confirmation, :email_confirmation
 
 	def encrypt_password

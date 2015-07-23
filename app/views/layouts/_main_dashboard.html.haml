@@ -1,5 +1,6 @@
 .panel.panel-default
   .panel-body
+    = render 'layouts/success_error_reporting'
     .row
       .col-md-4
         .panel.panel-default
@@ -22,6 +23,19 @@
         .panel.panel-default
           .panel-body
             %p.lead.text-center
-              $3,647
+              $3,438
             %p.text-center
               Total Revenue
+      - if !@stripe_is_connected
+        .col-md-12
+          %h5
+            Want to start earning cash for that free space?
+          %p
+            Well we have no idea where that money your earning is supposed to go! Help us help you by connecting your Stripe account to your SpaceLender account. Stripe is a secure way to send and receive payments with other users.
+            %small
+              Don't have an account? No worries! You can create one when you click on the button as well.
+        .row
+          .col-md-6
+            .col-md-6
+              = link_to '/auth/stripe_connect' do
+                = image_tag "light-on-light@2x.png", :class => "img-responsive"
