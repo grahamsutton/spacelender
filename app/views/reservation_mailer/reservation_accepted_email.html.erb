@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+		<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+		<link href='http://fonts.googleapis.com/css?family=Handlee' rel='stylesheet' type='text/css'>
+		<!-- Bootstrap -->
+		<style type="text/css">
+			html, body {
+				max-width: 610px !important;
+				width: 100% !important;
+			}
+
+			.container {
+				width: 100% !important;
+			}
+
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				color: #334466 !important;
+				font-family: 'Handlee' !important;
+			}
+
+			tfoot {
+				border-top: 2px solid #FFCC88 !important;
+			}
+
+			tfoot td {
+				border: none !important;
+			}
+
+
+			/*
+				$primary-color: #334466;
+				$secondary-color: #999999;
+				$third-color: #ffcc88;
+				$fourth-color: #CDDEEE;
+				$fifth-color: #FAFAFA;
+			*/
+
+			/*@import url(http://fonts.googleapis.com/css?family=Handlee);*/
+
+			/** {
+				box-sizing: border-box;
+			}
+
+			*:before {
+
+			}
+
+			html,
+			body {
+				max-width: 637px;
+				width: 100%;
+			}
+
+			body {
+				background-color: #FAFAFA;
+				font-family: Helvetica, Arial, sans-serif;
+				color: #000;
+			}
+
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				color: #334466 !important;
+			}
+
+			hr {
+				border-top: 1px solid #ffcc88 !important;
+				margin: 20px 0px !important;
+			}
+
+			input[type="text"],
+			input[type="password"],
+			select,
+			textarea {
+				margin-bottom: 15px;
+			}
+
+			p {
+				line-height: 1.8;
+			}
+
+			ul li {
+				line-height: 1.8;
+				list-style-type: none;
+			}
+
+			table {
+				display: table;
+				background-color: rgba(255, 255, 255, 0);
+				border-collapse: collapse;
+				border-spacing: 0;
+			}
+
+			th {
+				text-align: left;
+			}
+
+			tbody td {
+				border-right: 1px solid #DDD;
+			}
+
+			tbody td:last-child {
+				border-right: none !important;
+			}
+
+			tfoot {
+				border-top: 2px solid #ffcc88 !important;
+			}
+
+			.container {
+				max-width: 1170px;
+				width: 100%;
+				margin-left: auto;
+				margin-right: auto;
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+
+			.container:before,
+			.conatiner:after {
+				content: " ";
+				display: table;
+			}
+
+			.col-md-1, 
+			.col-md-2, 
+			.col-md-3, 
+			.col-md-4, 
+			.col-md-5, 
+			.col-md-6, 
+			.col-md-7, 
+			.col-md-8, 
+			.col-md-9, 
+			.col-md-10, 
+			.col-md-11, 
+			.col-md-12 {
+				float: left;
+				position: relative;
+				min-height: 1px;
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+
+			.col-md-12 {
+				width: 100%;
+			}
+
+			.row {
+				margin-left: -15px;
+				margin-right: -15px;
+				margin-bottom: 35px;
+			}
+
+			.panel {
+				margin-bottom: 23px;
+				background-color: #FFF;
+				box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+			}
+
+			.panel.panel-default {
+				border: 1px solid #334466 !important;
+				border-radius: 2px;
+			}
+
+			.panel-body {
+				padding: 15px;
+			}
+
+			.panel-body h1
+			.panel-body h2,
+			.panel-body h3,
+			.panel-body h4,
+			.panel-body h5,
+			.panel-body h6 {
+				margin-top: 0px;
+			}
+
+			.panel-body:before {
+				box-sizing: border-box;
+			}
+
+			.panel-body:after {
+				clear: both;
+			}
+
+			.panel-footer {
+				background-color: #FAFAFA !important;
+			}
+
+			a.btn-primary,
+			.btn-primary {
+				background: #334466 !important;
+				border: 1px solid #EEE;
+				box-shadow: none !important;
+				color: #FAFAFA !important;
+				border-radius: 0px !important;
+			}
+
+			a.btn-default,
+			.btn-default {
+				background: transparent !important;
+				border: 1px solid #334466 !important;
+				box-shadow: none !important;
+				color: #334466 !important;
+				border-radius: 0px !important;
+			}
+
+			a.primary-color {
+				color: #334466 !important;
+			}
+
+			.table {
+				width: 100%;
+				max-width: 100%;
+			}
+
+			.table > thead > tr > th, 
+			.table > thead > tr > td, 
+			.table > tbody > tr > th, 
+			.table > tbody > tr > td, 
+			.table > tfoot > tr > th, 
+			.table > tfoot > tr > td {
+				padding: 8px;
+				line-height: 1.846;
+				vertical-align: top;
+				border-top: 1px solid #DDD;
+			}
+
+			.panel > .panel-body + .table {
+				border-top: 1px solid #DDD;
+			}
+
+			.panel > .table:last-child {
+				border-bottom-right-radius: 2px;
+				border-bottom-left-radius: 2px;
+			}
+
+			.panel > .table {
+				margin-bottom: 0px;
+			}*/
+		</style>
+	</head>
+	<body>
+		<div class="container">
+
+			<div class="col-md-12">
+				<div class="row">
+					<h5>Your reservation for <strong><%= @reservation.listing.name %></strong> was <strong>accepted and paid</strong>.</h5>
+
+					<p>Please use this email as your receipt. Details of your reservation are listed below.</p>
+
+					<p>Your reservation is set for <strong><%= distance_of_time_in_words(Time.now, @reservation.period.start) %> from the time this email was sent</strong>. Please review your reservation summary:</p>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h4>Here's the Address:</h4>
+						<big><%= @reservation.listing.location.full_street_address %></big>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<table class="table table-bordered">
+						<tbody>
+							<tr>
+								<th>Listing</th>
+								<td><%= @reservation.listing.name %></td>
+							</tr>
+							<tr>
+								<th>Status</th>
+								<td><%= @reservation.status.to_s.capitalize %> &amp; Paid</td>
+							</tr>
+							<tr>
+								<th>Description</th>
+								<td>
+									<% if @reservation.rate.hourly? %>
+										<%= "#{@reservation.period.start.strftime("%l:%M %p - %B %d, %Y")} to #{@reservation.period.end.strftime("%l:%M %p - %B %d, %Y")}" %>
+									<% else %>
+										<%= "#{@reservation.period.start.strftime("%B %d, %Y")} to #{@reservation.period.end.strftime("%B %d, %Y")}" %>
+									<% end %>
+								</td>
+							</tr>
+							<tr>
+								<th>Rate</th>
+								<td><%= "#{@time}  x  #{number_to_currency(@reservation.rate.amount)}/#{@date_range_type}" %> = <%= number_to_currency(@reservation.rate.amount * @time) %></td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<!-- <tr>
+								<td><small>Processing Fee</small></td>
+								<td>
+									<small>
+										<%= number_to_currency((@reservation.rate.amount * @time * ENV['spacelender_application_fee'].to_f) + (((@reservation.rate.amount * @time) * 0.029) + 0.3)) %>
+									</small>
+								</td>
+							</tr> -->
+							<tr>
+								<th>Total</th>
+								<td><%= number_to_currency(@reservation.rate.amount * @time) %></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+
+				<div class="row">
+					<h4>With SpaceLender, you pay the price you see listed.</h4>
+					<p>
+						SpaceLender does not like to burden you, the renter, with extra service fees and charges. The price you saw listed is - and will always be - the price you pay for a listing on SpaceLender. Saw a listing to rent Jan's backyard for a birthday party at a rate of $8 per hour? Then you only pay exactly $8 per hour. We never tack on fees "after the fact". Rest easy!
+					</p>
+				</div>
+
+				<hr>
+
+				<div class="row">
+					<h4>Not the intended recipient of this email?</h4>
+					<p>
+						If you are not the intended recipient of this email, please let us know by contacting us at <%= link_to "support@spacelender.com", root_path %> so that we may prevent any further unwanted emails from reaching you.
+					</p>
+				</div>
+
+				<hr>
+
+				<div class="row">
+					<h4>What if I need to cancel this reservation?</h4>
+					<p>
+						If for any reason you need to cancel this reservation, please <%= link_to "click here", root_path %>. You will be guided through a small form to state your reason for canceling the reservation. When you are done, we will notify the lister on your behalf. Although you don't need to personally tell the lister yourself, we highly recommend doing so, so that it does not potentially affect your Renter Rating. Here's their info if you want to get in touch:
+					</p>
+
+					<ul class="list-unstyled">
+						<li><%= @reservation.listing.user.first_name %> <%= @reservation.listing.user.last_name %></li>
+						<li><%= @reservation.listing.user.email %></li>
+					</ul>
+				</div>
+
+				<hr>
+
+				<div class="row">
+					<h4>What if I want a refund for a bad experience?</h4>
+					<p>
+						It is important to note that SpaceLender <strong>does not refund transactions after the reservation was completed more than 7 days after the start of the reservation date or time</strong>.
+					</p>
+
+					<p>
+						If you have a negative experience with this lister, or any lister in the future, it is extremely important that you contact us at <%= link_to "support@spacelender.com", root_path %> as quickly as possible so that we may be able to resolve your case. <strong>The sooner you report an incident is the sooner we can try to refund you.. It is more likely you will get your money back if you contact us as soon as possible, immediately after the start of the reservation date or time.</strong>. Any requests for refunds after 7 days of the reservation date will not be considered for a refund.
+					</p>
+				</div>
+
+
+				<br>
+
+				<div class="row">
+					<p>Thanks again!</p>
+					<h5>The SpaceLender Team</h5>
+				</div>
+
+			</div>
+
+		</div>
+	</body>
+</html>

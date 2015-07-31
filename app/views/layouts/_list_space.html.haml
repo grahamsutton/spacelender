@@ -107,9 +107,14 @@
             %hr
             .row
               .col-md-12
-                %span.add-subtract-rate-forms
-                  / %i#add-rate-form.fa.fa-plus-square-o.fa-lg{ :onclick => "addRateForm();"}
-                  / %i#subtract-rate-form.fa.fa-minus-square-o.fa-lg{ :onclick => "subtractRateForm();"}
+                = f.check_box :request_reserve, :checked => true
+                = label_tag :request_reserve, "Only accept reservations I approve."
+                %br
+                %p.small-disclaimer
+                  * If you uncheck this box, then anyone can reserve your space and their reservations will automatically be approved.
+            %hr
+            .row
+              .col-md-12
 
                 / RATES forms
                 = f.fields_for :rates, @listing.rates.build do |r|

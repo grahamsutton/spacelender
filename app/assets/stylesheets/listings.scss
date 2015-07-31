@@ -11,6 +11,10 @@ $third-color: #ffcc88;
 $fourth-color: #eeeecc;
 $fifth-color: #FAFAFA;
 
+tfoot {
+	border-top: 2px solid $third-color !important;
+}
+
 .col-no-pad {
 	padding-left: 0px !important;
 	padding-right: 0px !important;
@@ -174,7 +178,7 @@ $fifth-color: #FAFAFA;
 }
 
 #payments > .panel:after {
-	top: 165px;
+	top: 225px;
 }
 
 #reviews > .panel:after {
@@ -220,7 +224,7 @@ $fifth-color: #FAFAFA;
 	position: absolute !important;
 	right: 0px !important;
 	top: 260px !important;
-	z-index: 2000 !important;
+	z-index: 1000 !important;
 
 	.panel {
 		/*background: rgba(0, 0, 0, 0.7) !important;*/
@@ -245,7 +249,7 @@ $fifth-color: #FAFAFA;
 }
 
 #listing-details {
-	background: url('swirl_pattern.png');
+	background: url('confectionary.png');
 	padding-top: 30px;
 	min-height: 200px !important;
 	border-top: 1px solid $primary-color !important;
@@ -624,6 +628,55 @@ $fifth-color: #FAFAFA;
 .small-disclaimer {
 	font-size: 9px !important;
 	margin-bottom: 0px !important;
+}
+
+#reservations-table tbody tr:hover {
+	background: $primary-color !important;
+	color: #EEE !important;
+	cursor: pointer !important;
+}
+
+.payment-inner-tab-link {
+	color: $primary-color !important;
+}
+
+.payment-inner-tab-link.active {
+	color: $third-color !important;
+	text-decoration: none !important;
+}
+
+.payment-tab {
+	display: none !important;
+}
+
+.payment-tab.active {
+	display: block;
+}
+
+.p-active {
+	border-bottom: 2px solid $third-color !important;
+}
+
+#payments-list {
+	li {
+		margin-right: 15px !important;
+	}
+}
+
+.carousel-control {
+	i.fa {
+		top: 50% !important;
+		position: absolute !important;
+	}
+}
+
+#state-purpose-textarea {
+	border: 1px solid #334466 !important; 
+	padding: 10px !important;
+}
+
+.we-accept {
+	color: #334466 !important;
 }
 
 

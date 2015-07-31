@@ -35,6 +35,17 @@ Rails.application.configure do
     :s3_protocol => "http"
   }
 
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+    :address => "smtp.gmail.com",
+    :port => 587,
+    :user_name => ENV['noreply_gmail_username'],
+    :password => ENV['noreply_gmail_password'],
+    :authentication => "plain",
+    :enable_starttls_auto => true
+  }
+
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.

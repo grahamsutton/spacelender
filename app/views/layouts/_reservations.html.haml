@@ -1,4 +1,49 @@
 .panel.panel-default
   .panel-body
-    .col-md-12
-      Reservations
+    - if @reservations.count > 0
+      %p
+        %strong
+          = pluralize(@requested_reservations.count, "reservation")
+        pending.
+        = " | "
+        %strong
+          = pluralize(@accepted_reservations.count, "reservation")
+        approved.
+  %table#reservations-table.table
+    %thead
+      %tr
+        %th Listing
+        %th From
+        %th To
+        %th Rate
+        %th.text-center Status
+    %tbody
+      - if @reservations
+        - @reservations.each do |reservation|
+          %tr{ "data-link" => reservation_path(reservation) }
+            %td
+              = reservation.listing.name
+            %td
+              %strong
+                - if reservation.rate.hourly?
+                  = reservation.period.start.strftime("%l:%M %p - %B %d, %Y")
+                - else
+                  = reservation.period.start.strftime("%B %d, %Y")
+            %td
+              %strong
+                - if reservation.rate.hourly?
+                  = reservation.period.end.strftime("%l:%M %p - %B %d, %Y")
+                - else
+                  = reservation.period.end.strftime("%B %d, %Y")
+            %td
+              = "#{number_to_currency(reservation.rate.amount)} #{reservation.rate.date_range}"
+            %td.text-center
+              - if reservation.requested?
+                = link_to do
+                  Approve
+                = " | "
+                = link_to do
+                  %i.fa.fa-ban.fa-fw
+              - else
+                %i.fa.fa-check.fa-fw.success
+                Approved

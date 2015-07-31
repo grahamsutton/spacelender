@@ -96,6 +96,8 @@ gem 'combined_time_select'
 
 gem 'jquery-turbolinks'
 
+gem 'roadie-rails'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

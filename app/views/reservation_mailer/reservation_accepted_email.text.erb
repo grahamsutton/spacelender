@@ -1,0 +1,15 @@
+Hi there, <%= @user.first_name %>
+Please use this email as your receipt. Details of your reservation are listed below:
+
+Item:			<%= @reservation.listing.name %>
+Time Amount: 	<%= @time %>/<%= @reservation.rate.date_range %>
+Rate:			<%= number_to_currency(@reservation.rate.amount) %>
+
+Thanks again, for using SpaceLender.
+
+
+
+From,
+
+SpaceLender Team
+

@@ -1,3 +1,15 @@
 // Place all the styles related to the reservations controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$primary-color: #334466;
+$secondary-color: #999999;
+$third-color: #ffcc88;
+$fourth-color: #eeeecc;
+$fifth-color: #FAFAFA;
+
+.email-invoice-table {
+	tfoot {
+		border-top: 2px solid $third-color !important;
+	}
+}

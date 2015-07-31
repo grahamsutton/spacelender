@@ -1,0 +1,37 @@
+.container
+  .row
+    .col-md-6
+
+  .row
+    = form_for @current_user do |f|
+      .panel.panel-default
+        .panel-body
+          .col-md-6
+            .row
+              .col-md-12
+                %h5 Basic Info
+              .col-md-6
+                %fieldset
+                  = f.label "First Name", :value => :first_name
+                  = f.text_field :first_name, :class => "form-control"
+              .col-md-6
+                %fieldset
+                  = f.label "Last Name", :value => :last_name
+                  = f.text_field :last_name, :class => "form-control"
+            .row
+              .col-md-12
+                %fieldset
+                  = f.label "Email", :value => :email
+                  = f.text_field :email, :class => "form-control"
+            %br
+            .row
+              .col-md-12
+                %h5 Change Password
+                = link_to "Click here", change_password_path(@current_user)
+                if you need to change your password.
+          .col-md-6
+            / Edit Profile Picture
+
+
+
+

@@ -1,5 +1,5 @@
 class Reservation < ActiveRecord::Base
-  enum :status => [:requested, :accepted, :completed]
+  enum :status => [:requested, :accepted, :rejected, :completed]
   
   belongs_to :listing
   has_one :rate, :as => :rateable, :dependent => :destroy

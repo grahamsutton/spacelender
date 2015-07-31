@@ -31,4 +31,23 @@ $(document).ready(function() {
 			form.get(0).submit();
 		}
 	}
+
+	// Makes table rows in the Reservations table clickable
+	$("#reservations-table tr").on("click", function() {
+		window.location.href = $(this).data("link");
+	});
+
+	$(".payment-inner-tab-link").on("click", function(e) {
+		e.preventDefault();
+
+		var tab = $(this).attr("href");
+
+		$(".payment-tab").removeClass("active");
+		$(".payment-inner-tab-link").removeClass("active");
+		$(".p-active").removeClass("p-active");
+
+		$(this).addClass("active");
+		$(tab).addClass("active");
+		$(this).parent().addClass("p-active");
+	});
 });

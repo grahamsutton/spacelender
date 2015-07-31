@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   post 'listings/:id/deactivating' => 'listings#deactivate', :as => :deactivate_listing
   post 'listings/:id/reactivating' => 'listings#reactivate', :as => :reactivate_listing
   get 'users/stripe_prompt' => 'users#stripe_prompt', :as => :stripe_prompt
+  get 'users/change_password', :as => :change_password
 
   resources :listings, shallow: true do
     resources :reservations

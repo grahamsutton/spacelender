@@ -8,14 +8,12 @@ $third-color: #ffcc88;
 $fourth-color: #CDDEEE;
 $fifth-color: #FAFAFA;
 
-// $primary-color: #554422;
-// $secondary-color: #ffdd66;
-// $third-color: #66bbee;
-// $fourth-color: #99bbee;
-// $fifth-color: #ddbb99;
-
 body {
 	background-color: $fifth-color !important;
+}
+
+a {
+	font-family: 'Handlee' !important;
 }
 
 h1,
@@ -25,6 +23,7 @@ h4,
 h5,
 h6 {
 	color: $primary-color !important;
+	font-family: 'Handlee' !important;
 }
 
 hr {
@@ -36,6 +35,10 @@ input[type="password"],
 select,
 textarea {
 	margin-bottom: 15px;
+}
+
+label {
+	color: #AAA !important;
 }
 
 .panel.panel-default {

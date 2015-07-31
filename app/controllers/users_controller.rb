@@ -36,8 +36,20 @@ class UsersController < ApplicationController
 		end
 	end
 
-	def stripe_prompt
-		
+	def edit
+	end
+
+	def update
+		if @current_user.update
+			flash[:notice] = "Your profile information was successfully updated."
+			redirect_to listings_path
+		else
+			flash[:notice] = "Looks like there were some errors: "
+			render :edit
+		end
+	end
+
+	def change_password_path
 	end
 
 	private

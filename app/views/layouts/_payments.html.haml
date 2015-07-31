@@ -1,0 +1,13 @@
+.panel.panel-default
+  .panel-body
+    .col-md-12
+      %ul#payments-list.list-unstyled.list-inline
+        %li.p-active
+          = link_to "Received", "#received-payments", :class => "payment-inner-tab-link active"
+        %li
+          = link_to "Sent", "#sent-payments", :class => "payment-inner-tab-link"
+    .col-md-12
+      #received-payments.payment-tab.active.col-md-12
+        here is my stuff.
+      #sent-payments.payment-tab
+        Sent

@@ -2,30 +2,11 @@
   .panel-body
     = render 'layouts/success_error_reporting'
     .row
-      .col-md-4
-        .panel.panel-default
-          .panel-body
-            %p.lead.text-center
-              2
-            %p.text-center
-              %strong
-                Reservations
-              %small
-                need confirmation
-      .col-md-4
-        .panel.panel-default
-          .panel-body
-            %p.lead.text-center
-              2
-            %p.text-center
-              New Messages
-      .col-md-4
-        .panel.panel-default
-          .panel-body
-            %p.lead.text-center
-              $3,438
-            %p.text-center
-              Total Revenue
+      .col-md-12
+        .profile-picture
+        .name
+        .renters-rating
+        .lenders-rating
       - if !@stripe_is_connected
         .col-md-12
           %h5

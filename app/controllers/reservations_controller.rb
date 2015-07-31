@@ -9,6 +9,8 @@ class ReservationsController < ApplicationController
 		@reservations = @listing.reservations.all
 	end
 
+
+
 	def create
 		@reservation = @listing.reservations.new(reservation_params)
 
@@ -21,7 +23,21 @@ class ReservationsController < ApplicationController
 	    time = translate_time(@reservation, @reservation.period.end, @reservation.period.start)
 
 	    # Update reservation status
-	    @reservation.accepted!
+	    if @listing.request_reserve?
+	    	# User wants to approve the reservation first
+	    	@reservation.requested!
+	    else
+	    	# User has allowed anyone to book a reservation
+	    	@reservation.accepted!
+
+
+	    	# Send Email to Renter
+      	ReservationMailer.reservation_accepted_email(@current_user, @reservation, time).deliver
+
+      	# Send Email to Lender
+      	ReservationMailer.lender_reservation_confirmation_email(@reservation.listing.user.email, @current_user, @reservation, time).deliver
+	    end
+
 
       begin
         charge = Stripe::Charge.create({
@@ -38,16 +54,25 @@ class ReservationsController < ApplicationController
         flash.now[:alert] = "Your card was declined."
       end
 
-			flash[:notice] = charge
+
+			flash[:notice] = "Your reservation was succesfully made."
 			redirect_to listings_path
 		else
-
+			render :show
 		end
 	end
 
+
+
+	def show
+		@reservation = Reservation.find(params[:id])
+	end
+
+
+
 	private
 		def reservation_params
-			params.require(:reservation).permit(rate_attributes: [:amount, :date_range], period_attributes: [:start, :end])
+			params.require(:reservation).permit(:purpose, rate_attributes: [:amount, :date_range], period_attributes: [:start, :end])
 		end
 
 		def set_reservation

@@ -36,6 +36,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    addressable (2.3.8)
     animate-rails (1.0.8)
       rails
     arel (6.0.0)
@@ -77,6 +78,8 @@ GEM
     coffee-script-source (1.9.1.1)
     columnize (0.9.0)
     combined_time_select (1.0.1)
+    css_parser (1.3.6)
+      addressable
     debug_inspector (0.0.2)
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
@@ -222,6 +225,12 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    roadie (3.0.5)
+      css_parser (~> 1.3.4)
+      nokogiri (~> 1.6.0)
+    roadie-rails (1.0.6)
+      railties (>= 3.0, < 4.3)
+      roadie (~> 3.0)
     ruby_parser (3.7.0)
       sexp_processor (~> 4.1)
     sass (3.4.14)
@@ -314,6 +323,7 @@ DEPENDENCIES
   rabl
   rails (= 4.2.0)
   responders
+  roadie-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring

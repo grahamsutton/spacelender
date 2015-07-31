@@ -25,6 +25,8 @@ class ListingsController < ApplicationController
 
     # Get current user's reservations
     @listings.each do |listing|
+      @requested_reservations = listing.reservations.requested
+      @accepted_reservations = listing.reservations.accepted
       listing.reservations.each do |reservation|
         @reservations << reservation
       end
