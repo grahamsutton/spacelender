@@ -24,12 +24,17 @@ class UsersController < ApplicationController
 	def create
 		@user = User.new(user_params)
 
-		@user.encrypt_password
+    customer = Stripe::Customer.create(
+      description: "#{@user.first_name} #{@user.last_name}'s card.",
+      email: @user.email
+    )
+
+    @user.customer_token = customer.id
 
 		if @user.save
 			flash[:notice] = "Welcome to SpaceLender, #{@user.first_name}"
 			session[:user_id] = @user.id
-			redirect_to listings_path
+			redirect_to dashboard_path
 		else
 			flash.now[:alert] = "Uh-oh! Something's off here: "
 			render :new
@@ -42,7 +47,7 @@ class UsersController < ApplicationController
 	def update
 		if @current_user.update
 			flash[:notice] = "Your profile information was successfully updated."
-			redirect_to listings_path
+			redirect_to dashboard_path
 		else
 			flash[:notice] = "Looks like there were some errors: "
 			render :edit
@@ -54,6 +59,6 @@ class UsersController < ApplicationController
 
 	private
 	def user_params
-		params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :email_confirmation)
+		params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :email_confirmation, :customer_token, card_attributes: [:card_token])
 	end
 end

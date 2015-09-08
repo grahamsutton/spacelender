@@ -1,1005 +1,969 @@
-// Place all the styles related to the listings controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-// $primary-color: #002533;
-// $secondary-color: #004B66;
-
-$primary-color: #334466;
-$secondary-color: #999999;
-$third-color: #ffcc88;
-$fourth-color: #eeeecc;
-$fifth-color: #FAFAFA;
-
-tfoot {
-	border-top: 2px solid $third-color !important;
-}
-
-.col-no-pad {
-	padding-left: 0px !important;
-	padding-right: 0px !important;
-}
-
-#address,
-#rates,
-#upload-pictures {
-	margin-top: 20px;
-}
-
-#rates,
-#address {
-	//background: $primary-color;
-
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		//color: #EEE !important;
-		margin-bottom: 15px !important;
-	}
-
-	input[type="text"],
-	input[type="password"],
-	textarea {
-		//color: #EEE !important;
-	}
-
-	select {
-		//opacity: 0.9;
-	}
-
-	::-webkit-input-placeholder { color: $primary-color !important; }
-	::-moz-placeholder  { color: $primary-color !important; } /* firefox 19+ */
-	:-ms-input-placeholder  { color: $primary-color !important; } /* ie */
-	:-moz-placeholder  { color: $primary-color !important; }
-}
-
-.add-subtract-rate-forms {
-	float: right;
-}
-
-#add-rate-form:hover,
-#subtract-rate-form:hover {
-	cursor: pointer;
-}
-
-#add-rate-form:focus,
-#subtract-rate-form:focus {
-	color: #CCC !important;
-}
-
-.features-list li {
-	animation-duration: 10s;
-    animation-delay: 2s;
-    animation-iteration-count: 1;
-
-	-webkit-animation-duration: 3s;
-    -webkit-animation-delay: 2s;
-    -webkit-animation-iteration-count: 1;
-
-    padding: 15px;
-
-    a {
-    	font-size: 1em !important;
-    	color: $primary-color;
-    }
-}
-
-#list-a-space {
-	background: #FFF !important;
-}
-
-.tab-link.active {
-	font-weight: bold;
-	color: $third-color !important;
-	font-size: 18px !important;
-	text-decoration: none !important;
-}
-
-.inner-tabs-list li {
-	margin-left: 10px !important;
-	margin-right: 10px !important;
-	text-align: center !important;
-}
-
-.inner-tabs-list li:last-child {
-	border-right: none !important;
-}
-
-.inner-tab-link {
-	color: $secondary-color !important;
-	text-decoration: none !important;
-}
-
-.inner-tab-link.active {
-	font-weight: bold;
-	color: $third-color !important;
-}
-
-.inner-tab-link:hover {
-	cursor: pointer;
-	text-decoration: none !important;
-}
-
-.tab,
-.inner-tab {
-	display: none;
-}
-
-.inner-tab {
-	margin-top: 0px !important;
-}
-
-.inner-tab > small {
-	margin-bottom: 30px !important;
-}
-
-.tab.active,
-.inner-tab.active {
-	display: block;
-}
-
-.tab-display {
-	min-height: 400px;
-	background: #FFF !important;
-}
-
-.tab > .panel {
-	position: relative;
-	min-height: 400px;
-}
-
-.tab > .panel:after {
-	content: ' ';
-	height: 0px;
-	width: 0px;
-	position: absolute;
-	border: 20px solid transparent;
-	border-right-color: $primary-color;
-	right: 100%;
-}
-
-#main-dashboard > .panel:after {
-	top: 15px;
-}
-
-#list-space > .panel:after {
-	top: 120px;
-}
-
-#listings > .panel:after {
-	top: 65px;
-}
-
-#reservations > .panel:after {
-	top: 175px;
-}
-
-#payments > .panel:after {
-	top: 225px;
-}
-
-#reviews > .panel:after {
-	top: 225px;
-}
-
-#carousel-container {
-	position: relative !important;
-}
-
-.carousel img {
-	max-width: none;
-}
-
-#listing-slideshow {
-	height: 400px;
-	max-height: 400px;
-
-	.carousel-inner,
-	.item {
-		height: 100%;
-	}
-
-	img {
-		height: 100%;
-		width: 100%;
-	}
-}
-
-.listing-name-display {
-	position: absolute !important;
-	left: 20px !important;
-	top: 320px !important;
-	z-index: 1001 !important;
-
-	.panel.panel-default {
-		border: 1px solid $primary-color !important;
-	}
-}
-
-.rate-display {
-	padding-right: 0px !important;
-	position: absolute !important;
-	right: 0px !important;
-	top: 260px !important;
-	z-index: 1000 !important;
-
-	.panel {
-		/*background: rgba(0, 0, 0, 0.7) !important;*/
-		background: $primary-color !important;
-		opacity: 0.9 !important;
-		color: #EEE !important;
-		border-right: none !important;
-	}
-}
-
-.rates-list,
-.result-rates-display ul {
-	margin-bottom: 0px !important;
-
-	.rate-amount {
-		font-size: 18px !important;
-	}
-
-	.rate-date-range {
-		font-size: 14px !important;
-	}
-}
-
-#listing-details {
-	background: url('confectionary.png');
-	padding-top: 30px;
-	min-height: 200px !important;
-	border-top: 1px solid $primary-color !important;
-	border-bottom: 1px solid $primary-color !important;
-}
-
-#listing-description {
-	background-color: #F2F2F2;
-}
-
-.next-prev-btns {
-	display: none;
-}
-
-.next-prev-btns.active {
-	display: block;
-
-	button {
-		background-color: $fifth-color !important;
-	}
-}
-
-.datepicker {
-	padding-top: 0px !important;
-	padding-bottom: 0px !important;
-}
-
-.datepicker-days {
-	.day {
-		color: $primary-color !important;
-		border-radius: 0px;
-		border: 1px solid #CCC;
-	}
-
-	.disabled.day,
-	.new.day {
-		color: #999 !important;
-	}
-
-	.active.day {
-		color: #EEE !important;
-		background-color: $primary-color !important;
-	}
-}
-
-.dropzone {
-	padding: 0px !important;
-	background: #FFF !important;
-	border: none !important;
-}
-
-.dropzone-area {
-	min-height: 280px !important;
-	border: 1px dashed #CCC !important;
-	margin-top: -30px;
-}
-
-.dropzone-area:hover {
-	cursor: pointer;
-}
-
-.dropzone a.dz-remove, .dropzone-previews a.dz-remove {
-	background-image: -webkit-linear-gradient(top, #fafafa, #eee);
-	background-image: linear-gradient(to bottom, #fafafa, #eee);
-	/*border-radius: 2px;*/
-	/*border: 1px solid #eee;*/
-	text-decoration: none;
-	display: block;
-	/*padding: 4px 5px;*/
-	text-align: center;
-	/*color: #aaa;*/
-	margin-top: 26px;
-
-  	background: transparent !important;
-	border: 1px solid $primary-color !important;
-	box-shadow: none !important;
-	color: $primary-color !important;
-	border-radius: 0px !important;
-}
-
-#map {
-  width: 100%; 
-  height: 400px;
-}
-
-#map.search-results-map {
-  width: 100%; 
-  height: 100%;
-  position: relative !important;
-}
-
-.left-column,
-#map-outer-container {
-	padding-right: 0px !important;
-}
-
-.left-column {
-	float: left !important;
-	position: relative !important;
-}
-
-.right-column {
-	position: fixed !important;
-	right: 0 !important;
-	float: right !important;
-}
-
-.right-column,
-#map-outer-container {
-	padding-left: 0px !important;
-}
-
-#search-results-container {
-	background: url('swirl_pattern.png');
-	margin-top: 64px;
-
-	.left-column {
-		padding-top: 20px !important;
-		height: 100% !important;
-		overflow: auto !important;
-	}
-
-	#footer {
-		clear: both !important;
-		opacity: 0.8 !important;
-	}
-}
-
-#search-results-container,
-.right-column {
-	height: 100% !important;
-}
-
-.search-result-container {
-	min-height: 210px;
-	position: relative !important;
-	margin-bottom: 60px !important;
-
-	.panel-body {
-		min-height: inherit !important;
-		padding-top: 0px !important;
-		padding-bottom: 0px !important;
-		padding-right: 0px !important;
-
-		.info-side {
-			padding-top: 15px !important;
-			padding-bottom: 15px !important;
-			padding-right: 15px !important;
-		}
-
-		.pictures-side {
-			padding-right: 0px !important;
-			padding-left: 0px !important;
-			border-left: 1px solid $primary-color !important;
-
-			.search-result-carousel {
-				height: 100% !important;
-
-				.owl-wrapper-outer {
-					height: 100% !important;
-
-					.owl-wrapper {
-						height: 100% !important;
-
-						.owl-item {
-							height: 100% !important;
-
-							.item {
-								height: 100% !important;
-								margin: 0px !important;
-
-								img {
-									height: 100% !important;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-		.info-side,
-		.pictures-side {
-			height: 210px !important;
-		}
-
-
-
-		.result-rates-display {
-			/*background: rgba(0,0,0,0.8);*/
-			background: $primary-color !important;
-			opacity: 1.0 !important;
-			color: #EEE !important;
-			position: absolute !important;
-			top: -10px !important;
-			left: 20px !important;
-			margin-bottom: 0px !important;
-
-			.panel-body {
-				padding: 0px 15px !important;
-				/*content: ' ';
-				height: 0px;
-				width: 0px;
-				position: absolute;
-				border: 20px solid transparent;
-				border-right-color: $primary-color;
-				right: 100%;*/
-			}
-
-			ul {
-				margin-bottom: 0px !important;
-			}
-		}
-	}
-}
-
-.no-results-css-fix {
-	margin-top: -23px !important;
-}
-
-.right-column {
-	position: fixed !important;
-	padding-right: 0px !important;
-	border-left: 1px solid $primary-color !important;
-
-	#google-map {
-		height: 100% !important;
-		width: 100% !important;
-	}
-
-	#map-outer-container {
-		height: 100% !important;
-	}
-}
-
-.search-result-carousel .item {
-  margin: 3px;
-}
-.search-result-carousel .item img{
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-#display-filter-settings {
-	display: none;
-}
-
-.owl-controls {
-	display: none !important;
-}
-
-.owl-item {
-	.item {
-		img:hover {
-			cursor: grab !important;
-		}
-	}
-}
-
-.modal {
-	z-index: 1000000 !important;
-}
-
-.user-display {
-	margin-top: 40px !important;
-}
-
-.reservation-inner-tab.active {
-	display: block;
-}
-
-.reservation-inner-tab {
-	display: none;
-}
-
-.add-upload-pictures {
-	display: none;
-}
-
-.step {
-	margin-bottom: 60px !important;
-}
-
-#reservation-modal {
-
-	.modal-body {
-		padding-bottom: 68px !important;
-	}
-
-	.modal-content {
-		min-height: 300px !important;
-	}
-
-	.modal-footer {
-		bottom: 0px !important;
-		position: absolute !important;
-		width: 100% !important;
-	}
-
-	.start-time-container {
-		margin-bottom: 20px;
-	}
-
-	.success-validation {
-		color: #00CC00 !important;
-	}
-
-	.warning-validation {
-		color: #CCCC00 !important;
-	}
-
-	.error-validation {
-		color: #FF6161 !important;
-	}
-}
-
-.ui-timepicker-with-duration {
-	.ui-timepicker-list {
-		li:first-child {
-			display: none;
-		}
-	}
-}
-
-.ui-timepicker-wrapper {
-	z-index: 10000000 !important;
-}
-
-.small-disclaimer {
-	font-size: 10px !important;
-}
-
-#reservation_card_card_expires_on_1i,
-#reservation_card_card_expires_on_2i {
-	width: auto !important;
-	display: inline !important;
-}
-
-.timepicker-picker {
-	.btn {
-		box-shadow: none !important;
-
-		.glyphicon {
-			color: $primary-color !important;
-		}
-	}
-}
-
-.rate-radio-btn {
-	display: inline-block !important;
-}
-
-.add-more-photos-box {
-	display: none;
-}
-
-.edit-picture {
-	position: relative;
-
-	.delete-image-checkbox {
-		position: absolute;
-		top: 0 !important;
-		right: 0 !important;
-	}
-}
-
-.nav-link-active {
-	border-bottom: 2px solid $primary-color !important;
-}
-
-.list-group-item.actively {
-	border-left: 2px solid $primary-color !important;
-}
-
-.small-disclaimer {
-	font-size: 9px !important;
-	margin-bottom: 0px !important;
-}
-
-#reservations-table tbody tr:hover {
-	background: $primary-color !important;
-	color: #EEE !important;
-	cursor: pointer !important;
-}
-
-.payment-inner-tab-link {
-	color: $primary-color !important;
-}
-
-.payment-inner-tab-link.active {
-	color: $third-color !important;
-	text-decoration: none !important;
-}
-
-.payment-tab {
-	display: none !important;
-}
-
-.payment-tab.active {
-	display: block;
-}
-
-.p-active {
-	border-bottom: 2px solid $third-color !important;
-}
-
-#payments-list {
-	li {
-		margin-right: 15px !important;
-	}
-}
-
-.carousel-control {
-	i.fa {
-		top: 50% !important;
-		position: absolute !important;
-	}
-}
-
-#state-purpose-textarea {
-	border: 1px solid #334466 !important; 
-	padding: 10px !important;
-}
-
-.we-accept {
-	color: #334466 !important;
-}
-
-
-
-
-
-
-/* ----------- iPhone 4 and 4S ----------- */
-
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-
-}
-
-/* Portrait */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-}
-
-/* Landscape */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: landscape) {
-
-}
-
-/* ----------- iPhone 5 and 5S ----------- */
-
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 568px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-
-}
-
-/* Portrait */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 568px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-}
-
-/* Landscape */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 568px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: landscape) {
-
-}
-
-/* ----------- iPhone 6 ----------- */
-
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 375px) 
-  and (max-device-width: 667px) 
-  and (-webkit-min-device-pixel-ratio: 2) { 
-
-}
-
-/* Portrait */
-@media only screen 
-  and (min-device-width: 375px) 
-  and (max-device-width: 667px) 
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) { 
-
-}
-
-/* Landscape */
-@media only screen 
-  and (min-device-width: 375px) 
-  and (max-device-width: 667px) 
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: landscape) { 
-
-}
-
-/* ----------- iPhone 6+ ----------- */
-
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 414px) 
-  and (max-device-width: 736px) 
-  and (-webkit-min-device-pixel-ratio: 3) { 
-
-}
-
-/* Portrait */
-@media only screen 
-  and (min-device-width: 414px) 
-  and (max-device-width: 736px) 
-  and (-webkit-min-device-pixel-ratio: 3)
-  and (orientation: portrait) { 
-
-}
-
-/* Landscape */
-@media only screen 
-  and (min-device-width: 414px) 
-  and (max-device-width: 736px) 
-  and (-webkit-min-device-pixel-ratio: 3)
-  and (orientation: landscape) { 
-
-}
-
-
-
-
-
-/* ----------- Galaxy S3 ----------- */
-
-/* Portrait and Landscape */
-@media screen 
-  and (device-width: 320px) 
-  and (device-height: 640px) 
-  and (-webkit-device-pixel-ratio: 2) {
-
-}
-
-/* Portrait */
-@media screen 
-  and (device-width: 320px) 
-  and (device-height: 640px) 
-  and (-webkit-device-pixel-ratio: 2) 
-  and (orientation: portrait) {
-
-}
-
-/* Landscape */
-@media screen 
-  and (device-width: 320px) 
-  and (device-height: 640px) 
-  and (-webkit-device-pixel-ratio: 2) 
-  and (orientation: landscape) {
-
-}
-
-/* ----------- Galaxy S4 ----------- */
-
-/* Portrait and Landscape */
-@media screen 
-  and (device-width: 320px) 
-  and (device-height: 640px) 
-  and (-webkit-device-pixel-ratio: 3) {
-
-}
-
-/* Portrait */
-@media screen 
-  and (device-width: 320px) 
-  and (device-height: 640px) 
-  and (-webkit-device-pixel-ratio: 3) 
-  and (orientation: portrait) {
-
-}
-
-/* Landscape */
-@media screen 
-  and (device-width: 320px) 
-  and (device-height: 640px) 
-  and (-webkit-device-pixel-ratio: 3) 
-  and (orientation: landscape) {
-
-}
-
-/* ----------- Galaxy S5 ----------- */
-
-/* Portrait and Landscape */
-@media screen 
-  and (device-width: 360px) 
-  and (device-height: 640px) 
-  and (-webkit-device-pixel-ratio: 3) {
-
-}
-
-/* Portrait */
-@media screen 
-  and (device-width: 360px) 
-  and (device-height: 640px) 
-  and (-webkit-device-pixel-ratio: 3) 
-  and (orientation: portrait) {
-
-}
-
-/* Landscape */
-@media screen 
-  and (device-width: 360px) 
-  and (device-height: 640px) 
-  and (-webkit-device-pixel-ratio: 3) 
-  and (orientation: landscape) {
-
-}
-
-
-
-
-
-
-
-/* ----------- HTC One ----------- */
-
-/* Portrait and Landscape */
-@media screen 
-  and (device-width: 360px) 
-  and (device-height: 640px) 
-  and (-webkit-device-pixel-ratio: 3) {
-
-}
-
-/* Portrait */
-@media screen 
-  and (device-width: 360px) 
-  and (device-height: 640px) 
-  and (-webkit-device-pixel-ratio: 3) 
-  and (orientation: portrait) {
-
-}
-
-/* Landscape */
-@media screen 
-  and (device-width: 360px) 
-  and (device-height: 640px) 
-  and (-webkit-device-pixel-ratio: 3) 
-  and (orientation: landscape) {
-
-}
-
-
-
-
-
-
-/* ----------- iPad mini ----------- */
-
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (-webkit-min-device-pixel-ratio: 1) {
-
-}
-
-/* Portrait */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (orientation: portrait) 
-  and (-webkit-min-device-pixel-ratio: 1) {
-
-}
-
-/* Landscape */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (orientation: landscape) 
-  and (-webkit-min-device-pixel-ratio: 1) {
-
-}
-
-/* ----------- iPad 1 and 2 ----------- */
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (-webkit-min-device-pixel-ratio: 1) {
-
-}
-
-/* Portrait */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (orientation: portrait) 
-  and (-webkit-min-device-pixel-ratio: 1) {
-
-}
-
-/* Landscape */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (orientation: landscape) 
-  and (-webkit-min-device-pixel-ratio: 1) {
-
-}
-
-/* ----------- iPad 3 and 4 ----------- */
-/* Portrait and Landscape */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (-webkit-min-device-pixel-ratio: 2) {
-
-}
-
-/* Portrait */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (orientation: portrait) 
-  and (-webkit-min-device-pixel-ratio: 2) {
-
-}
-
-/* Landscape */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
-  and (orientation: landscape) 
-  and (-webkit-min-device-pixel-ratio: 2) {
-
-}
+// // Place all the styles related to the listings controller here.
+// // They will automatically be included in application.css.
+// // You can use Sass (SCSS) here: http://sass-lang.com/
+
+// // $primary-color: #002533;
+// // $secondary-color: #004B66;
+
+// //primary-color: #334466;
+// $primary-color: #2c3e50;
+// $secondary-color: #999999;
+// $third-color: #ffcc88;
+// $fourth-color: #eeeecc;
+// $fifth-color: #FAFAFA;
+
+// tfoot {
+// 	border-top: 2px solid $third-color !important;
+// }
+
+// .col-no-pad {
+// 	padding-left: 0px !important;
+// 	padding-right: 0px !important;
+// }
+
+// #address,
+// #rates,
+// #upload-pictures {
+// 	margin-top: 20px;
+// }
+
+// #rates,
+// #address {
+// 	//background: $primary-color;
+
+// 	h1,
+// 	h2,
+// 	h3,
+// 	h4,
+// 	h5,
+// 	h6 {
+// 		//color: #EEE !important;
+// 		margin-bottom: 15px !important;
+// 	}
+
+// 	input[type="text"],
+// 	input[type="password"],
+// 	textarea {
+// 		//color: #EEE !important;
+// 	}
+
+// 	select {
+// 		//opacity: 0.9;
+// 	}
+
+// 	::-webkit-input-placeholder { color: $primary-color !important; }
+// 	::-moz-placeholder  { color: $primary-color !important; } /* firefox 19+ */
+// 	:-ms-input-placeholder  { color: $primary-color !important; } /* ie */
+// 	:-moz-placeholder  { color: $primary-color !important; }
+// }
+
+// .add-subtract-rate-forms {
+// 	float: right;
+// }
+
+// #add-rate-form:hover,
+// #subtract-rate-form:hover {
+// 	cursor: pointer;
+// }
+
+// #add-rate-form:focus,
+// #subtract-rate-form:focus {
+// 	color: #CCC !important;
+// }
+
+// .features-list li {
+// 	animation-duration: 10s;
+//     animation-delay: 2s;
+//     animation-iteration-count: 1;
+
+// 	-webkit-animation-duration: 3s;
+//     -webkit-animation-delay: 2s;
+//     -webkit-animation-iteration-count: 1;
+
+//     padding: 15px;
+
+//     a {
+//     	font-size: 1em !important;
+//     	color: $primary-color;
+//     }
+// }
+
+// #list-a-space {
+// 	background: #FFF !important;
+// }
+
+// // .tab-link.active {
+// // 	font-weight: bold;
+// // 	color: $third-color !important;
+// // 	font-size: 18px !important;
+// // 	text-decoration: none !important;
+// // }
+
+// .inner-tabs-list li {
+// 	margin-left: 10px !important;
+// 	margin-right: 10px !important;
+// 	text-align: center !important;
+// }
+
+// .inner-tabs-list li:last-child {
+// 	border-right: none !important;
+// }
+
+// .inner-tab-link {
+// 	color: $secondary-color !important;
+// 	text-decoration: none !important;
+// }
+
+// .inner-tab-link.active {
+// 	font-weight: bold;
+// 	color: $third-color !important;
+// }
+
+// .inner-tab-link:hover {
+// 	cursor: pointer;
+// 	text-decoration: none !important;
+// }
+
+// .tab,
+// .inner-tab {
+// 	display: none;
+// }
+
+// .inner-tab {
+// 	margin-top: 0px !important;
+// }
+
+// .inner-tab > small {
+// 	margin-bottom: 30px !important;
+// }
+
+// .tab.active,
+// .inner-tab.active {
+// 	display: block;
+// }
+
+// .tab-display {
+// 	min-height: 400px;
+// 	background: #FFF !important;
+// }
+
+// .tab > .panel {
+// 	position: relative;
+// 	min-height: 400px;
+// }
+
+// #carousel-container {
+// 	position: relative !important;
+// }
+
+// .carousel img {
+// 	max-width: none;
+// }
+
+// #listing-slideshow {
+// 	height: 400px;
+// 	max-height: 400px;
+
+// 	.carousel-inner,
+// 	.item {
+// 		height: 100%;
+// 	}
+
+// 	img {
+// 		height: 100%;
+// 		width: 100%;
+// 	}
+// }
+
+// .listing-name-display {
+// 	position: absolute !important;
+// 	left: 20px !important;
+// 	top: 320px !important;
+// 	z-index: 1001 !important;
+
+// 	.panel.panel-default {
+// 		border: 1px solid $primary-color !important;
+// 	}
+// }
+
+// .rate-display {
+// 	padding-right: 0px !important;
+// 	position: absolute !important;
+// 	right: 0px !important;
+// 	top: 260px !important;
+// 	z-index: 1000 !important;
+
+// 	.panel {
+// 		/*background: rgba(0, 0, 0, 0.7) !important;*/
+// 		background: $primary-color !important;
+// 		opacity: 0.9 !important;
+// 		color: #EEE !important;
+// 		border-right: none !important;
+// 	}
+// }
+
+// .rates-list,
+// .result-rates-display ul {
+// 	margin-bottom: 0px !important;
+
+// 	.rate-amount {
+// 		font-size: 18px !important;
+// 	}
+
+// 	.rate-date-range {
+// 		font-size: 14px !important;
+// 	}
+// }
+
+// #listing-details {
+// 	//background: url('confectionary.png');
+// 	background-color: #ecf0f1 !important;
+// 	padding-top: 30px;
+// 	min-height: 200px !important;
+// 	border-top: 1px solid $primary-color !important;
+// 	border-bottom: 1px solid $primary-color !important;
+// }
+
+// #listing-description {
+// 	background-color: #F2F2F2;
+// }
+
+// .next-prev-btns {
+// 	display: none;
+// }
+
+// .next-prev-btns.active {
+// 	display: block;
+
+// 	button {
+// 		background-color: $fifth-color !important;
+// 	}
+// }
+
+// .datepicker {
+// 	padding-top: 0px !important;
+// 	padding-bottom: 0px !important;
+// }
+
+// .datepicker-days {
+// 	.day {
+// 		color: $primary-color !important;
+// 		border-radius: 0px;
+// 		border: 1px solid #CCC;
+// 	}
+
+// 	.disabled.day,
+// 	.new.day {
+// 		color: #999 !important;
+// 	}
+
+// 	.active.day {
+// 		color: #EEE !important;
+// 		background-color: $primary-color !important;
+// 	}
+// }
+
+// .dropzone {
+// 	padding: 0px !important;
+// 	background: #FFF !important;
+// 	border: none !important;
+// }
+
+// .dropzone-area {
+// 	min-height: 280px !important;
+// 	border: 1px dashed #CCC !important;
+// 	margin-top: -30px;
+// }
+
+// .dropzone-area:hover {
+// 	cursor: pointer;
+// }
+
+// .dropzone a.dz-remove, .dropzone-previews a.dz-remove {
+// 	background-image: -webkit-linear-gradient(top, #fafafa, #eee);
+// 	background-image: linear-gradient(to bottom, #fafafa, #eee);
+// 	/*border-radius: 2px;*/
+// 	/*border: 1px solid #eee;*/
+// 	text-decoration: none;
+// 	display: block;
+// 	/*padding: 4px 5px;*/
+// 	text-align: center;
+// 	/*color: #aaa;*/
+// 	margin-top: 26px;
+
+//   	background: transparent !important;
+// 	border: 1px solid $primary-color !important;
+// 	box-shadow: none !important;
+// 	color: $primary-color !important;
+// 	border-radius: 0px !important;
+// }
+
+// #map {
+//   width: 100%; 
+//   height: 400px;
+// }
+
+// #map.search-results-map {
+//   width: 100%; 
+//   height: 100%;
+//   position: relative !important;
+// }
+
+// .left-column,
+// #map-outer-container {
+// 	padding-right: 0px !important;
+// }
+
+// .left-column {
+// 	float: left !important;
+// 	position: relative !important;
+// }
+
+// .right-column {
+// 	position: fixed !important;
+// 	right: 0 !important;
+// 	float: right !important;
+// }
+
+// .right-column,
+// #map-outer-container {
+// 	padding-left: 0px !important;
+// }
+
+// #search-results-container {
+// 	background: url('swirl_pattern.png');
+// 	margin-top: 64px;
+
+// 	.left-column {
+// 		padding-top: 20px !important;
+// 		height: 100% !important;
+// 		overflow: auto !important;
+// 	}
+
+// 	#footer {
+// 		clear: both !important;
+// 		opacity: 0.8 !important;
+// 	}
+// }
+
+// #search-results-container,
+// .right-column {
+// 	height: 100% !important;
+// }
+
+// .search-result-container {
+// 	min-height: 210px;
+// 	position: relative !important;
+// 	margin-bottom: 60px !important;
+
+// 	.panel-body {
+// 		min-height: inherit !important;
+// 		padding-top: 0px !important;
+// 		padding-bottom: 0px !important;
+// 		padding-right: 0px !important;
+
+// 		.info-side {
+// 			padding-top: 15px !important;
+// 			padding-bottom: 15px !important;
+// 			padding-right: 15px !important;
+// 		}
+
+// 		.pictures-side {
+// 			padding-right: 0px !important;
+// 			padding-left: 0px !important;
+// 			border-left: 1px solid $primary-color !important;
+
+// 			.search-result-carousel {
+// 				height: 100% !important;
+
+// 				.owl-wrapper-outer {
+// 					height: 100% !important;
+
+// 					.owl-wrapper {
+// 						height: 100% !important;
+
+// 						.owl-item {
+// 							height: 100% !important;
+
+// 							.item {
+// 								height: 100% !important;
+// 								margin: 0px !important;
+
+// 								img {
+// 									height: 100% !important;
+// 								}
+// 							}
+// 						}
+// 					}
+// 				}
+// 			}
+// 		}
+
+// 		.info-side,
+// 		.pictures-side {
+// 			height: 210px !important;
+// 		}
+
+
+
+// 		.result-rates-display {
+// 			/*background: rgba(0,0,0,0.8);*/
+// 			background: $primary-color !important;
+// 			opacity: 1.0 !important;
+// 			color: #EEE !important;
+// 			position: absolute !important;
+// 			top: -10px !important;
+// 			left: 20px !important;
+// 			margin-bottom: 0px !important;
+
+// 			.panel-body {
+// 				padding: 0px 15px !important;
+// 				/*content: ' ';
+// 				height: 0px;
+// 				width: 0px;
+// 				position: absolute;
+// 				border: 20px solid transparent;
+// 				border-right-color: $primary-color;
+// 				right: 100%;*/
+// 			}
+
+// 			ul {
+// 				margin-bottom: 0px !important;
+// 			}
+// 		}
+// 	}
+// }
+
+// .no-results-css-fix {
+// 	margin-top: -23px !important;
+// }
+
+// .right-column {
+// 	position: fixed !important;
+// 	padding-right: 0px !important;
+// 	border-left: 1px solid $primary-color !important;
+
+// 	#google-map {
+// 		height: 100% !important;
+// 		width: 100% !important;
+// 	}
+
+// 	#map-outer-container {
+// 		height: 100% !important;
+// 	}
+// }
+
+// .search-result-carousel .item {
+//   margin: 3px;
+// }
+// .search-result-carousel .item img{
+//   display: block;
+//   width: 100%;
+//   height: auto;
+// }
+
+// #display-filter-settings {
+// 	display: none;
+// }
+
+// .owl-controls {
+// 	display: none !important;
+// }
+
+// .owl-item {
+// 	.item {
+// 		img:hover {
+// 			cursor: grab !important;
+// 		}
+// 	}
+// }
+
+// .modal {
+// 	z-index: 1000000 !important;
+// }
+
+// .user-display {
+// 	margin-top: 40px !important;
+// }
+
+// .reservation-inner-tab.active {
+// 	display: block;
+// }
+
+// .reservation-inner-tab {
+// 	display: none;
+// }
+
+// .add-upload-pictures {
+// 	display: none;
+// }
+
+// .step {
+// 	margin-bottom: 60px !important;
+// }
+
+// #reservation-modal {
+
+// 	.modal-body {
+// 		padding-bottom: 68px !important;
+// 	}
+
+// 	.modal-content {
+// 		min-height: 300px !important;
+// 	}
+
+// 	.modal-footer {
+// 		bottom: 0px !important;
+// 		position: absolute !important;
+// 		width: 100% !important;
+// 	}
+
+// 	.start-time-container {
+// 		margin-bottom: 20px;
+// 	}
+
+// 	.success-validation {
+// 		color: #00CC00 !important;
+// 	}
+
+// 	.warning-validation {
+// 		color: #CCCC00 !important;
+// 	}
+
+// 	.error-validation {
+// 		color: #FF6161 !important;
+// 	}
+// }
+
+// .ui-timepicker-with-duration {
+// 	.ui-timepicker-list {
+// 		li:first-child {
+// 			display: none;
+// 		}
+// 	}
+// }
+
+// .ui-timepicker-wrapper {
+// 	z-index: 10000000 !important;
+// }
+
+// .small-disclaimer {
+// 	font-size: 10px !important;
+// }
+
+// #reservation_card_card_expires_on_1i,
+// #reservation_card_card_expires_on_2i {
+// 	width: auto !important;
+// 	display: inline !important;
+// }
+
+// .timepicker-picker {
+// 	.btn {
+// 		box-shadow: none !important;
+
+// 		.glyphicon {
+// 			color: $primary-color !important;
+// 		}
+// 	}
+// }
+
+// .rate-radio-btn {
+// 	display: inline-block !important;
+// }
+
+// .add-more-photos-box {
+// 	display: none;
+// }
+
+// .edit-picture {
+// 	position: relative;
+
+// 	.delete-image-checkbox {
+// 		position: absolute;
+// 		top: 0 !important;
+// 		right: 0 !important;
+// 	}
+// }
+
+// .list-group-item.actively {
+// 	border-left: 2px solid $primary-color !important;
+// }
+
+// .small-disclaimer {
+// 	font-size: 9px !important;
+// 	margin-bottom: 0px !important;
+// }
+
+// #reservations-table tbody tr:hover {
+// 	background: $primary-color !important;
+// 	color: #EEE !important;
+// 	cursor: pointer !important;
+// }
+
+// .payment-inner-tab-link {
+// 	color: $primary-color !important;
+// }
+
+// .payment-inner-tab-link.active {
+// 	color: $third-color !important;
+// 	text-decoration: none !important;
+// }
+
+// .payment-tab {
+// 	display: none !important;
+// }
+
+// .payment-tab.active {
+// 	display: block;
+// }
+
+// .p-active {
+// 	border-bottom: 2px solid $third-color !important;
+// }
+
+// #payments-list {
+// 	li {
+// 		margin-right: 15px !important;
+// 	}
+// }
+
+// .carousel-control {
+// 	i.fa {
+// 		top: 50% !important;
+// 		position: absolute !important;
+// 	}
+// }
+
+// #state-purpose-textarea {
+// 	border: 1px solid #334466 !important; 
+// 	padding: 10px !important;
+// }
+
+// .we-accept {
+// 	color: #334466 !important;
+// }
+
+
+
+
+
+
+// /* ----------- iPhone 4 and 4S ----------- */
+
+// /* Portrait and Landscape */
+// @media only screen 
+//   and (min-device-width: 320px) 
+//   and (max-device-width: 480px)
+//   and (-webkit-min-device-pixel-ratio: 2) {
+
+// }
+
+// /* Portrait */
+// @media only screen 
+//   and (min-device-width: 320px) 
+//   and (max-device-width: 480px)
+//   and (-webkit-min-device-pixel-ratio: 2)
+//   and (orientation: portrait) {
+// }
+
+// /* Landscape */
+// @media only screen 
+//   and (min-device-width: 320px) 
+//   and (max-device-width: 480px)
+//   and (-webkit-min-device-pixel-ratio: 2)
+//   and (orientation: landscape) {
+
+// }
+
+// /* ----------- iPhone 5 and 5S ----------- */
+
+// /* Portrait and Landscape */
+// @media only screen 
+//   and (min-device-width: 320px) 
+//   and (max-device-width: 568px)
+//   and (-webkit-min-device-pixel-ratio: 2) {
+
+// }
+
+// /* Portrait */
+// @media only screen 
+//   and (min-device-width: 320px) 
+//   and (max-device-width: 568px)
+//   and (-webkit-min-device-pixel-ratio: 2)
+//   and (orientation: portrait) {
+// }
+
+// /* Landscape */
+// @media only screen 
+//   and (min-device-width: 320px) 
+//   and (max-device-width: 568px)
+//   and (-webkit-min-device-pixel-ratio: 2)
+//   and (orientation: landscape) {
+
+// }
+
+// /* ----------- iPhone 6 ----------- */
+
+// /* Portrait and Landscape */
+// @media only screen 
+//   and (min-device-width: 375px) 
+//   and (max-device-width: 667px) 
+//   and (-webkit-min-device-pixel-ratio: 2) { 
+
+// }
+
+// /* Portrait */
+// @media only screen 
+//   and (min-device-width: 375px) 
+//   and (max-device-width: 667px) 
+//   and (-webkit-min-device-pixel-ratio: 2)
+//   and (orientation: portrait) { 
+
+// }
+
+// /* Landscape */
+// @media only screen 
+//   and (min-device-width: 375px) 
+//   and (max-device-width: 667px) 
+//   and (-webkit-min-device-pixel-ratio: 2)
+//   and (orientation: landscape) { 
+
+// }
+
+// /* ----------- iPhone 6+ ----------- */
+
+// /* Portrait and Landscape */
+// @media only screen 
+//   and (min-device-width: 414px) 
+//   and (max-device-width: 736px) 
+//   and (-webkit-min-device-pixel-ratio: 3) { 
+
+// }
+
+// /* Portrait */
+// @media only screen 
+//   and (min-device-width: 414px) 
+//   and (max-device-width: 736px) 
+//   and (-webkit-min-device-pixel-ratio: 3)
+//   and (orientation: portrait) { 
+
+// }
+
+// /* Landscape */
+// @media only screen 
+//   and (min-device-width: 414px) 
+//   and (max-device-width: 736px) 
+//   and (-webkit-min-device-pixel-ratio: 3)
+//   and (orientation: landscape) { 
+
+// }
+
+
+
+
+
+// /* ----------- Galaxy S3 ----------- */
+
+// /* Portrait and Landscape */
+// @media screen 
+//   and (device-width: 320px) 
+//   and (device-height: 640px) 
+//   and (-webkit-device-pixel-ratio: 2) {
+
+// }
+
+// /* Portrait */
+// @media screen 
+//   and (device-width: 320px) 
+//   and (device-height: 640px) 
+//   and (-webkit-device-pixel-ratio: 2) 
+//   and (orientation: portrait) {
+
+// }
+
+// /* Landscape */
+// @media screen 
+//   and (device-width: 320px) 
+//   and (device-height: 640px) 
+//   and (-webkit-device-pixel-ratio: 2) 
+//   and (orientation: landscape) {
+
+// }
+
+// /* ----------- Galaxy S4 ----------- */
+
+// /* Portrait and Landscape */
+// @media screen 
+//   and (device-width: 320px) 
+//   and (device-height: 640px) 
+//   and (-webkit-device-pixel-ratio: 3) {
+
+// }
+
+// /* Portrait */
+// @media screen 
+//   and (device-width: 320px) 
+//   and (device-height: 640px) 
+//   and (-webkit-device-pixel-ratio: 3) 
+//   and (orientation: portrait) {
+
+// }
+
+// /* Landscape */
+// @media screen 
+//   and (device-width: 320px) 
+//   and (device-height: 640px) 
+//   and (-webkit-device-pixel-ratio: 3) 
+//   and (orientation: landscape) {
+
+// }
+
+// /* ----------- Galaxy S5 ----------- */
+
+// /* Portrait and Landscape */
+// @media screen 
+//   and (device-width: 360px) 
+//   and (device-height: 640px) 
+//   and (-webkit-device-pixel-ratio: 3) {
+
+// }
+
+// /* Portrait */
+// @media screen 
+//   and (device-width: 360px) 
+//   and (device-height: 640px) 
+//   and (-webkit-device-pixel-ratio: 3) 
+//   and (orientation: portrait) {
+
+// }
+
+// /* Landscape */
+// @media screen 
+//   and (device-width: 360px) 
+//   and (device-height: 640px) 
+//   and (-webkit-device-pixel-ratio: 3) 
+//   and (orientation: landscape) {
+
+// }
+
+
+
+
+
+
+
+// /* ----------- HTC One ----------- */
+
+// /* Portrait and Landscape */
+// @media screen 
+//   and (device-width: 360px) 
+//   and (device-height: 640px) 
+//   and (-webkit-device-pixel-ratio: 3) {
+
+// }
+
+// /* Portrait */
+// @media screen 
+//   and (device-width: 360px) 
+//   and (device-height: 640px) 
+//   and (-webkit-device-pixel-ratio: 3) 
+//   and (orientation: portrait) {
+
+// }
+
+// /* Landscape */
+// @media screen 
+//   and (device-width: 360px) 
+//   and (device-height: 640px) 
+//   and (-webkit-device-pixel-ratio: 3) 
+//   and (orientation: landscape) {
+
+// }
+
+
+
+
+
+
+// /* ----------- iPad mini ----------- */
+
+// /* Portrait and Landscape */
+// @media only screen 
+//   and (min-device-width: 768px) 
+//   and (max-device-width: 1024px) 
+//   and (-webkit-min-device-pixel-ratio: 1) {
+
+// }
+
+// /* Portrait */
+// @media only screen 
+//   and (min-device-width: 768px) 
+//   and (max-device-width: 1024px) 
+//   and (orientation: portrait) 
+//   and (-webkit-min-device-pixel-ratio: 1) {
+
+// }
+
+// /* Landscape */
+// @media only screen 
+//   and (min-device-width: 768px) 
+//   and (max-device-width: 1024px) 
+//   and (orientation: landscape) 
+//   and (-webkit-min-device-pixel-ratio: 1) {
+
+// }
+
+// /* ----------- iPad 1 and 2 ----------- */
+// /* Portrait and Landscape */
+// @media only screen 
+//   and (min-device-width: 768px) 
+//   and (max-device-width: 1024px) 
+//   and (-webkit-min-device-pixel-ratio: 1) {
+
+// }
+
+// /* Portrait */
+// @media only screen 
+//   and (min-device-width: 768px) 
+//   and (max-device-width: 1024px) 
+//   and (orientation: portrait) 
+//   and (-webkit-min-device-pixel-ratio: 1) {
+
+// }
+
+// /* Landscape */
+// @media only screen 
+//   and (min-device-width: 768px) 
+//   and (max-device-width: 1024px) 
+//   and (orientation: landscape) 
+//   and (-webkit-min-device-pixel-ratio: 1) {
+
+// }
+
+// /* ----------- iPad 3 and 4 ----------- */
+// /* Portrait and Landscape */
+// @media only screen 
+//   and (min-device-width: 768px) 
+//   and (max-device-width: 1024px) 
+//   and (-webkit-min-device-pixel-ratio: 2) {
+
+// }
+
+// /* Portrait */
+// @media only screen 
+//   and (min-device-width: 768px) 
+//   and (max-device-width: 1024px) 
+//   and (orientation: portrait) 
+//   and (-webkit-min-device-pixel-ratio: 2) {
+
+// }
+
+// /* Landscape */
+// @media only screen 
+//   and (min-device-width: 768px) 
+//   and (max-device-width: 1024px) 
+//   and (orientation: landscape) 
+//   and (-webkit-min-device-pixel-ratio: 2) {
+
+// }
 

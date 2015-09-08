@@ -1,3 +1,4 @@
+/ NAVIGATION
 %nav.navbar.navbar-default{:class => ("navbar-homepage" unless !current_page?(root_path)) }
   .container-fluid
     .navbar-header
@@ -12,16 +13,23 @@
       - if !current_page?(root_path)
         = form_tag({:controller => "listings", :action => "search"},:class => 'navbar-form navbar-left', :method => :get)  do
           .form-group
-            = text_field_tag :search, nil, :id => "nav-search-bar", :class => "form-control", :placeholder => "Search"
-          %button#nav-search-bar-btn.btn.btn-default{:type => "submit"}
+            .row
+              .col-md-8
+                = text_field_tag :search, nil, :id => "search-listings-bar", :class => "nav-search-bar form-control", :placeholder => "Search Listings"
+              .col-md-4
+                = text_field_tag :city, nil, :id => "search-cities-bar", :class => "nav-search-bar form-control", :placeholder => "City"
+          %button#nav-search-bar-btn.btn.btn-primary{:type => "submit"}
             %span.glyphicon.glyphicon-search
       %ul.nav.navbar-nav.navbar-right
+        %li
+          = link_to "How It Works", "#how-it-works"
         - if @current_user
-          %li
-            = link_to listings_path, :id => "list-space-nav-btn" do
-              List A Space
-          %li{:class => ("nav-link-active" unless !current_page?(listings_path))}
-            = link_to "Dashboard", listings_path
+          - if !current_page?(dashboard_path)
+            %li
+              = link_to dashboard_path, :id => "list-space-nav-btn" do
+                List A Space
+          %li{:class => ("nav-link-active" unless !current_page?(dashboard_path))}
+            = link_to "Dashboard", dashboard_path
           %li
             = link_to messages_path do
               %i.fa.fa-inbox.fa-lg.fa-fw
@@ -40,13 +48,7 @@
                   %i.fa.fa-sign-out.fa-lg.fa-fw
                   &nbsp; Log Out
         - else
-          - if current_page?(root_path)
-            %li
-              = link_to "Register", "#registration", :class => "link_to_form"
-            %li
-              = link_to "Login", "#login", :class => "link_to_form"
-          - else
-            %li
-              = link_to "Register", registration_path
-            %li
-              = link_to "Login", login_path
+          %li
+            = link_to "Login", login_path
+          %li
+            = link_to "Register", registration_path, :class => "btn btn-primary navbar-btn"

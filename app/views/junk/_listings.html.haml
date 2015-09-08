@@ -1,0 +1,40 @@
+#listings.panel.panel-default.modern.dashboard-tab
+  .panel-body.tab-display
+    .form-container.row
+      .col-md-12
+
+        / Tab List
+        %ul.list-unstyled.col-md-8.col-md-offset-2.listings-inner-tabs-list
+          %li.col-md-6.text-center.active
+            = link_to "#listings-youve-posted", :class => "listings-inner-tab-link active btn btn-default" do
+              Listings You've Posted
+          %li.col-md-6.text-center
+            = link_to "#favorited-listings", :class => "listings-inner-tab-link btn btn-default" do
+              Favorited Listings
+
+        .col-md-10.col-md-offset-1
+          #listings-youve-posted.listings-inner-tab.active.col-md-12
+            - if @listings
+              - @listings.each do |listing|
+                .col-md-3.padded-sides
+                  .panel.panel-default.modern
+                    .panel-body.padded
+                      .col-md-12.listings-img-container
+                        = image_tag listing.pictures.first.image.url(:small), :class => "img-responsive"
+                      .row
+                        .col-md-10
+                          = link_to listing.name, listing_path(listing)
+                        #listing-state.col-md-2.text-right{ "data-listing" => listing.id }
+                          - if listing.active?
+                            %i.fa.fa-circle.fa-fw.success
+                          - else
+                            %i.fa.fa-circle.fa-fw.error
+                      .col-md-12
+                        = listing.reservations.count
+                        Reservations
+                      .col-md-12
+                        %small
+                          Posted
+                          = listing.created_at.strftime("%B %m, %Y")
+          #favorited-listings.listings-inner-tab.col-md-12
+            Secondly active

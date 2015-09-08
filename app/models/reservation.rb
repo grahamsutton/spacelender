@@ -7,4 +7,8 @@ class Reservation < ActiveRecord::Base
   has_one :period, :as => :periodic, :dependent => :destroy
 
   accepts_nested_attributes_for :rate, :period
+
+  def booker
+    User.find(self.booker_id)
+  end
 end

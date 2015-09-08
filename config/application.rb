@@ -27,5 +27,12 @@ module Spacemaker
     config.autoload_paths += %W["#{config.root}/app/validators/"]
 
     config.stripe.publishable_key = 'pk_test_uBxr1leBtJ52vOzNYKH458LL'
+
+    config.middleware.insert_before 0, "Rack::Cors" do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :options]
+      end
+    end
   end
 end

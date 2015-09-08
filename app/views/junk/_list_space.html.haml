@@ -27,9 +27,8 @@
                 5. Pics
 
 
-
         / Tabs - Each Step is its own tab.
-        #steps.col-md-12
+        #steps.col-md-8.col-md-offset-2
 
 
           / Step 1: Name and Description
@@ -86,7 +85,7 @@
                 = radio_button "listing", "periods", "specific_dates", :class => "date-selection", "data-section" => "#specific_dates"
                 %span
                   Specific Dates
-                #specific_dates.date-selection-area
+                #specific-dates.date-selection-area
                   = f.fields_for :periods do |d|
                     #datepicker
                       .row
@@ -158,8 +157,6 @@
             %br
             / The Dropzone area
             .dropzone-area.col-md-12
-                
-
 
     / Next/Prev Buttons
     .panel-footer

@@ -1,69 +1,44 @@
-#listings-panel.row.fight-navbar-margin
-  .container
-    .col-md-3
-      .panel.panel-default
-        %ul.list-unstyled.list-group.features-list
-          %li.list-group-item.actively
-            = link_to "#main-dashboard", :id => "main-dash-link", :class => "tab-link active" do
-              Main
-          %li.list-group-item
-            = link_to "#listings", :id => "my_listings_link", :class => "tab-link" do
-              Listings
-          - if @stripe_is_connected
-            %li.list-group-item
-              = link_to "#list-space", :id => "list-a-space-link", :class => "tab-link" do
-                List A Space
-          - else
-            %li.list-group-item.disabled{ "data-toggle" => "tooltip", "data-placement" => "top", "title" => "Please Connect with Stripe first." }
-              List A Space
-              %i.fa.fa-lock.fa-fw.fa-lg
-              %p.small-disclaimer
-                Requires a connected Stripe account
-            .tooltip.top{:role => "tooltip"}
-              .tooltip-arrow
-              .tooltip-inner
-                Please Connect with Stripe first.
-          %li.list-group-item
-            = link_to "#reservations", :class => "tab-link" do
-              Reservations
-          %li.list-group-item
-            = link_to "#payments", :class => "tab-link" do
-              Payments
-    .col-md-9
-      #main-dashboard.tab.active
-        = render 'layouts/main_dashboard'
-      #listings.tab
-        = render 'layouts/my_listings'
-      #list-space.tab
-        = render 'layouts/list_space'
-      #reservations.tab
-        = render 'layouts/reservations'
-      #payments.tab
-        = render 'layouts/payments'
-= render 'layouts/footer'
-          
+= render 'layouts/dashboard_nav'
 
+#dashboard-content.row.section.no-shadow
+  .col-md-12
+    #listings.panel.panel-default.modern.dashboard-tab
+      .panel-body.tab-display
+        .form-container.row
+          .col-md-12
 
-:javascript
-  $(document).ready(function() {
+            / Tab List
+            %ul.list-unstyled.col-md-8.col-md-offset-2.listings-inner-tabs-list
+              %li.col-md-6.text-center.active
+                = link_to "#listings-youve-posted", :class => "listings-inner-tab-link active btn btn-default" do
+                  Listings You've Posted
+              %li.col-md-6.text-center
+                = link_to "#favorited-listings", :class => "listings-inner-tab-link btn btn-default" do
+                  Favorited Listings
 
-    $(".tab-link").on("click", function(e) {
-      e.preventDefault();
-
-      var id = $(this).attr('href');
-      var index;
-
-      $(".tab-link").removeClass("active");
-      $(this).addClass("active");
-
-      $(".features-list .list-group-item").removeClass("actively");
-      $(this).parent().addClass("actively");
-
-      $(".tab").removeClass("active");
-      $(id).addClass("active");
-    });
-
-    if ("#{params[:q]}" === "ls") {
-      $("#list-a-space-link").click();
-    }
-  });
+            .col-md-10.col-md-offset-1
+              #listings-youve-posted.listings-inner-tab.active.col-md-12
+                - if @listings
+                  - @listings.each do |listing|
+                    .col-md-3.padded-sides
+                      .panel.panel-default.modern
+                        .panel-body.padded
+                          .col-md-12.listings-img-container
+                            = image_tag listing.pictures.first.image.url(:small), :class => "img-responsive"
+                          .row
+                            .col-md-10
+                              = link_to listing.name, listing_path(listing)
+                            #listing-state.col-md-2.text-right{ "data-listing" => listing.id }
+                              - if listing.active?
+                                %i.fa.fa-circle.fa-fw.success
+                              - else
+                                %i.fa.fa-circle.fa-fw.error
+                          .col-md-12
+                            = listing.reservations.count
+                            Reservations
+                          .col-md-12
+                            %small
+                              Posted
+                              = listing.created_at.strftime("%B %m, %Y")
+              #favorited-listings.listings-inner-tab.col-md-12
+                Secondly active

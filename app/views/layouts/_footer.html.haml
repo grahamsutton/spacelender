@@ -1,15 +1,12 @@
-#footer.row
+#footer.row.section.dark{:class => ("footer-homepage" unless !current_page?(root_path))}
   .col-md-12
     .col-md-4
       %h5
-        Have Suggestions?
-        %br
-        %small
-          We welcome them.
+        We're Open To Suggestions!
       %p
         If you have any suggestions on how you think SpaceLender can make your experience better, please let us know by contacting us at
         = link_to "suggestions@spacelender.com"
   .col-md-12
     #copyright.col-md-12
       %h6
-        &copy; 2015 SpaceLender, LLC - All Rights Reserved.
+        &copy; 2015 SpaceLender, Inc. - All Rights Reserved.

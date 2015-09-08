@@ -130,4 +130,12 @@ module ApplicationHelper
   			# @array.push(["#{Time.now.year + i}", Time.now.year])
   		end
   	end
+
+    def translate_time_to_hours(endTime, startTime)
+      totalHours = (endTime - startTime).to_i / 3600
+    end
+
+    def translate_time_to_days(endTime, startTime)
+      totalDays = translate_time_to_hours(endTime, startTime) / 24
+    end
 end

@@ -1,0 +1,315 @@
+#carousel-container.row.fight-navbar-margin
+  .col-md-12
+    #listing-slideshow.carousel.slide{"data-ride" => "carousel"}
+      / Indicators
+      %ol.carousel-indicators
+        - @listing.pictures.each_with_index do |pic, index|
+          - if index == 0
+            %li.active{"data-slide-to" => "#{index}", "data-target" => "#listing-slideshow"}
+          - else
+            %li{"data-slide-to" => "#{index}", "data-target" => "#listing-slideshow"}
+      / Wrapper for slides
+      .carousel-inner{:role => "listbox"}
+        - @listing.pictures.each_with_index do |pic, index|
+          - if index == 0
+            .item.active
+              = image_tag pic.image.url(:original), :class => "img-responsive"
+          - else
+            .item
+              = image_tag pic.image.url(:original), :class => "img-responsive"
+      / Controls
+      %a.left.carousel-control{"data-slide" => "prev", :href => "#listing-slideshow", :role => "button"}
+        / %span.glyphicon.glyphicon-chevron-left{"aria-hidden" => "true"}
+        %i.fa.fa-angle-left.fa-2x
+        %span.sr-only Previous
+      %a.right.carousel-control{"data-slide" => "next", :href => "#listing-slideshow", :role => "button"}
+        / %span.glyphicon.glyphicon-chevron-right{"aria-hidden" => "true"}
+        %i.fa.fa-angle-right.fa-2x
+        %span.sr-only Next
+    .col-md-4.listing-name-display
+      .col-md-12
+        .panel.panel-default
+          .panel-body
+            %h5
+              = @listing.name
+              %br
+              %br
+            .row
+              .col-md-6
+                %small
+                  = "#{@listing.location.city}, #{@listing.location.state}"
+              .col-md-6.text-right
+                - if @listing.user != @current_user
+                  = button_tag "Book it!", :class => "btn btn-primary", "data-toggle" => "modal", "data-target" => "#reservation-modal"
+                - else
+                  = button_tag "Edit", :class => "btn btn-default"
+    .col-md-8.rate-display
+      .col-md-3.col-md-offset-9
+        .panel
+          .panel-body
+            %ul.list-unstyled.rates-list
+              - @listing.rates.each do |rate|
+                %li
+                  %span.rate-amount
+                    = number_to_currency(rate.amount).gsub(/\.00$/, "")
+                  %span.rate-date-range
+                    = rate.date_range
+
+
+#listing-details.col-md-12
+  .col-md-4.user-display
+    .panel.panel-default
+      .panel-body
+        %h6.text-center
+          = @listing.user.first_name
+  .col-md-8
+    .panel.panel-default
+      .panel-body
+        - if @listing.periods.first
+          %p
+            %strong
+              Last day available:
+              = @listing.periods.first.end.strftime("%B %d, %Y")
+
+        = raw(@listing.description)
+    
+.row
+  #google-map
+    .col-md-12
+      #map
+= render 'layouts/footer'
+
+
+/ Reservation Modal
+= render 'listings/reservation_modal'
+    
+
+
+:javascript
+  handler = Gmaps.build('Google');
+  handler.buildMap({ internal: {id: 'map'}, provider: { scrollwheel: false }}, function(){
+    var markers = handler.addMarkers(#{@coordinate});
+    handler.bounds.extendWith(markers);
+    handler.fitMapToBounds();
+    handler.getMap().setZoom(14);
+  });
+
+
+
+  $(document).ready(function() {
+
+    // Array of tabs for Book It modal
+    var formSections = $(".reservation-inner-tab");
+    var timeRange = "";
+    var applicationFee = parseFloat(#{ENV['spacelender_application_fee']});
+    var totalHours = "";
+    var estimatedTotal = "";
+
+    // Next Button clicked
+    $(".next-btn").on("click", function(e) {
+      e.preventDefault();
+
+      if ($("#reservation-step-1").hasClass("active")) {
+        timeRange = $(".rate-radio-btn:checked").data("time-range");
+        
+        // Change from "Select Date" to "Select Date & Time" if an hourly time range is selected
+        if (timeRange === "hourly") {
+          $("#reservation-step-2").data("modal-title", "Select Date and Time");
+          spanMultipleDays = false;
+        } else {
+          timeRange = "";
+          $("#reservation-step-2").data("modal-title", "Select Date");
+        }
+      }
+
+      //Remove active class from Next/Prev buttons
+      $(".next-prev-btns").removeClass("active");
+
+      // Get current tab so we can remove active class from it after.
+      var currentTab = $(".reservation-inner-tab.active");
+
+      // Select new tab
+      formSections.filter('.active').next('.reservation-inner-tab').addClass("active");
+
+      // Remove active class from the former tab
+      currentTab.removeClass("active");
+
+      // Get the new tab that's active
+      var newTab = formSections.filter(".active");
+
+      // Set tab title for the "Book it!" modal
+      $(".reservation-modal-title").html(newTab.data("modal-title"));
+
+      // Change values on Review Order tab
+      $(".review-dates").text($("#start").val() + " - to - " + $("#end").val());
+      $(".review-rates").text(estimatedTotal);
+      $(".review-total").text("$" + estimatedTotal);
+
+
+      // Set the appropriate Prev and Next buttons
+      setAppropriateNextPrevBtns(newTab);
+    });
+
+
+
+    // Prev Button clicked
+    $(".prev-btn").on("click", function(e) {
+      e.preventDefault();
+
+      //Remove active class from Next/Prev buttons
+      $(".next-prev-btns").removeClass("active");
+
+      // Get current tab so we can remove active class from it after.
+      var currentTab = $(".reservation-inner-tab.active");
+
+      // Select new tab
+      formSections.filter('.active').prev('.reservation-inner-tab').addClass("active");
+
+      // Remove active class from the former tab
+      currentTab.removeClass("active");
+
+      // Get the new tab that's active
+      var newTab = formSections.filter(".active");
+
+      // Set tab title for the "Book it!" modal
+      $(".reservation-modal-title").html(newTab.data("modal-title"));
+
+      // Set the appropriate Prev and Next buttons
+      setAppropriateNextPrevBtns(newTab);
+    });
+
+    function setAppropriateNextPrevBtns(newTab) {
+      if (newTab.is(":first-child")) {
+        $(".next-btn-only").addClass("active");
+      } else if (newTab.is(":last-child")) {
+        $(".prev-btn-only").addClass("active");
+      } else {
+        $(".both-btns").addClass("active");
+      }
+
+      if ($("#reservation-step-2").hasClass("active")) {
+        $(".next-btn").attr("disabled", "disabled");
+      } else {
+        $(".next-btn").removeAttr("disabled");
+      }
+    }
+
+
+    // DateTime pickers for Start and End dates
+    $("#start").datetimepicker({
+      format: "ddd, MMM D - h:mm A",
+      minDate: moment().add('hours', 3),
+      maxDate: "#{@listing.periods.first.end}",
+      sideBySide: true,
+      stepping: 15
+    }).on("dp.change", function(e) {
+      var selectedDate = e.date;
+      $("#end").data("DateTimePicker").minDate(selectedDate.add('hours', 1));
+
+      if ($("#end").val() !== "") {
+        // Get total hours and estimated total
+        totalHours = getTotalHours($("#start").val(), $("#end").val());
+        estimatedTotal = totalHours * #{@listing.rates.hourly.first.amount};
+
+        // Update the estimates review
+        updateEstimates(totalHours, estimatedTotal);
+        updateDateRangeStatus();
+      }
+    });
+
+    $("#end").datetimepicker({
+      format: "ddd, MMM D - h:mm A",
+      sideBySide: true,
+      minDate: moment().add('hours', 4),
+      maxDate: "#{@listing.periods.first.end}",
+      stepping: 15
+    }).on("dp.change", function(e) {
+      var selectedDate = e.date;
+      $("#start").data("DateTimePicker").maxDate(selectedDate.subtract('hours', 1));
+
+      // Get total hours and estimated total
+      totalHours = getTotalHours($("#start").val(), $("#end").val());
+      estimatedTotal = totalHours * #{@listing.rates.hourly.first.amount};
+      
+      // Update the estimates review
+      updateEstimates(totalHours, estimatedTotal);
+      updateDateRangeStatus();
+    });
+
+    function updateEstimates(totalHours, estimatedTotal) {
+      $(".total-time-amount").html(totalHours + " hrs");
+      $(".estimated-total-amount").html("$" + estimatedTotal + ".00");
+      $(".review-time-amount").html(totalHours);
+    }
+
+    function getTotalHours(startTime, endTime) {
+      var ms = moment(endTime, "ddd, MMM D - h:mm A").diff(moment(startTime, "ddd, MMM D - h:mm A"));
+      var d = moment.duration(ms);
+      var s = Math.floor(d.asHours());
+      return s;
+    }
+
+    function updateDateRangeStatus() {
+      if ($("#start").val() !== "" && $("#end").val() !== "" && $("#reservation-step-2").hasClass("active")) {
+        $(".next-btn").css("opacity", "1.0");
+        $(".next-btn").removeAttr("disabled");
+        $(".date-range-status").html("<span class='success-validation'><i class='fa fa-check-circle fa-lg fa-fw'></i> Valid dates selected</span>");
+      } else {
+        $(".next-btn").css("opacity", "0.3");
+        $(".next-btn").attr("disabled", "disabled");
+        $(".date-range-status").html("<span class='warning-validation'><i class='fa fa-exclamation-circle fa-lg fa-fw'></i> Incomplete range</span>");
+      }
+    }
+
+
+    
+    Date.prototype.addHours = function(h) {
+      this.setHours(this.getHours() + h);
+      return this;
+    }
+
+    // Calculate minimum time
+    var coeff = Math.floor(1000 * 60) * 30;
+    var date = new Date();
+    var rounded = new Date(Math.round(date.getTime() / coeff) * coeff);
+    // Create Datepair object
+    var hourTimes = document.getElementById('hour-times');
+    var hourTimesDatepair = new Datepair(hourTimes);
+
+
+
+    // Initialize datepickers
+    $('#hour-times .date').datepicker({
+        'format': 'mm/dd/yyyy',
+        'autoclose': true,
+        'startDate': moment('MM/DD/YYYY')
+    }).on("changeDate", function(selected) {
+        var selectedDate = new Date(selected.date);
+        $('#end-date').datepicker('setStartDate', selected.date);
+        $('#end-date').datepicker('setEndDate', selected.date);
+    });
+
+
+    function clearSubtotals() {
+      $(".total-time-amount").text("");
+      $(".estimated-total-amount").text("");
+    }
+
+
+
+
+
+    function parseRange(startingTime, endingTime) {
+      var minutes = parseTime(endingTime) - parseTime(startingTime);
+      var hours = minutes / 60;
+      return hours;
+    }
+
+
+    function parseTime(time) {
+      var timeSplit = time.replace("am", "").replace("pm", "");
+      timeSplit = timeSplit.split(":");
+      return parseInt(timeSplit[0]) * 60 + parseInt(timeSplit[1]);
+    }
+
+  });

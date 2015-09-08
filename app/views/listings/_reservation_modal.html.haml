@@ -1,4 +1,4 @@
-#reservation-modal.modal.fade
+#reservation-modal.modal-launch-1.modal.fade
   .modal-dialog
     .modal-content
       = form_for [@listing, @reservation], :html => { :id => "new-reservation-form" } do |f|
@@ -10,8 +10,8 @@
         .modal-body
 
           / BOOK IT Form
-          = hidden_field_tag :stripeToken, :id => "stripeToken", :value => ""
-          #reservation-step-1.reservation-inner-tab.active.row{ "data-modal-title" => "Select Rate"}
+          /= hidden_field_tag :stripeToken, :id => "stripeToken", :value => ""
+          #reservation-step-1.reservation-inner-tab.start-tab.active.row{ "data-modal-title" => "Select Rate"}
             .col-md-12
               = f.fields_for :rate do |r|
                 = r.hidden_field :date_range, :id => "date-range-hidden", :value => ""
@@ -23,81 +23,129 @@
                         = r.label :rate, "#{number_to_currency(rate.amount)} #{rate.date_range}"
                         %br
           #reservation-step-2.reservation-inner-tab.row{ "data-modal-title" => "Select Date"}
-            .col-md-12
-              #hour.time-range-section
-                #hour-times.row
-                  = f.fields_for :period do |p|
-                    .col-md-6
-                      = p.label :start
-                      = p.text_field :start, :id => "start", :class => "form-control"
-                    .col-md-6
-                      = p.label :end
-                      = p.text_field :end, :id => "end", :class => "form-control"
-                    .col-md-12
-                      .date-range-status
-                    %br
-                .row
-                  #total-time.validation-message.col-md-6.col-md-offset-6.col-md-pull-6
-                    .row
-                      .col-md-6
-                        %small
-                          Total Time:
-                      .col-md-6
-                        %span.total-time-amount
-                          0 hrs
-                    .row
-                      .col-md-6
-                        %small
-                          Est. Total*:
-                      .col-md-6
-                        %span.estimated-total-amount
-                          $0.00
+            #hour.time-range-section
+              #hour-times
+                = f.fields_for :period do |p|
+                  .col-md-6
+                    = p.label :start
+                    = p.text_field :start, :id => "start", :class => "form-control"
+                  .col-md-6
+                    = p.label :end
+                    = p.text_field :end, :id => "end", :class => "form-control"
+                  .col-md-12
+                    .date-range-status
+                  %br
+                #total-time.validation-message.col-md-6.col-md-offset-6.col-md-pull-6
                   .row
-                    .col-md-12
-                      %small.small-disclaimer
-                        .col-md-6
-                          * Does not include service fees.
+                    .col-md-6
+                      %small
+                        Total Time:
+                    .col-md-6
+                      %span.total-time-amount
+                        0 hrs
+                  .row
+                    .col-md-6
+                      %small
+                        Est. Total*:
+                    .col-md-6
+                      %span.estimated-total-amount
+                        $0.00
+                .row
+                  .col-md-12
+                    %small.small-disclaimer
+                      .col-md-6
+                        * Does not include service fees.
           #reservation-step-3.reservation-inner-tab.row{ "data-modal-title" => "State Your Purpose"}
             .col-md-12
-              = f.text_area :purpose, :class => "form-control", :id => "state-purpose-textarea", :placeholder => "Please use this area to briefly state the reason you want to rent to this space as well as any special requests you may have for the lister.", :rows => 5
-          #reservation-step-4.reservation-inner-tab.row{ "data-modal-title" => "Payment Method" }
+              = f.label "State the reason you want to use this listing and add any special requests you may have:"
+              = f.text_area :purpose, :class => "form-control", :id => "state-purpose-textarea", :rows => 5
+          #reservation-step-4.reservation-inner-tab.row{ "data-modal-title" => "Quick Message About Payment" }
             .col-md-12
-              .row
-                .col-md-6
-                  = text_field_tag :card_number, "", :name => "", :class => "form-control", :placeholder => "Card Number", "data-stripe" => "number"
-                .col-md-3
-                  = select_tag :exp_month, options_for_select(credit_card_months), { name: "", class: "form-control", "data-stripe" => "exp-month", :prompt => "Exp. Month (MM)" }
-                .col-md-3
-                  = text_field_tag :exp_year, "", :name => "", :class => "form-control", "data-stripe" => "exp-year", :placeholder => "Exp. Year (YYYY)", :size => 4
-              .row
-                .col-md-4
-                  = text_field_tag :cvc, "", :name => "", :class => "form-control", :placeholder => "CVC", "data-stripe" => "cvc"
-                .col-md-8
-                  = text_field_tag :name, "", :name => "", :class => "form-control", :placeholder => "Name on Card"
-            .col-md-12
-              .col-md-12
-                .row
-                  %small
-                    We Accept:
-                  %ul.list-unstyled.list-inline.we-accept
-                    %li
-                      %i.fa.fa-cc-visa.fa-2x
-                    %li
-                      %i.fa.fa-cc-mastercard.fa-2x
-                    %li
-                      %i.fa.fa-cc-amex.fa-2x
-                    %li
-                      %i.fa.fa-cc-discover.fa-2x
+              %p
+                Before you go any further, we wanted to remind you about a few things when dealing with lenders:
+              %ul
+                %li
+                  You can make a payment <em>after</em> the reservation has been accepted.
+                %li
+                  Although not required, we recommend that you get in contact with the lender after they accept your request to verify the details of your reservation directly.
+                %li
+                  We recommend that you check out the listing in person before the reservation date to ensure that all details of the location are accurate before paying.
+                %li
+                  If you are going to check out the listing in person, we really recommend that you do not go alone. Please be safe. Exercise caution and common sense, and always be respectful.
+                %li
+                  We recommend that you set up an appointment to meet the lender in person before the reservation date <strong>in a public, highly populated</strong>.
+                %li
+                  Make sure you feel good and confident about the listing, whether checking it out in person or making a request. If you get a bad feeling, don't go through with it. Your happiness and satisfaction are our ultimate goal. 
+                %li
+                  We also recommend that you pay on the <strong>starting day or time</strong> of your reservation.
+                %li
+                  Theft, vandalism, verbal or physical abuse toward a lender, and/or any type of damage, either to the lender or the lender's property, can be immediate grounds for having your account terminated.
+
+          /   .col-md-12
+          /     .row
+          /       .col-md-12
+          /         %p
+          /           You will
+          /           %strong
+          /             NOT
+          /           be charged for this request. We only need a credit card to validate the card you will be paying with later if the lender approves your request.
+          /         %p
+          /           %strong
+          /             You do not pay until the day you arrive and approve that the location and the details are legitimate.
+                    
+          /       #reservation-cc-section.col-md-12
+          /         .row
+          /           .col-md-12
+          /             = f.radio_button :
+          /         #new-payment-method
+          /           .col-md-6
+          /             = text_field_tag :card_number, "", :name => "", :class => "form-control", :placeholder => "Card Number", "data-stripe" => "number", :disabled => "disabled"
+          /           .col-md-3
+          /             = select_tag :exp_month, options_for_select(credit_card_months), { name: "", class: "form-control", "data-stripe" => "exp-month", :prompt => "Exp. Month (MM)", :disabled => "disabled" }
+          /           .col-md-3
+          /             = text_field_tag :exp_year, "", :name => "", :class => "form-control", "data-stripe" => "exp-year", :placeholder => "Exp. Year (YYYY)", :maxlength => 4, :disabled => "disabled"
+          /           .col-md-4
+          /             = text_field_tag :cvc, "", :name => "", :class => "form-control", :placeholder => "CVC", "data-stripe" => "cvc", :disabled => "disabled"
+          /           .col-md-8
+          /             = text_field_tag :name, "", :name => "", :class => "form-control", :placeholder => "Name on Card", :disabled => "disabled"
+          / .col-md-12
+          /   .col-md-12
+          /     .row
+          /       %small
+          /         We Accept:
+          /       %ul.list-unstyled.list-inline.we-accept
+          /         %li
+          /           %i.fa.fa-cc-visa.fa-2x
+          /         %li
+          /           %i.fa.fa-cc-mastercard.fa-2x
+          /         %li
+          /           %i.fa.fa-cc-amex.fa-2x
+          /         %li
+          /           %i.fa.fa-cc-discover.fa-2x
                 
                 
-          #reservation-step-5.reservation-inner-tab.row{ "data-modal-title" => "Review"}
+          #reservation-step-5.reservation-inner-tab.end-tab.row{ "data-modal-title" => "Review"}
             .col-md-12
               .row
                 .col-md-12
                   %p
-                    Please review all details of your reservation to ensure accuracy.
+                    Please review all details of your request to ensure accuracy.
+
+                  %p
+                    Confirming the legitimacy of a listing is your sole responsibility which is based on your own personal judgment, so please always exercise caution and common sense when requesting a listing or paying a lender.
+
+                  %p
+                    We care very deeply about having satisfied users as well as having the best reputation possible as a safe and reliable service. It is apart of our mission to make sure all transactions are dealt with ethically and fair.
+
+                  %p
+                    If you believe this listing could be a potential scam, please do not submit a request and
+                    = link_to "report it to us"
+                    instead so that we may investigate it. Thanks!
+
+                  %p The price you see is the price you pay! Please remember, we're not charging anything to your card right now. Your card will be charged after you approve the listing in your dashboard (if your request is accepted).
+
               .payment-errors
-              %table.table.table-striped
+              %table#review-request-table.table.table-bordered
                 %tbody
                   %tr
                     %th
@@ -106,38 +154,56 @@
                       = @listing.name
                   %tr
                     %th
-                      Dates
-                    %td.review-dates
+                      Location
+                    %td
+                      = @listing.location.very_ambiguous_address
+                  %tr
+                    %th
+                      Identifier
+                    %td
+                      - if @listing.token
+                        = @listing.token
+                  %tr
+                    %th
+                      From
+                    %td.review-start-date
+                  %tr
+                    %th
+                      To
+                    %td.review-end-date
                   %tr
                     %th
                       Rate
-                    %td.review-rates
+                    %td.review-rate
                 %tfoot
                   %tr
                     %th
                       Total
                     %td.review-total
-
-
+              .row
+                .col-md-12
+                  .payment-errors.error
+              .row
+                .col-md-12
+                  %hr
+                  .row
+                    .col-md-1
+                      = check_box_tag "reservation[agreement]"
+                    .col-md-11
+                      = f.label "I have read everything provided in this request form and I understand that it is my personal responsibility to ensure for myself the legitimacy of this listing." 
+                  %hr
 
                     
 
         .modal-footer
-          / Next Button only (First Tab)
-          .row.next-btn-only.next-prev-btns.active
-            .col-md-12.text-right
-              = render 'layouts/next_btn'
-
-          / Both buttons
-          .row.both-btns.next-prev-btns
+          .row
             .col-md-6.text-left
-              = render 'layouts/prev_btn'
+              = button_tag :type => "button", :class => "btn btn-default resrv-prev-btn directional-btn" do
+                %i.fa.fa-angle-left.fa-fw.fa-lg
+                Prev
             .col-md-6.text-right
-              = render 'layouts/next_btn'
+              = button_tag :type => "button", :class => "btn btn-default resrv-next-btn directional-btn" do
+                Next
+                %i.fa.fa-angle-right.fa-fw.fa-lg
+              = button_tag "Submit Request", :type => "submit", :class => "btn btn-primary submit-request-btn directional-btn", :disabled => "disabled"
 
-          / Prev Button only (Last Tab)
-          .row.prev-btn-only.next-prev-btns
-            .col-md-6.text-left
-              = render 'layouts/prev_btn'
-            .col-md-6.text-right
-              = f.submit "Place Order", :id => "place-order", :class => "btn btn-primary btn-primary-submit form-control"

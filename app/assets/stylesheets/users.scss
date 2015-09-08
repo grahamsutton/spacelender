@@ -2,52 +2,49 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$primary-color: #334466;
+//$primary-color: #334466;
+$primary-color: #2c3e50;
 $secondary-color: #999999;
 $third-color: #ffcc88;
 $fourth-color: #CDDEEE;
 $fifth-color: #FAFAFA;
 
-body {
-	background-color: $fifth-color !important;
-}
+// body {
+// 	background-color: $fifth-color !important;
+// }
 
-a {
-	font-family: 'Handlee' !important;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	color: $primary-color !important;
-	font-family: 'Handlee' !important;
-}
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6 {
+// 	color: $primary-color !important;
+// 	font-family: 'Handlee' !important;
+// }
 
 hr {
 	border-top: 1px solid $third-color !important;
 }
 
-input[type="text"],
-input[type="password"],
-select,
-textarea {
-	margin-bottom: 15px;
-}
+// input[type="text"],
+// input[type="password"],
+// select,
+// textarea {
+// 	margin-bottom: 15px;
+// }
 
 label {
 	color: #AAA !important;
 }
 
-.panel.panel-default {
-	border: 1px solid $primary-color !important;
+// .panel.panel-default {
+// 	border: 1px solid $primary-color !important;
 
-	.panel-footer {
-		background-color: $fifth-color !important;
-	}
-}
+// 	.panel-footer {
+// 		background-color: $fifth-color !important;
+// 	}
+// }
 
 .modal-footer {
 	a.btn-primary-submit,
@@ -66,23 +63,23 @@ label {
 
 
 // Buttons
-a.btn-primary,
-.btn-primary {
-	background: $primary-color !important;
-	border: 1px solid #EEE;
-	box-shadow: none !important;
-	color: $fifth-color !important;
-	border-radius: 0px !important;
-}
+// a.btn-primary,
+// .btn-primary {
+// 	background: $primary-color !important;
+// 	border: 1px solid #EEE;
+// 	box-shadow: none !important;
+// 	color: $fifth-color !important;
+// 	border-radius: 0px !important;
+// }
 
-a.btn-default,
-.btn-default {
-	background: transparent !important;
-	border: 1px solid $primary-color !important;
-	box-shadow: none !important;
-	color: $primary-color !important;
-	border-radius: 0px !important;
-}
+// a.btn-default,
+// .btn-default {
+// 	background: transparent !important;
+// 	border: 1px solid $primary-color !important;
+// 	box-shadow: none !important;
+// 	color: $primary-color !important;
+// 	border-radius: 0px !important;
+// }
 
 a.primary-color {
 	color: $primary-color !important;
@@ -101,7 +98,7 @@ a.primary-color {
 	margin-bottom: 20px;
 
 	h2 {
-		color: #EEE !important;
+		//color: #EEE !important;
 	}
 }
 
@@ -116,57 +113,11 @@ a.primary-color {
 .navbar {
 	background-color: $fifth-color !important;
 	border-radius: 0px !important;
-	box-shadow: none !important;
-	border-bottom: 1px solid $primary-color !important;
+	// box-shadow: none !important;
+	// border-bottom: 1px solid $primary-color !important;
 
-	input[type="text"],
-	input[type="password"],
-	select,
-	textarea {
-		margin-bottom: 0px;
-	}
+	
 
-	.navbar-brand {
-		color: $primary-color !important;
-	}
-
-	a {
-		color: $primary-color !important;
-	}
-
-	a.btn-primary {
-		color: $fifth-color !important;
-		font-weight: bold !important;
-	}
-
-	#nav-search-bar {
-		width: 260px;
-		box-shadow: inset 0 -1px 0 $secondary-color;
-		color: $primary-color !important;
-	}
-
-	#nav-search-bar-btn {
-		float: right;
-		margin-right: 16px;
-		margin-top: 1px;
-		border-bottom-right-radius: 0px !important;
-		border-bottom-left-radius: 0px !important;
-		border: none !important;
-		border-bottom: 1px solid #EEE;
-		background: transparent;
-		box-shadow: none !important;
-		color: $primary-color !important;
-	}
-
-	#nav-search-bar-btn:hover {
-		background: #FFF !important;
-		color: rgba(0, 0, 0, 0.7) !important;
-	}
-
-	#nav-search-bar::-webkit-input-placeholder { color: $fifth-color !important; }
-	#nav-search-bar::-moz-placeholder  { color: $fifth-color !important; } /* firefox 19+ */
-	#nav-search-bar:-ms-input-placeholder  { color: $fifth-color !important; } /* ie */
-	#nav-search-bar:-moz-placeholder  { color: $fifth-color !important; }
 
 	.navbar-nav {
 		li.active {
@@ -176,10 +127,6 @@ a.primary-color {
 				color: #86AC63 !important;
 			}
 		}
-	}
-
-	#list-space-nav-btn {
-		color: $primary-color !important;
 	}
 
 	.dropdown-menu {
@@ -203,138 +150,124 @@ a.primary-color {
 	} 
 }
 
-.navbar-homepage {
-	background: transparent !important;
-	box-shadow: none !important;
-	border-bottom: none !important;
+// .navbar-homepage {
+// 	background: transparent !important;
+// 	box-shadow: none !important;
+// 	border-bottom: none !important;
 
-	a {
-		color: #FFF !important;
-	}
+// 	a {
+// 		color: #FFF !important;
+// 	}
 
-	#list-space-nav-btn {
-		border: none !important;
-		background: transparent !important;
-	}
+// 	#list-space-nav-btn {
+// 		border: none !important;
+// 		background: transparent !important;
+// 	}
 
-	.navbar-nav {
-		li.active {
-			a {
-				color: #86AC63 !important;
-			}
-		}
-	}
+// 	.navbar-nav {
+// 		li.active {
+// 			a {
+// 				color: #86AC63 !important;
+// 			}
+// 		}
+// 	}
 
-	#list-space-nav-btn {
-		color: #EEE !important;
-	}
+// 	#list-space-nav-btn {
+// 		color: #EEE !important;
+// 	}
 
-	.dropdown-menu,
-	.dropdown.open > a {
-		background: transparent !important;
-	}
+// 	.dropdown-menu,
+// 	.dropdown.open > a {
+// 		background: transparent !important;
+// 	}
 
-	.dropdown-menu {
-		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) !important;
-	}
+// 	.dropdown-menu {
+// 		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) !important;
+// 	}
 
-	.dropdown.open > a {
-		text-decoration: underline;
-	}
+// 	.dropdown.open > a {
+// 		text-decoration: underline;
+// 	}
 
-	.dropdown.open {
-		.dropdown-menu {
-			li a {
-				color: #EEE !important;
-			}
+// 	.dropdown.open {
+// 		.dropdown-menu {
+// 			li a {
+// 				color: #EEE !important;
+// 			}
 
-			li:hover a {
-				color: #5A96CA !important;
-			}
-		}
-	} 
-}
+// 			li:hover a {
+// 				color: #5A96CA !important;
+// 			}
+// 		}
+// 	} 
+// }
 
-.title-search {
-	margin-bottom: 50px;
-	margin-left: 0px !important;
-	margin-right: 0px !important;
-	height: 640px;
-	background-size: 100% !important;
-	width: 100%;
-	margin-top: -87px;
-	padding-top: 128px;
-	padding-left: 30px;
-	padding-right: 30px;
+// .title-search {
+// 	margin-left: 0px !important;
+// 	margin-right: 0px !important;
+// 	height: 640px;
+// 	background-size: 100% !important;
+// 	width: 100%;
+// 	margin-top: -87px;
+// 	padding-top: 128px;
+// 	padding-left: 30px;
+// 	padding-right: 30px;
 
-	small,
-	input {
-		color: #EEE !important;
-	}
-}
+// 	// small,
+// 	// input {
+// 	// 	color: #EEE !important;
+// 	// }
+// }
 
-.title-search-homepage {
-	margin-top: -87px;
-	padding-top: 64px;
-}
+// .title-search-homepage {
+// 	margin-top: -87px;
+// 	padding-top: 64px;
+// }
 
 br {
 	margin: 20px 0px;
 }
 
-.search-input-group {
-	margin-left: -16px;
-}
+// .search-input-group {
+// 	margin-left: -16px;
+// }
 
-#search {
-	margin-left: -32px;
-}
+// #search {
+// 	margin-left: -32px;
+// }
 
-#search-icon-addon {
-	color: #EEE !important;
-}
+// #search-icon-addon {
+// 	color: #EEE !important;
+// }
 
-#search::-webkit-input-placeholder { color: #EEE !important; }
-#search::-moz-placeholder  { color: #EEE !important; } /* firefox 19+ */
-#search:-ms-input-placeholder  { color: #EEE !important; } /* ie */
-#search:-moz-placeholder  { color: #EEE !important; }
+// .search-btns,
+// a.search-btns {
+// 	margin-top: 15px;
+// 	margin-right: 16px;
+// 	border: 1px solid #EEE !important;
+// 	background: transparent;
+// 	box-shadow: none !important;
+// 	//color: #EEE !important;
+// }
 
-#city {
-	margin-left: -32px;
-}
+// .search-btns:hover {
+// 	background: #FFF !important;
+// 	color: rgba(0, 0, 0, 0.7) !important;
+// }
 
-#city::-webkit-input-placeholder { color: #EEE !important; }
-#city::-moz-placeholder  { color: #EEE !important; } /* firefox 19+ */
-#city:-ms-input-placeholder  { color: #EEE !important; } /* ie */
-#city:-moz-placeholder  { color: #EEE !important; }
-
-.search-btns,
-a.search-btns {
-	float: right;
-	margin-top: 15px;
-	margin-right: 16px;
-	border: 1px solid #EEE !important;
-	background: transparent;
-	box-shadow: none !important;
-	color: #EEE !important;
-}
-
-.search-btns:hover {
-	background: #FFF !important;
-	color: rgba(0, 0, 0, 0.7) !important;
-}
-
-#registration,
-#how-it-works,
-#footer {
-	padding: 30px;
-}
+// #registration,
+// #how-it-works,
+// #footer {
+// 	padding: 30px;
+// }
 
 #login {
 	padding: 100px;
 }
 
 #registration {
+	background-size: 100% !important;
+
 	h1,
 	h2,
 	h3 {
@@ -358,30 +291,6 @@ a.search-btns {
 	}
 }
 
-#registration_form {
-	padding-right: 20px;
-
-	input[type="text"],
-	input[type="password"],
-	select,
-	textarea {
-		color: #EEE !important;
-	}
-
-	::-webkit-input-placeholder { color: #EEE !important; }
-	::-moz-placeholder  { color: #EEE !important; } /* firefox 19+ */
-	:-ms-input-placeholder  { color: #EEE !important; } /* ie */
-	:-moz-placeholder  { color: #EEE !important; }
-}
-
-.icon-cont {
-	height: 80px;
-	color: $primary-color !important;
-}
-
-#login_form {
-	padding-top: 30px;
-}
 
 .primary-background {
 	background-color: $primary-color;
@@ -465,38 +374,9 @@ a.search-btns {
 	/*display: inline;*/
 }
 
-#listings-panel {
-	background: url('confectionary.png') !important;
-	padding-top: 23px;
-}
 
 .footer-margin {
 	margin-top: 30px !important;
-}
-
-
-#footer {
-	background-color: $primary-color !important;
-	min-height: 320px;
-	height: 3em;
-	bottom: 0;
-	border-top: 1px solid $primary-color !important;
-	color: #EEE !important;
-
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		color: #EEE !important;
-	}
-
-	p,
-	#copyright {
-		font-size: 1em !important;
-	}
-	
 }
 
 

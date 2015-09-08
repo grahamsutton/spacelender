@@ -1,0 +1,77 @@
+= render 'layouts/dashboard_nav'
+
+#dashboard-content.row.section.no-shadow
+  .col-md-12
+    #transactions.panel.panel-default.modern.dashboard-tab
+      .panel-body.tab-display
+        .form-container.row
+
+          .col-md-12
+
+            .col-md-2
+              / Tab List
+              %ul.list-unstyled.col-md-12.list-group.generic-tabs-list.transactions-inner-tabs-list
+                %li.list-group-item
+                  = link_to "#received", :class => "transactions-inner-tab-link active" do
+                    Received
+                %li.list-group-item
+                  = link_to "#sent", :class => "transactions-inner-tab-link" do
+                    Sent
+                %li.list-group-item
+                  = link_to "#cards-on-file", :class => "transactions-inner-tab-link" do
+                    Cards On File
+                %li.list-group-item
+                  = link_to "#store-new-card", :class => "transactions-inner-tab-link" do
+                    New Card
+
+
+            .col-md-9
+
+              / Cards On File
+              #cards-on-file.transactions-inner-tab
+                .col-md-6.padded-sides
+                  .panel.panel-default.modern
+                    .panel-body.padded-sides
+                      %h5 Cards On File
+                    %table.table.table-bordered
+                      %tbody
+                        - @cards.each do |card|
+                          %tr
+                            %td.text-center
+                              Card ending in
+                              %strong
+                                %big
+                                  = card.last4
+                              %i.fa.fa-fw.fa-lg{ :class => "fa-cc-#{card.brand.downcase}"}
+                            %td
+                              = "#{card.exp_month}/#{card.exp_year}"
+
+
+              / Store New Card
+              #store-new-card.transactions-inner-tab
+                .col-md-6.padded-sides
+                  .panel.panel-default.modern
+                    .panel-body.padded-sides
+                      %h5 Store New Card
+                      .payment-errors
+                    %table.table.table-bordered
+                      = form_for [@current_user, @card], :url => cards_create_path, :html => { :id => "new-card-form" } do
+                        %tbody
+                          %tr
+                            %td
+                              = text_field_tag :card_number, "", :name => "", :class => "form-control card-number", :placeholder => "Card Number", "data-stripe" => "number"
+                          %tr
+                            %td.table-padded-select
+                              = select_tag :exp_month, options_for_select(credit_card_months), { name: "", class: "form-control card-exp-month", "data-stripe" => "exp-month", :prompt => "Exp. Month (MM)" }
+                          %tr
+                            %td
+                              = text_field_tag :exp_year, "", :name => "", :class => "form-control card-exp-year", "data-stripe" => "exp-year", :placeholder => "Exp. Year (YYYY)", :maxlength => 4
+                          %tr
+                            %td
+                              = text_field_tag :cvc, "", :name => "", :class => "form-control card-cvc", :placeholder => "CVC", "data-stripe" => "cvc"
+                          %tr
+                            %td
+                              = text_field_tag :name, "", :name => "", :class => "form-control card-name", :placeholder => "Name on Card"
+                          %tr
+                            %td.btn-cell
+                              = button_tag "Add Card", :type => "submit", :id => "new-card-btn", :class => "btn btn-primary"

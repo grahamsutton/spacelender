@@ -37,6 +37,30 @@ Rails.application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
+  AWS.config(:s3_endpoint => ENV['s3_endpoint'])
+
+  config.paperclip_defaults = {
+    :storage => :s3,
+    :s3_credentials => {
+      :bucket => ENV['s3_bucket_name'],
+      :s3_credentials => "#{Rails.root}/config/aws.yml"
+    },
+    :url =>':s3_domain_url',
+    :s3_permissions => "public-read",
+    :s3_protocol => "http"
+  }
+
+  config.action_mailer.delivery_method = :test
+
+  config.action_mailer.smtp_settings = {
+    :address => "smtp.gmail.com",
+    :port => 587,
+    :user_name => ENV['noreply_gmail_username'],
+    :password => ENV['noreply_gmail_password'],
+    :authentication => "plain",
+    :enable_starttls_auto => true
+  }
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 end

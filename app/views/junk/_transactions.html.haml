@@ -1,0 +1,46 @@
+#transactions.panel.panel-default.modern.dashboard-tab
+  .panel-body.tab-display
+    .form-container.row
+
+      .col-md-12
+
+        .col-md-2
+          / Tab List
+          %ul.list-unstyled.col-md-12.list-group.generic-tabs-list.transactions-inner-tabs-list
+            %li.list-group-item
+              = link_to "#received", :class => "transactions-inner-tab-link active" do
+                Received
+            %li.list-group-item
+              = link_to "#sent", :class => "transactions-inner-tab-link" do
+                Sent
+            %li.list-group-item
+              = link_to "#cards-on-file", :class => "transactions-inner-tab-link" do
+                Cards On File
+
+
+        .col-md-9
+
+          - if @listing.errors
+            %ul
+              - @listing.errors.full_messages.each do |error|
+                %li.error
+                  = error
+
+          / Cards On File
+          #cards-on-file.transactions-inner-tab.col-md-12
+            .panel.panel-default.modern
+              .panel-body.padded-sides
+                %h4 Cards On File
+              %table.table.table-bordered
+                %tbody
+                  - @cards.each do |card|
+                    %tr
+                      %td.text-center
+                        %i.fa.fa-fw.fa-3x{ :class => "fa-cc-#{card.brand.downcase}"}
+                      %td
+                        Card ending in
+                        %strong
+                          = card.last4
+                      %td
+                        = "#{card.exp_month}/#{card.exp_year}"
+

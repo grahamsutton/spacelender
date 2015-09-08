@@ -1,163 +1,48 @@
-/ Random background images
-- if current_page?(root_path)
-  - @bg_imgs = Array.new
-  - @bg_imgs = ["ocean-sunset.jpeg", "ocean-sunset-2.JPG", "city-img-1.jpeg", "city-img-2.jpeg", "boardwalk.jpeg"]
-  - randomNumber = rand(0..(@bg_imgs.length - 1))
-  - @section_1_bg = @bg_imgs[randomNumber]
-  - randomNumber = rand(0..(@bg_imgs.length - 1))
-  - @section_2_bg = @bg_imgs[randomNumber]
-
-.row.title-search{:style => "background: url('assets/#{@section_1_bg}') no-repeat;", :class => ("title-search-hompage" unless !current_page?(root_path))}
-  .col-md-8
+/ WELCOME PAGE
+.row.title-search{:class => ("title-search-hompage" unless !current_page?(root_path))}
+  .col-md-12
     .row
       .col-md-12.header-title
-        %h2
+        %h1
           SpaceLender
           %br
-          %small
+          %small.header-subtitle
             Find space for the things you need to do.
-      .col-md-12
-        = form_tag({:controller => "listings", :action => "search"}, :method => :get) do
+    .row.to-the-windows
+      .col-md-12.to-the-wall
+        = form_tag({:controller => "listings", :action => "search"}, :html => { :id => "search-form" }, :method => :get) do
           .row
-            .col-md-9
-              .input-group.search-input-group
-                %span#search-icon-addon.input-group-addon
-                  %span.glyphicon.glyphicon-search
-                = text_field_tag :search, nil, :class => "form-control", :placeholder => "        Search for spaces.", "aria-describedby" => "search-icon-addon"
+            .col-md-7
+              = text_field_tag :search, nil, :class => "form-control", :placeholder => "Search for spaces.", "aria-describedby" => "search-icon-addon"
             .col-md-3
               = text_field_tag :city, nil, :class => "form-control", :placeholder => "City", :id => "city"
-          #search-btns.col-md-12
-            = submit_tag :Search, :class => "btn btn-default search-btns", :value => "Search"
-            = link_to 'listings/findnearme', :class => "btn btn-default search-btns" do
-              %span.glyphicon.glyphicon-map-marker
-              Find Near Me
-#how-it-works.row.text-center
+            .col-md-2
+              = submit_tag :Search, :id => "search-btn", :class => "btn btn-primary"
+#how-it-works.row.section.homepage-section.text-center
   .col-md-12
-    .col-md-4
-      .col-md-12.icon-cont
-        %i.fa.fa-newspaper-o.fa-5x
-      %h3
-        List
-      %p
-        Upload some pictures, state a renting price, and list your space. Then, wait for an interested person to contact you. You can rent out your garage for an hour or even an office for a year. Whatever you want.
-    .col-md-4
-      .col-md-12.icon-cont
-        %i.fa.fa-cube.fa-5x
-      %h3
-        Lend
-      %p
-        Lend your listed space and send your clients an invoice for the space borrowed. You can even require a deposit and make discounts.
-    .col-md-4
-      .col-md-12.icon-cont
-        %i.fa.fa-usd.fa-5x
-      %h3
-        Earn
-      %p
-        <strong>GET PAID!</strong> You just turned the free space that was always <em>just sitting there</em> into a money-maker! Even after it's been used, you can keep the listing up and allow more people to use it in the future.
-- if !@current_user
-  #registration.row{:style => "background: url('assets/#{@section_2_bg}');"}
-    .col-md-12
-      .col-md-8.text-center
-        %h3
-          Registration
-          %br
-          %small
-            is free, quick, and easy.
-        %p
-          Fill out the form to the right, then click this button below to start finding and listing spaces.
-        %button#register-btn.btn.btn-default
-          %i.fa.fa-mail-forward.fa-lg.fa-fw
-          Register Now
-      .col-md-4
-        = render 'layouts/registration_form'
-  #login.row
-    .col-md-12
-      .col-md-4
-        = render 'layouts/login_form'
-      .col-md-8.text-center
-        %h3
-          Logging back in?
-          %br
-          %small
-            Welcome back.
-        %button#login-btn.btn.btn-primary
-          %i.fa.fa-sign-in.fa-lg.fa-fw
-          Login
+    %h2
+      So How Does It Work?
+  .col-md-12.text-center
+    .col-md-6.col-md-offset-3
+      = image_tag "guy-without-marks.png", :class => "img-responsive"
+      = image_tag "question-mark.png", :id => "qm1", :class => "question-mark-img wow zoomIn", "data-wow-iteration" => "3"
+      = image_tag "question-mark.png", :id => "qm2", :class => "question-mark-img wow zoomIn", "data-wow-iteration" => "3", "data-wow-delay" => "0.3s"
+      = image_tag "question-mark.png", :id => "qm3", :class => "question-mark-img wow zoomIn", "data-wow-iteration" => "3", "data-wow-delay" => "0.8s"
+
+#find-a-listing.row.section.homepage-section.text-center.wow.slideInUp
+  .col-md-6.icon-cont
+    %i.fa.fa-newspaper-o.fa-5x
+  .col-md-6.col-md-offset-5
+    %h3
+      First, find a listing!
+    %ul.list-unstyled
+      %li
+        from one of our verified spacelenders.
+        %br
+        Just type what you're looking for in the Search Bar and BAM! Look at those sweet results pile in.
+
+#select-a-price.row.section.homepage-section.text-center.wow.slideInUp
+  .col-md-6.icon-cont
+
+
 = render 'layouts/footer'
-
-
-:javascript
-  $(document).ready(function(event) {
-  
-    jQuery(function() {
-      var completer;
-    
-      completer = new GmapsCompleter({
-        inputField: '#city',
-        errorField: '#gmaps-error'
-      });
-    
-      completer.autoCompleteInit({
-        country: "us"
-      });
-    });
-  
-  
-    $("#search").on("keyup", function() {
-      var searchValue = $(this).val();
-
-      // Adjusts Search Icon in search bar
-      if (searchValue === "") {
-        $("#search-icon-addon span.glyphicon.glyphicon-search").show();
-        $(".search-input-group").css("margin-left", "-16px");
-      } else {
-    	  $("#search-icon-addon span.glyphicon.glyphicon-search").hide();
-    	  $(".search-input-group").css("margin-left", "-2px");
-    	}
-    });
-
-    $("#has-images").on("click", function(e) {
-      e.preventDefault();
-      if ($(this).find("i").first().hasClass("active")) {
-        // Uncheck it
-        $(this).find("i").first().removeClass("active");
-        $(this).find("i").eq(1).addClass("active");
-        $(this).attr("data-checked", false);
-      } else {
-        // Checkmark it
-        $(this).find("i").eq(1).removeClass("active");
-        $(this).find("i").first().addClass("active");
-        $(this).attr("data-checked", true);
-      }
-    });
-
-    // Enable Enter Key to be pressed when using Registration form
-    $("#registration_form input").keypress(function(event) {
-      var keycode = (event.keyCode ? event.keyCode : event.which);
-      if(keycode == '13'){
-          $("#register-btn").click();
-      }
-    });
-
-    // Enable Enter Key to be pressed when using Login form
-    $("#login_form input").keypress(function(event) {
-      var keycode = (event.keyCode ? event.keyCode : event.which);
-      if(keycode == '13'){
-          $("#login-btn").click();
-      }
-    });
-
-    // Registration Submit button
-    $("#register-btn").on("click", function() {
-    	$("#registration_form").submit();
-    });
-
-    // Login Submit button
-    $("#login-btn").on("click", function() {
-      $("#login_form").submit();
-    });
-
-    $(".link_to_form").on("click", function () {
-      var form = $(this).attr("href");
-    });
-  });

@@ -1,0 +1,42 @@
+#account-ctrl-modal.modal.modal-launch-1.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        .row
+          .col-md-6
+            %h4.modal-title.account-ctrl-modal-title
+              Login
+          .col-md-6.text-right
+            %ul.list-unstyled.list-inline
+              %li.account-ctrl-modal-list-item.active
+                = link_to "Login", "#login-modal-tab", :class => "account-ctrl-modal-link active"
+              %li.account-ctrl-modal-list-item
+                = link_to "Register", "#register-modal-tab", :class => "account-ctrl-modal-link"
+              %li
+                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                  %span{"aria-hidden" => "true"} &times;
+
+      .modal-body
+        #login-modal-tab.account-ctrl-modal-tab.active
+          = form_tag(sessions_create_path(:r => "yes")) do
+            = label_tag "Email"
+            = text_field_tag :email, nil, :class => "form-control", :placeholder => "Email"
+            = label_tag "Password"
+            = password_field_tag :password, nil, :class => "form-control", :placeholder => "Password"
+            %small
+              = link_to "Forgot your password?"
+            %br
+            %br
+            %button.btn.btn-primary.account-ctrl-modal-submit-btn.form-control{:type => "submit"} Login
+        #register-modal-tab.account-ctrl-modal-tab
+          = form_for @new_user, :url => users_path do |f|
+            = f.text_field :first_name, :class => "form-control", :placeholder => "First Name"
+            = f.text_field :last_name, :class => "form-control", :placeholder => "Last Name"
+            = f.text_field :email, :class => "form-control", :placeholder => "Email"
+            = f.text_field :email_confirmation, :class => "form-control", :placeholder => "Confirm Email"
+            = f.password_field :password, :class => "form-control", :placeholder => "Password"
+            = f.password_field :password_confirmation, :class => "form-control", :placeholder => "Confirm Password"
+            %br
+            %button.btn.btn-primary.account-ctrl-modal-submit-btn.form-control{:type => "submit"} Register
+
+

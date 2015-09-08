@@ -46,6 +46,10 @@ Rails.application.configure do
     :enable_starttls_auto => true
   }
 
+  config.generators do |g|
+    g.factory_girl true
+  end
+
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.

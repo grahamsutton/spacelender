@@ -6,14 +6,22 @@ class User < ActiveRecord::Base
 
 	# Associations
 	has_many :listings, :dependent => :destroy
+  has_many :cards, :dependent => :destroy
+  has_one :picture, :dependent => :destroy
 
 	# Validations
-	validates :email, presence: true, uniqueness: true
-	validates :password, presence: true
-	validates :publishable_key, :uniqueness => true
-	validates :uid, :uniqueness => true
-	validates :access_code, :uniqueness => true
-	# validates_confirmation_of :password
+  validates :first_name, presence: true, length: { minimum: 2, maximum: 30 }
+  validates_format_of :first_name, :with => /\A[^\(\)0-9]*\z/
+  validates :last_name, presence: true, length: { minimum: 2, maximum: 30 }
+  validates_format_of :last_name, :with => /\A[^\(\)0-9]*\z/
+	validates :email, presence: true, confirmation: true, uniqueness: true
+  validates_format_of :email, :with => /\A(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})\z/
+	validates :password, confirmation: true, presence: true, length: { minimum: 8, maximum: 20 }
+	validates :publishable_key, :uniqueness => true, :allow_blank => true
+	validates :uid, :uniqueness => true, :allow_blank => true
+	validates :access_code, :uniqueness => true, :allow_blank => true
+
+  before_create :encrypt_password
 
 	# Filters
 	attr_accessor :password_confirmation, :email_confirmation

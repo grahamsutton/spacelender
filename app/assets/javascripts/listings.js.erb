@@ -1,0 +1,455 @@
+$(document).ready(function() {
+
+  //======================================
+  // "List A Space" Form
+  //======================================
+
+    // Enable WysiHTML5 editor
+    $(".wysi").each(function(i, elem) {
+    	$(elem).wysihtml5();
+    });
+
+	  // "List A Space" Tabs
+    $(".inner-tab-link").on("click", function(e) {
+      e.preventDefault();
+
+      var id = $(this).attr("href");
+
+      $(".inner-tab-link").removeClass("active");
+      $(this).addClass("active");
+
+      $(".inner-tab").removeClass("active");
+      $(id).addClass("active");
+
+      if ($(this).hasClass("start-tab")) {
+        $(".prev-btn").hide();
+        $(".next-btn").show();
+      } else if ($(this).hasClass("end-tab")) {
+        $(".prev-btn").show();
+        $(".next-btn").hide();
+      } else {
+        $(".prev-btn").show();
+        $(".next-btn").show();
+      }
+  	});
+
+    // "Listings" Tabs
+    $(".listings-inner-tab-link").on("click", function(e) {
+      e.preventDefault();
+
+      var id = $(this).attr("href");
+
+      $(".listings-inner-tab-link").removeClass("active");
+      $(this).addClass("active");
+
+      $(".listings-inner-tabs-list li").removeClass("active");
+      $(this).parent().addClass("active");
+
+      $(".listings-inner-tab").removeClass("active");
+      $(id).addClass("active");
+    })
+
+
+    // DateTime pickers for Start and End dates (in "List A Space > 3. Dates")
+    $("#start-date").datetimepicker({
+      format: "ddd, MMM D",
+      minDate: moment().add('hours', 3),
+      sideBySide: true,
+      debug: true,
+      stepping: 0
+    }).on("dp.change", function(e) {
+      var selectedDate = e.date;
+      $("#end-date").data("DateTimePicker").minDate(selectedDate.add('hours', 1));
+      //$("#end").data("DateTimePicker").defaultDate(selectedDate.add('hours', '1'));
+      //$("#end").data("DateTimePicker").maxDate(selectedDate.add('days', 1));
+    });
+
+    $("#end-date").datetimepicker({
+      format: "ddd, MMM D",
+      sideBySide: true,
+      minDate: moment().add('hours', 4),
+      stepping: 0
+    }).on("dp.change", function(e) {
+      var selectedDate = e.date;
+      $("#start-date").data("DateTimePicker").maxDate(selectedDate.subtract('hours', 1));
+    });
+
+
+    // Selection for date range in "List A Space > 3. Dates" 
+    $(".date-option").on("click", function(e) {
+      e.preventDefault();
+      var id = $(this).attr("id");
+
+      $(".date-option").removeClass("active");
+      $("#" + id).addClass("active");
+
+      if (id === "specific-dates") {
+        $("#always-available-hidden-field").val(false);
+        $("#specific-dates-fields").slideDown();
+      } else {
+        $("#always-available-hidden-field").val(true);
+        $("#specific-dates-fields").slideUp();
+      }
+    });
+
+    if ($(".inner-tab-link.active").hasClass("start-tab")) {
+      $(".prev-btn").hide();
+    }
+
+    $(".next-btn").on("click", function(e) {
+      e.preventDefault();
+      var nextTabLink = $(".inner-tab-link.active").removeClass("active").parent().next().find(".inner-tab-link");
+
+      nextTabLink.click();
+      
+      if (nextTabLink.hasClass("end-tab")) {
+        $(".next-btn").hide();
+        $(".prev-btn").show();
+      } else {
+        $(".next-btn").show();
+        $(".prev-btn").show();
+      }
+    });
+
+    $(".prev-btn").on("click", function(e) {
+      e.preventDefault();
+      var prevTabLink = $(".inner-tab-link.active").removeClass("active").parent().prev().find(".inner-tab-link");
+
+      prevTabLink.click();
+      
+
+      if (prevTabLink.hasClass("start-tab")) {
+        $(".next-btn").show();
+        $(".prev-btn").hide();
+      } else {
+        $(".next-btn").show();
+        $(".prev-btn").show();
+      }
+    });
+
+    $("#new-listing-form").on("submit", function() {
+      $(".loading-overlay").addClass("active");
+    });
+
+
+
+
+    // disable auto discover
+    Dropzone.autoDiscover = false;
+    
+    $(".dropzone-area").click(function(e){
+      $(".dropzone").click();
+      e.stopPropagation();
+    });
+   
+    // grap our upload form by its id
+    $("#new-listing-form").dropzone({
+      // restrict image size to a maximum 1MB
+      maxFilesize: 1,
+      // changed the passed param to one accepted by
+      // our rails app
+      paramName: "image[]",
+      // show remove links on each image upload
+      addRemoveLinks: true,
+      // The configuration we've talked about above
+      autoProcessQueue: false,
+      uploadMultiple: true,
+      parallelUploads: 100,
+      maxFiles: 100,
+      previewsContainer: ".dropzone-area",
+      clickable: true,
+      
+       // The setting up of the dropzone
+      init: function() {
+        var myDropzone = this;
+
+        var dzMessage = $(".dz-default.dz-message").clone();
+        $(".dz-default.dz-message").remove();
+
+        $(".dropzone-area").html(dzMessage);
+        
+        this.on("addedfile", function(file) { 
+          has_images = true;
+        });
+    
+        // First change the button to actually tell Dropzone to process the queue.
+        this.element.querySelector("input[type=submit]").addEventListener("click", function(e) {
+          // Make sure that the form isn't actually being sent.
+          e.preventDefault();
+          e.stopPropagation();
+          myDropzone.processQueue();
+        });
+    
+        // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
+        // of the sending event because uploadMultiple is set to true.
+        this.on("sendingmultiple", function() {
+          // Gets triggered when the form is actually being sent.
+          // Hide the success button or the complete form.
+          $(".loading-overlay").addClass("active");
+        });
+        this.on("successmultiple", function(files, response) {
+          // Gets triggered when the files have successfully been sent.
+          // Redirect user or notify of success.
+          window.location.href = "/listings";
+        });
+        this.on("errormultiple", function(files, response) {
+          // Gets triggered when there was an error sending the files.
+          // Maybe show form again, and notify user of error
+          $(".loading-overlay").removeClass("active");
+        });
+      }
+    });
+
+
+
+    // Transactions Tab (Dashboard)
+    $(".transactions-inner-tab-link").on("click", function(e) {
+      e.preventDefault();
+
+      var id = $(this).attr("href");
+
+      $(".transactions-inner-tab-link").removeClass("active");
+      $(this).addClass("active");
+
+      $(".transactions-inner-tab").removeClass("active");
+      $(id).addClass("active");
+    });
+
+
+    // Reservations Tab (Dashboard)
+    $(".reservations-inner-tab-link").on("click", function(e) {
+      e.preventDefault();
+
+      var id = $(this).attr("href");
+
+      $(".reservations-inner-tab-link").removeClass("active");
+      $(this).addClass("active");
+
+      $(".reservations-inner-tab").removeClass("active");
+      $(id).addClass("active");
+    });
+
+
+
+
+    //======================================
+    // Show Listing Page
+    //======================================
+
+    // Listing Thumbnails Selection
+    $(".listing-thumb a").on("click", function(e) {
+        e.preventDefault();
+
+        var id = $(this).attr("id");
+        var imgToDisplay = $("#" + id).data("selector");
+
+        // Give highlighting to the selected thumb
+        $(".listing-thumb").removeClass("active");
+        $("#" + id).parent().addClass("active");
+
+        // Change the large picture background to selected image
+        $("#listing-cover-photo").css("background", "url('" + imgToDisplay + "') no-repeat center");
+    })
+
+
+    // Rate Icons (Giving A Rating)
+    $("#rate-section .rate-icon").hover(function(e) {
+      // Hover over
+      var iconId = $(this).attr("id");
+      var iconIndex = $("#" + iconId).index();
+
+      $(this).css("font-size", "2em");
+      $(this).css("margin-top", "-0.07em");
+
+      $("#numerical-give-rating").html(iconIndex + 1);
+
+      if (iconIndex === 0) {
+        $("#verbal-give-rating").html("The Worst");
+      } else if (iconIndex >= 0 && iconIndex < 2) {
+        $("#verbal-give-rating").html("Bad. Just Terrible.");
+      } else if (iconIndex >= 2 && iconIndex < 4) {
+        $("#verbal-give-rating").html("Was not amused.");
+      } else if (iconIndex >= 4 && iconIndex < 6) {
+        $("#verbal-give-rating").html("Was okay. Could have been better.");
+      } else if (iconIndex >= 6 && iconIndex < 8) {
+        $("#verbal-give-rating").html("Pretty Good. I'd come back.");
+      } else if (iconIndex >= 8 && iconIndex < 9) {
+        $("#verbal-give-rating").html("Great! I recommend.");
+      } else if (iconIndex == 9) {
+        $("#verbal-give-rating").html("The Best. Can't do better!");
+      }
+
+      for (var i = iconIndex; i >= 0; i--) {
+        $("#rate-give-" + i).removeClass("fa-circle-o");
+        $("#rate-give-" + i).addClass("fa-circle");
+      }
+    }, function() {
+      // Hover out
+      $("#numerical-give-rating").html("0");
+      $("#verbal-give-rating").html("");
+
+      $(this).css("font-size", "1.3333em");
+      $(this).css("margin-top", "0");
+
+      $(".rate-icon").removeClass("fa-circle");
+      $(".rate-icon").addClass("fa-circle-o");
+    });
+
+
+
+
+
+
+
+    //======================================
+    // Reservation Modal
+    //======================================
+
+
+    // Reservation Btns, initial setup
+    if ($(".reservation-inner-tab.active").hasClass("start-tab")) {
+      $(".resrv-prev-btn").hide();
+      $(".submit-request-btn").hide();
+
+      checkNextPrevBtnConditions();
+    }
+
+    // Reservation Next Btn
+    $(".resrv-next-btn").on("click", function(e) {
+      e.preventDefault();
+
+      var nextTab = $(".reservation-inner-tab.active").removeClass("active").next();
+      var modalTitle = nextTab.data("modal-title");
+
+      $(".reservation-modal-title").html(modalTitle);
+
+      nextTab.addClass("active");
+
+      checkNextPrevBtnConditions();
+      
+      if (nextTab.hasClass("end-tab")) {
+        $(".resrv-next-btn").hide();
+        $(".resrv-prev-btn").show();
+        $(".submit-request-btn").show();
+      } else {
+        $(".resrv-next-btn").show();
+        $(".resrv-prev-btn").show();
+        $(".submit-request-btn").hide();
+      }
+    });
+
+    // Reservation Prev Btn
+    $(".resrv-prev-btn").on("click", function(e) {
+      e.preventDefault();
+      var prevTab = $(".reservation-inner-tab.active").removeClass("active").prev();
+      var modalTitle = prevTab.data("modal-title");
+
+      $(".reservation-modal-title").html(modalTitle);
+
+      prevTab.addClass("active");
+
+      checkNextPrevBtnConditions();
+      
+      if (prevTab.hasClass("start-tab")) {
+        $(".resrv-next-btn").show();
+        $(".resrv-prev-btn").hide();
+        $(".submit-request-btn").hide();
+      } else {
+        $(".resrv-next-btn").show();
+        $(".resrv-prev-btn").show();
+        $(".submit-request-btn").hide();
+      }
+    });
+
+    function checkNextPrevBtnConditions() {
+      // Disable next button until user selects a rate type (Step 1)
+      if ($("#reservation-step-1").hasClass("active")) {
+        if (!$(".rate-radio-btn").is(":checked")) {
+          $(".resrv-next-btn").attr("disabled", "disabled");
+        } else {
+          $(".resrv-next-btn").removeAttr("disabled");
+        }
+      }
+
+      if ($("#reservation-step-2").hasClass("active")) {
+        var tFormat = adjustTimeFormat($(".rate-radio-btn:checked").data("time-range"));
+
+        $("#start").data("DateTimePicker").format(tFormat);
+        $("#end").data("DateTimePicker").format(tFormat);
+
+        $("#start").val($("#start").val());
+        $("#end").val($("#end").val());
+
+        // Set the time range
+        $("#date-range-hidden").attr("value", $("input[name='reservation[rate_attributes][amount]']:checked").data("time-range"));
+      }
+
+      // Append Last 4 digits of credit card to Review Section
+      // if ($("#reservation-step-5").hasClass("active")) {
+      //   if ($("#card_number").val().length > 4 && $("#exp_month").val() !== "" && $("#exp_year").val().length == 4) {
+      //     $(".review-cc").html("Card ending in " + $("#card_number").val().slice(-4) + " - Exp: " + $("#exp_month").val() + "/" + $("#exp_year").val());
+      //   } else {
+      //     $(".review-cc").html("<span class='error'>Credit Card provided is invalid. Please go back and check.</span>");
+      //   }
+      // }
+    }
+
+    function adjustTimeFormat(timeFormat) {
+      if (timeFormat === "hourly" || timeFormat === "hour" || timeFormat === "hr") {
+        return tFormat = "hh:mm A - ddd, MMM D";
+      } else {
+        return tFormat = "ddd, MMM D";
+      }
+    }
+
+    $(".rate-radio-btn").on("change", function() {
+      if ($(".rate-radio-btn").is(":checked") > 0) {
+        checkNextPrevBtnConditions();
+      }
+    });
+
+    // Reservation Modal - Agreement checkbox validation
+    $("#reservation_agreement").on("change", function(e) {
+      e.preventDefault();
+
+      if ($(this).is(":checked")) {
+        $(".submit-request-btn").removeAttr("disabled");
+      } else {
+        $(".submit-request-btn").attr("disabled", "disabled");
+      }
+    });
+
+    // DateTime pickers for Start and End dates (in "List A Space > 3. Dates")
+    $("#start").datetimepicker({
+      //format: tFormat,
+      minDate: moment().add('hours', 3),
+      sideBySide: true,
+      stepping: 15
+    }).on("dp.change", function(e) {
+      var selectedDate = e.date;
+      $("#end").data("DateTimePicker").minDate(selectedDate.add('hours', 1));
+
+      // Append the start date to the Review Section
+      $(".review-start-date").html($(this).val());
+
+      checkNextPrevBtnConditions();
+    });
+
+    $("#end").datetimepicker({
+      //format: "hh:mm A - ddd, MMM D",
+      sideBySide: true,
+      minDate: moment().add('hours', 4),
+      stepping: 15
+    }).on("dp.change", function(e) {
+      var selectedDate = e.date;
+      $("#start").data("DateTimePicker").maxDate(selectedDate.subtract('hours', 1));
+
+      // Append the end date to the Review Section
+      $(".review-end-date").html($(this).val());
+
+      checkNextPrevBtnConditions();
+      selectedDate.subtract('hours', 1);
+    });
+
+
+});

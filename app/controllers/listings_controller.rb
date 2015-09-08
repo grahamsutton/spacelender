@@ -5,20 +5,18 @@ class ListingsController < ApplicationController
   before_filter :require_login, :except => [:show, :search, :update, :edit]
   #before_filter :check_if_stripe_is_connected?
 
-  respond_to :html, :xml, :json
+  # respond_to :html, :xml, :json
 
-  # List all listings
-  def index
-    @listing = Listing.new
-    @listing.build_location
-    @listing.periods.build
-    @listing.rates.build
-    @listing.pictures.build
-
+  def dashboard
     if @current_user.uid
       @account = Stripe::Account.retrieve(@current_user.uid)
     end
 
+
+  end
+
+  # List all listings
+  def index
     # Get current user's listings
     @listings = @current_user.listings
     @reservations = []
@@ -37,6 +35,15 @@ class ListingsController < ApplicationController
     # Get Active and Inactive listings
     @activeListings = @listings.where(:active => true)
     @inactiveListings = @listings.where(:active => false)
+  end
+
+
+  def new
+    @listing = Listing.new
+    @listing.build_location
+    @listing.periods.build
+    @listing.rates.build
+    @listing.pictures.build
   end
 
 
@@ -61,18 +68,26 @@ class ListingsController < ApplicationController
           end
       end
 
+      if @listing.always_available == "true"
+        @listing.periods.first.start = nil
+        @listing.periods.first.end = nil
+      end
+
       # Save the listing
       if @listing.save
-        flash[:notice] = "Your listing \"#{@listing.name}\" was added successfully."
+        flash[:notice] = @listing.always_available
         if params[:image]
-           render json: { message: "success" }, :status => 200
-        else
-          # Redirects to "My Listings" tab
-          redirect_to "/listings?q=ml"
+            respond_to do |format|
+              format.html { redirect_to listings_path }
+              format.json { render :json => { :message => "success" } }
+            end
         end
       else
-        flash.now[:alert] = "Uh-oh! Something's off here: "
-        render :new
+        flash[:alert] = "Uh-oh! Something's off here: "
+        respond_to do |format|
+          format.html { render :index }
+          format.json { render :json => { :message => "failure" } }
+        end
       end
   end
 
@@ -81,6 +96,10 @@ class ListingsController < ApplicationController
   # Show a single Listing
   def show
     @listing = Listing.find(params[:id])
+
+    if !current_user
+      @new_user = User.new
+    end
 
     # Build Reservation's sub-attributes
     @reservation = @listing.reservations.build
@@ -219,6 +238,6 @@ class ListingsController < ApplicationController
   
   private
   def listing_params
-    params.require(:listing).permit(:id, :name, :description, :stripeToken, location_attributes: [:street_address, :city, :state, :zip, :country], periods_attributes: [:start, :end], rates_attributes: [:amount, :date_range], pictures_attributes: [:image], reservations_attributes: [rate_attributes: [:amount, :date_range], period_attributes: [:start, :end]])
+    params.require(:listing).permit(:id, :name, :description, :stripeToken, :always_available, location_attributes: [:street_address, :city, :state, :zip, :country], periods_attributes: [:start, :end], rates_attributes: [:amount, :date_range], pictures_attributes: [:image], reservations_attributes: [rate_attributes: [:amount, :date_range], period_attributes: [:start, :end]])
   end
 end

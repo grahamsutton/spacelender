@@ -24,12 +24,33 @@
 //= require autonumeric
 //= require owl.carousel
 //= require underscore
+//= require wow
 //= require jquery.tooltipster.min.js
 //= require jquery.timepicker.js
 //= require jquery.datepair.js
 //= require jquery.validate
 //= require jquery.validate.additional-methods
 //= require gmaps/google
-//= require summernote
 //= require turbolinks
 //= require_tree .
+
+$(document).ready(function() {
+	$(".account-ctrl-modal-link").on("click", function(e) {
+		e.preventDefault();
+
+		var id = $(this).attr("href");
+		var cleanId = id.replace("-modal-tab", "");
+
+		$(".account-ctrl-modal-link").parent().removeClass("active");
+		$(this).parent().addClass("active");
+
+		$(".account-ctrl-modal-tab").removeClass("active");
+		$(id).addClass("active");
+
+		if (cleanId === "#register") {
+			$(".account-ctrl-modal-title").html("Register");
+		} else {
+			$(".account-ctrl-modal-title").html("Login");
+		}
+	});
+});

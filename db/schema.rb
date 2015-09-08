@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150727062605) do
+ActiveRecord::Schema.define(version: 20150906044045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cards", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "card_token"
+  end
+
+  add_index "cards", ["user_id"], name: "index_cards_on_user_id", using: :btree
 
   create_table "invoices", force: :cascade do |t|
     t.integer  "listing_id"
@@ -35,11 +44,11 @@ ActiveRecord::Schema.define(version: 20150727062605) do
     t.integer  "user_id"
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.string   "slug"
-    t.boolean  "active",          default: true
-    t.boolean  "request_reserve"
+    t.boolean  "active",      default: true
+    t.string   "token"
   end
 
   add_index "listings", ["user_id"], name: "index_listings_on_user_id", using: :btree
@@ -111,6 +120,7 @@ ActiveRecord::Schema.define(version: 20150727062605) do
     t.datetime "updated_at", null: false
     t.integer  "status"
     t.text     "purpose"
+    t.boolean  "agreement"
   end
 
   add_index "reservations", ["listing_id"], name: "index_reservations_on_listing_id", using: :btree
@@ -129,8 +139,10 @@ ActiveRecord::Schema.define(version: 20150727062605) do
     t.string   "uid"
     t.string   "access_code"
     t.integer  "role",            default: 0
+    t.string   "customer_token"
   end
 
+  add_foreign_key "cards", "users"
   add_foreign_key "invoices", "listings"
   add_foreign_key "listings", "users"
   add_foreign_key "locations", "listings"

@@ -41,14 +41,16 @@ gem 'friendly_id'
 
 gem 'omniauth'
 
+gem 'rack-cors', :require => 'rack/cors'
+
+gem 'angular_rails_csrf'
+
 gem 'figaro'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'omniauth-stripe-connect'
-
-gem 'summernote-rails'
 
 gem 'paperclip'
 
@@ -98,6 +100,8 @@ gem 'jquery-turbolinks'
 
 gem 'roadie-rails'
 
+gem 'wow-rails'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
@@ -107,6 +111,12 @@ gem 'roadie-rails'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+
+  gem 'factory_girl_rails'
+
+  gem 'minitest'
+
+  gem 'minitest-rg'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'

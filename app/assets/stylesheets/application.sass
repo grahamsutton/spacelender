@@ -11,8 +11,6 @@
  * file per style scope.
  *
  *= require font-awesome
- *= require dropzone/dropzone
- *= require summernote
  *= require jquery.timepicker.css
  *= require fullcalendar
  *= require owl.carousel
@@ -30,3 +28,1091 @@
 @import "bootswatch/paper/bootswatch"
 @import "bootstrap-datetimepicker"
 @import url(http://fonts.googleapis.com/css?family=Handlee)
+@import url(http://fonts.googleapis.com/css?family=Chivo)
+
+
+// Color Palette
+$background-color: #F2F1EF
+$secondary-color-dark: #049372
+//$secondary-color: #044F67
+$secondary-color: #37BC9B
+$orange-creme-color: #FDE3A7
+$white-color: #FEFEFE
+$red-color: #e74c3c
+$black-color: #666
+$grey-color: #DDD
+
+// Shadowing
+$simple-shadow: none !important //0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3
+$bold-shadow: none !important //1px 3px 2px rgba(0, 0, 0, 0.25)
+
+
+
+body
+	background-color: $background-color
+	font-family: 'Chivo', sans-serif
+	//overflow: auto
+
+input[type="text"],
+input[type="password"],
+textarea
+	border-bottom: none
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus
+	outline: none
+	box-shadow: $bold-shadow !important
+
+a
+	font-family: 'Chivo', sans-serif
+	color: $secondary-color
+
+.btn:focus,
+a:focus
+	box-shadow: none !important
+	outline: none !important
+	color: $black-color
+	text-decoration: none
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.navbar-brand,
+.squiggly
+	font-family: 'Handlee' !important
+	color: $secondary-color
+
+label
+	color: $black-color !important
+
+table
+	input[type="text"],
+	input[type="file"],
+	select,
+	textarea
+		box-shadow: none !important
+		border: none !important
+		padding: 10px
+		margin-bottom: 0px !important
+
+	input[type="text"]:focus,
+	input[type="file"]:focus,
+	select:focus,
+	textarea:focus
+		box-shadow: none !important
+		border: none !important
+		padding: 10px
+		margin-bottom: 0px !important
+
+table
+	select
+		padding-left: 10px
+		padding-right: 10px
+		padding-top: 0px !important
+		padding-bottom: 0px !important
+
+	td.table-padded-select
+		padding-top: 20px !important
+		padding-bottom: 20px !important
+
+.dropdown-menu
+	border-radius: 0
+
+.padded-sides
+	padding-left: 15px !important
+	padding-right: 15px !important
+
+.padded
+	padding: 15px !important
+
+.success
+	color: #2ecc71
+
+.error
+	color: #e74c3c
+
+.counter-navbar-margin
+	margin-top: -23px
+
+.btn-cell
+	padding: 0 !important
+
+	button
+		box-shadow: none !important
+		width: 100%
+
+	button:hover
+		//background-color: $secondary-color !important
+
+
+// Status colors for Reservation statuses
+.rejected
+	color: #e74c3c
+
+.accepted,
+.completed
+	color: #2ecc71
+
+.requested
+	color: #D9B611
+
+.generic-tabs-list
+	padding-top: 20px !important
+	padding-left: 30px !important
+	padding-right: 30px !important
+
+#account-ctrl-modal
+	margin-bottom: 23px
+
+	.modal-dialog
+		width: 500px
+
+	input.form-control,
+	textarea,
+	select
+		box-shadow: $bold-shadow !important
+		margin-bottom: 25px !important
+		background-color: $white-color
+		border: 1px solid rgba(0, 0, 0, 0.25)
+
+	input.form-control,
+	textarea
+		padding: 20px !important
+
+	select
+		padding-left: 20px
+
+#reservation-modal
+	input.form-control,
+	textarea,
+	select
+		box-shadow: $simple-shadow !important
+		margin-bottom: 25px !important
+		background-color: $white-color
+		border: 1px solid rgba(0, 0, 0, 0.25)
+
+	input.form-control,
+	textarea
+		padding: 20px !important
+
+	select
+		padding-left: 20px
+
+	.directional-btn,
+	.directional-btn:focus,
+	.directional-btn:active
+		border: 1px solid rgba(0, 0, 0, 0.25) !important
+
+
+.timepicker-picker
+	.btn
+		box-shadow: none
+		border: none
+		border-radius: none
+
+.bootstrap-datetimepicker-widget 
+	table 
+		td.disabled
+			color: #DDD !important
+
+.datepicker
+	.prev.disabled,
+	.next.disabled
+		color: #FFF !important
+
+	table 
+		tr 
+			td.today
+				border-color: none
+
+.account-ctrl-modal-tab
+	display: none
+
+.account-ctrl-modal-tab.active
+	display: block
+
+.account-ctrl-modal-list-item
+	margin-right: 20px
+
+.account-ctrl-modal-list-item.active
+	border-bottom: 2px solid $secondary-color-dark
+
+.account-ctrl-modal-link:hover
+	color: $black-color
+
+.btn-group
+	.btn
+		border-radius: 0
+		box-shadow: $bold-shadow
+
+.modal-content
+	border-radius: 0
+
+// Dark Backgrounds - Puts a dark background and light colored fonts
+.dark
+	box-shadow: 0 1px 6px 0 #C7C7C7 inset
+	background-color: $secondary-color-dark
+	color: $white-color
+
+	a
+		color: $orange-creme-color
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6
+		color: $white-color
+
+// Light, White Backgrounds - Puts a white background with dark fonts
+.light
+	box-shadow: 0 1px 6px 0 #C7C7C7 inset
+	background-color: $white-color
+
+
+
+.navbar
+	//box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3
+	border-radius: 0px
+	box-shadow: none
+
+	input[type="text"],
+	input[type="password"],
+	select,
+	textarea
+		margin-bottom: 0px
+
+	input[type="text"]:focus,
+	input[type="password"]:focus,
+	select:focus,
+	textarea:focus
+		box-shadow: none !important
+
+	.container-fluid
+		margin-right: -15px
+
+	.navbar-brand
+		color: $secondary-color
+
+	.navbar-btn
+		color: $white-color !important
+		border-radius: 0px
+		margin-top: 0px
+		margin-bottom: 0px
+
+	.navbar-btn:hover
+		color: $white-color
+		background-color: $secondary-color-dark !important
+
+	#nav-search-bar-btn
+		height: 64px
+		border: none
+		border-radius: 0px
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)
+		color: #FFF
+
+	.navbar-form.navbar-left
+		margin-top: 0px
+		margin-bottom: 0px
+		height: 64px
+
+		.form-group
+			height: 100%
+
+			.row
+				margin-left: 0px
+				margin-right: 0px
+				height: 100%
+
+			.col-md-1,
+			.col-md-2,
+			.col-md-3,
+			.col-md-4,
+			.col-md-5,
+			.col-md-6,
+			.col-md-7,
+			.col-md-8,
+			.col-md-9,
+			.col-md-10,
+			.col-md-11,
+			.col-md-12
+				padding-left: 0px
+				padding-right: 0px
+				height: 100%
+
+			.nav-search-bar
+				height: 100%
+				width: 240px
+				border: none
+				border-radius: 0px
+				padding-left: 20px
+				padding-right: 20px
+				box-shadow: none
+				border-left: 1px solid rgba(0, 0, 0, 0.1)
+
+			#nav-search-bar-btn:focus
+				box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)
+
+			#nav-search-bar-btn
+				.glyphicon.glyphicon-search
+					color: $secondary-color-dark !important
+
+.navbar.navbar-homepage
+	background: transparent !important
+	//box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3
+	box-shadow: none
+	border-bottom: none
+
+	a
+		color: $secondary-color
+
+	.container-fluid
+		margin-right: -15px
+
+	.navbar-btn
+		color: $white-color !important
+		border-radius: 0px
+		margin-top: 0px
+		margin-bottom: 0px
+
+	.navbar-btn:hover
+		background-color: $secondary-color-dark
+		color: $white-color
+
+	.dropdown-menu,
+	.dropdown.open > a
+		background: transparent
+
+	.dropdown-menu
+		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175)
+
+	.dropdown.open > a
+		text-decoration: bold
+
+	.dropdown.open
+		.dropdown-menu
+			li
+				a
+					color: $background-color
+
+			li:hover
+				a
+					color: $secondary-color
+
+.navbar-default .navbar-nav > li > a
+	color: $secondary-color
+
+.btn
+	text-transform: none
+
+	.btn-default.active
+		border: none
+
+.btn-default
+	border-radius: 0
+	box-shadow: $bold-shadow
+	border: 1px solid $grey-color
+
+.btn-default:hover
+	background-color: #EFEFEF
+
+.btn-default:focus,
+.btn-default:active
+	box-shadow: $bold-shadow !important
+	//border: $grey-c !important
+	background-color: $white-color
+
+.btn-primary
+	background-color: $secondary-color
+	border-radius: 0
+	box-shadow: $bold-shadow
+	border: 1px solid $grey-color
+
+.btn-primary:hover,
+.btn-primary:focus
+	background-color: $secondary-color-dark
+	//box-shadow: $bold-shadow
+
+.datepicker
+	.day.active
+		background-color: $secondary-color !important
+		border-radius: 0px !important
+
+.login-form,
+.sign-up-form
+	input[type="text"],
+	input[type="password"],
+	.panel-heading
+		box-shadow: 0px 0px 1px rgba(127, 127, 127, 0.375) !important
+
+
+.panel.modern
+	border-radius: 0
+	border: 1px solid $grey-color !important
+	box-shadow: $simple-shadow
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6
+		font-family: "Chivo", sans-serif
+
+	.login-title
+		font-family: 'Handlee', sans-serif !important
+
+	form
+		input.form-control,
+		textarea,
+		select
+			padding: 20px !important
+			box-shadow: $bold-shadow !important
+			margin-bottom: 25px !important
+			background-color: $white-color
+			border: 1px solid $grey-color !important
+
+	table
+		border-right: 0 !important
+		border-left: 0 !important
+
+	.row
+		margin-left: 0px
+		margin-right: 0px
+		height: 100%
+
+	.col-md-1,
+	.col-md-2,
+	.col-md-3,
+	.col-md-4,
+	.col-md-5,
+	.col-md-6,
+	.col-md-7,
+	.col-md-8,
+	.col-md-9,
+	.col-md-10,
+	.col-md-11,
+	.col-md-12
+		padding-left: 0px
+		padding-right: 0px
+		height: 100%
+
+	.panel-heading
+		background-color: #FFF
+
+	.panel-body
+		padding: 0px
+
+		.error
+			padding: 15px
+			color: #e74c3c
+
+		input.form-control,
+		textarea,
+		select
+			padding: 30px
+			box-shadow: $bold-shadow
+			border: none
+
+		input.valid:focus
+			color: #2ecc71
+
+		input.error
+			color: #e74c3c
+
+		input[type="submit"].btn.btn-primary
+			background: $secondary-color
+			color: $white-color
+			padding: 0 !important
+
+		input[type="submit"].btn.btn-primary:hover
+			background-color: $secondary-color-dark
+
+		.glyphicon.error
+			display: none
+
+		.glyphicon.error.active
+			color: #e74c3c
+			display: inline
+			position: absolute
+			right: 10px
+			top: 35%
+
+	.panel-footer
+		border-top: none
+		padding: 0px
+		height: 50px
+
+		.btn.btn-primary.form-control
+			font-size: 22px
+			height: 100%
+			box-shadow: none
+
+
+.title-search
+	background-color: $background-color
+	z-index: 100
+	position: relative
+	box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3 !important
+	margin-top: -23px
+	margin-left: 0px
+	margin-right: 0px
+	height: 640px
+	background-size: 100%
+	width: 100%
+	padding-top: 60px
+	padding-left: 30px
+	padding-right: 30px
+
+	.header-title,
+		color: $secondary-color
+
+	.header-subtitle
+		font-family: 'Chivo'
+		font-size: 0.5em
+		color: $secondary-color-dark
+
+	// Search Bar dropdown
+	.ui-autocomplete
+		box-shadow: $bold-shadow !important
+		font-family: 'Chivo' !important
+		background-color: $white-color
+
+	#search-form
+		height: 60px
+
+	.to-the-windows
+		margin-right: 0px
+
+		.to-the-wall
+			.col-md-1,
+			.col-md-2,
+			.col-md-3,
+			.col-md-4,
+			.col-md-5,
+			.col-md-6,
+			.col-md-7,
+			.col-md-8,
+			.col-md-9,
+			.col-md-10,
+			.col-md-11,
+			.col-md-12
+				padding-left: 0px
+				padding-right: 0px
+				height: 100%
+
+		input[type="text"].form-control,
+		input[type="password"].form-control
+			padding: 30px
+			box-shadow: $bold-shadow
+			border: none
+			margin-left: 0px
+			margin-right: 0px
+			font-size: 20px
+			background: $white-color
+
+		input[type="text"].form-control:focus,
+		input[type="password"].form-control:focus
+			box-shadow: $bold-shadow !important
+
+
+		#search-btn
+			height: 60px
+			width: 100%
+			border-radius: 0px
+			font-size: 20px
+			box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.25)
+
+		#search-btn:hover
+			box-shadow: 1px 5px 2px rgba(0, 0, 0, 0.25)
+			background-color: $secondary-color-dark
+
+		#search::-webkit-input-placeholder
+			color: #777
+		#search::-moz-placeholder
+			color: #777 
+		#search:-ms-input-placeholder
+			color: #777 
+		#search:-moz-placeholder
+			color: #777 
+
+		#city::-webkit-input-placeholder
+			color: #777 
+		#city::-moz-placeholder
+			color: #777 
+		#city:-ms-input-placeholder
+			color: #777 
+		#city:-moz-placeholder
+			color: #777 
+
+.section
+	position: relative
+	box-shadow: $simple-shadow
+
+.section.no-shadow
+	box-shadow: none
+
+
+.section.homepage-section:nth-child(odd)
+	background-color: $white-color
+
+.section.homepage-section:nth-child(even)
+	background-color: $background-color
+
+.section.homepage-section
+	z-index: 10
+	position: relative
+	min-height: 250px
+	margin-right: 0px
+	padding-top: 60px
+	padding-bottom: 60px
+
+	.icon-cont
+		color: $secondary-color
+		font-size: 5em
+		position: absolute
+		top: -5%
+		z-index: 1
+
+		.fa
+			z-index: 1
+
+		/* Safari */
+		-webkit-transform: rotate(-45deg)
+
+		/* Firefox */
+		-moz-transform: rotate(-45deg)
+
+		/* IE */
+		-ms-transform: rotate(-45deg)
+
+		/* Opera */
+		-o-transform: rotate(-45deg)
+
+		/* Internet Explorer */
+		filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3)
+
+#how-it-works
+	z-index: 105
+	position: relative
+
+	.question-mark-img
+		position: absolute
+		height: 45px
+		width: 35px
+
+	#qm1
+		top: 0
+		left: 25%
+
+	#qm2
+		top: 50%
+		left: 20%
+
+	#qm3
+		top: 10%
+		right: 30%
+
+#find-a-listing
+	z-index: 104
+
+#footer
+	z-index: 500
+	background-color: $secondary-color-dark
+	clear: both
+	bottom: 0
+
+#footer.footer-homepage
+	margin-right: 0px
+
+
+
+
+// Listings Index Page
+#dashboard-nav-bar
+	padding-top: 15px
+	padding-bottom: 15px
+	margin-left: 0
+	margin-right: 0
+	background-color: $secondary-color
+	z-index: 1010
+
+	a
+		color: $white-color
+
+	#dashboard-nav-bar-links
+		margin-bottom: 0
+
+
+		li
+			z-index: 1000 
+			position: relative
+
+			a,
+			a:hover
+				text-decoration: none
+
+		// Arrows that point beneath active tab
+		li.active:after
+			content: ''
+			display: block
+			position: absolute
+			top: 110%
+			width: 0
+			height: 0
+			left: 21%
+			margin-left: -30px
+			border-top: 30px solid $secondary-color
+			border-bottom: 30px solid transparent
+			border-left: 30px solid transparent
+			border-right: 30px solid transparent
+
+
+#dashboard-content
+	.dashboard-tab
+		background-color: $background-color
+		box-shadow: none !important
+		height: 100%
+		padding-top: 40px
+		padding-bottom: 45px
+		overflow: auto
+
+	.loading-overlay
+		display: none
+
+	.loading-overlay.active
+		display: block
+		height: 100%
+		width: 100%
+		z-index: 2500
+		position: absolute
+		background-color: rgba(255, 255, 255, 0.5)
+
+		img.loading-gif,
+		p
+			position: absolute
+			margin: auto
+			top: 0
+			bottom: 0
+			left: 0
+			right: 0
+
+
+// List A Space Form
+#list-a-space
+
+	table
+		input[type="text"],
+		input[type="file"],
+		select,
+		textarea
+			box-shadow: none !important
+			border: none !important
+			padding: 10px
+			margin-bottom: 0px !important
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6
+		font-family: 'Chivo', sans-serif !important
+
+	.inner-tab-link
+		color: $black-color
+		text-decoration: none
+
+	.inner-tab-link.active
+		font-weight: bold
+		//box-shadow: $bold-shadow
+		padding: 10px
+		background-color: $white-color
+		color: $secondary-color-dark
+
+	.inner-tab-link.active:focus
+		box-shadow: $bold-shadow !important
+		padding: 10px
+
+	.inner-tab
+		display: none
+
+	.inner-tab.active
+		display: block
+
+	.arrow-container
+		position: relative
+
+		.list-a-space-arrow
+			position: absolute
+			top: 50%
+
+			.left-arrow
+				left: 50%
+
+			.right-arrow
+				right: 50%
+
+	#address
+		select
+			padding-top: 0px !important
+			padding-left: 20px
+			padding-right: 20px
+			padding-bottom: 0px !important
+
+	#dates
+		#dates-selection
+			.date-option
+				box-shadow: $bold-shadow
+
+				.fa-calendar-o
+					display: inline-block
+
+				.fa-calendar-check-o
+					display: none
+
+			#specific-dates.active
+				#specific-dates-fields
+					display: block
+
+					input[type="text"]
+						border-right: none !important
+
+					input[type="text"]:last-child
+						border-right: 1px solid $grey-color !important
+
+			#specific-dates
+				#specific-dates-fields
+					display: none
+
+			.date-option.active
+				.fa-calendar-o
+					display: none
+
+				.fa-calendar-check-o
+					display: inline-block
+
+			.date-option:hover
+				cursor: pointer
+				box-shadow: $simple-shadow
+
+			big
+				color: $secondary-color
+				font-size: 18px
+				display: block
+				margin-bottom: 15px
+
+			i.fa
+				margin-bottom: 15px
+
+
+	#rates
+		[type=text].form-control[readonly]
+			border-bottom: none
+
+
+	#upload-pictures
+		#upload-images-field
+			margin-bottom: 20px
+		#preview-images-area
+			margin-left: -15px
+			margin-right: -15px
+
+		.image-preview
+			padding-left: 15px
+			padding-right: 15px
+
+		.dropzone-area
+			min-height: 160px
+			// 	background-color: $white-color
+			// 	box-shadow: $bold-shadow
+			// 	margin-bottom: 30px
+			// 	padding: 20px
+			
+		.dropzone-area:hover
+			cursor: pointer
+
+		.dz-preview.dz-image-preview
+			display: inline-block
+			width: 20%
+			float: left
+			box-shadow: $bold-shadow
+			padding: 20px
+
+		.dz-default.dz-message
+			text-align: center
+
+		.dz-error-message
+			color: $red-color
+			font-weight: bold
+
+		.dz-success-mark,
+		.dz-error-mark
+			display: none
+
+		.dz-image
+			img
+				width: 100%
+
+
+#listings
+	.listings-inner-tabs-list
+		margin-bottom: 35px
+
+		.listing-inner-tab-link
+			color: $white-color
+			background-color: $secondary-color-dark
+			font-size: 18px
+			box-shadow: $bold-shadow
+
+
+	.listings-inner-tab-link.active
+		font-weight: bold
+		background-color: $secondary-color
+		color: $white-color !important
+		box-shadow: $bold-shadow !important
+
+	.listings-inner-tab
+		display: none
+
+	.listings-inner-tab.active
+		display: block
+
+	#listings-youve-posted
+		.listings-img-container
+			height: 150px
+
+
+#transactions
+	.transactions-inner-tab
+		display: none
+
+	.transactions-inner-tab.active
+		display: block
+
+	.transactions-inner-tab-link.active
+		font-weight: bold
+		//box-shadow: $bold-shadow
+		padding: 10px
+		background-color: $white-color
+		color: $secondary-color-dark
+
+#reservations
+	.reservations-inner-tab
+		display: none
+
+	.reservations-inner-tab.active
+		display: block
+
+	.reservations-inner-tab-link.active
+		font-weight: bold
+		//box-shadow: $bold-shadow
+		padding: 10px
+		background-color: $white-color
+		color: $secondary-color-dark
+
+
+
+// Show Listing Page
+#listing-cover-photo-backdrop,
+#listing-cover-photo
+	height: 420px
+	background-size: 100%
+	background: #333
+
+#listing-details
+	padding: 20px
+
+	#listing-left-side
+		ul
+			margin-bottom: 0
+
+			.thumbnail
+				margin-bottom: 0
+				height: 100%
+				border-radius: 0
+				border: 0
+				box-shadow: $bold-shadow
+
+				img
+					height: 100%
+
+			.thumbnail:hover
+				outline: none
+
+
+			.listing-thumb
+				height: 85px
+				width: 85px
+
+			.listing-thumb.active
+				.thumbnail
+					border: 2px solid $secondary-color
+
+			.listing-thumb.active:focus,
+			.listing-thumb.active:active
+				box-shadow: $bold-shadow !important
+
+		#rate-section
+			padding-top: 30px
+			padding-bottom: 30px
+
+			#numerical-give-rating
+				font-size: 50px
+				font-weight: bold
+
+			#verbal-give-rating
+				font-size: 30px
+				font-weight: bold
+				min-height: 60px
+
+			.rate-sub-section
+				padding-top: 30px
+				padding-bottom: 30px
+
+			.rate-icon:hover
+				cursor: pointer
+
+			#button-give-rating
+				min-height: 80px
+				padding-bottom: 10px
+
+
+	#listing-right-side
+		#user-info
+			min-height: 100px
+			#user-photo
+				max-height: 60px
+
+				img
+					border-radius: 50%
+					display: inline
+					box-shadow: $bold-shadow
+
+	.listing-title
+		font-size: 1.5em
+		color: $secondary-color
+
+
+
+.reservation-inner-tab
+	display: none
+
+.reservation-inner-tab.active
+	display: block
+
+#review-request-table
+	tfoot
+		border-top: 2px solid $black-color
+
+		tr
+			background-color: $background-color
+
+
+
+

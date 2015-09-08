@@ -1,0 +1,18 @@
+#dashboard-nav-bar.row.fight-navbar-margin
+  .col-md-12
+    %ul#dashboard-nav-bar-links.list-unstyled.list-inline
+      %li.col-md-2.col-md-offset-2{ :class => ("active" if current_page?(dashboard_path)) }
+        = link_to dashboard_path do
+          Dashboard
+      %li.col-md-2{ :class => ("active" if current_page?(listings_path)) }
+        = link_to listings_path do
+          Listings
+      %li.col-md-2{ :class => ("active" if current_page?(new_listing_path)) }
+        = link_to new_listing_path do
+          List A Space
+      %li.col-md-2{ :class => ("active" if current_page?(reservations_path)) }
+        = link_to reservations_path do
+          Reservations
+      %li.col-md-2{ :class => ("active" if current_page?(transactions_path)) }
+        = link_to transactions_path do
+          Transactions

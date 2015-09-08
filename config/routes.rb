@@ -17,6 +17,14 @@ Rails.application.routes.draw do
   post 'listings/:id/reactivating' => 'listings#reactivate', :as => :reactivate_listing
   get 'users/stripe_prompt' => 'users#stripe_prompt', :as => :stripe_prompt
   get 'users/change_password', :as => :change_password
+  get '/dashboard' => 'listings#dashboard', :as => :dashboard
+  get 'listings/index' => 'listings#index'
+  get '/reservations' => 'reservations#index', :as => :reservations
+  post 'reservations/:id/accept' => 'reservations#accept_reservation', :as => :accept_reservation
+  post 'reservations/:id/reject' => 'reservations#reject_reservation', :as => :reject_reservation
+  post 'cards/create' => 'cards#create'
+
+  get '/transactions' => 'transactions#index', :as => :transactions
 
   resources :listings, shallow: true do
     resources :reservations

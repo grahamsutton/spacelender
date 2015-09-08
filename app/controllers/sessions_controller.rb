@@ -10,21 +10,30 @@ class SessionsController < ApplicationController
   def create
   	if @user = User.authenticate(params[:email], params[:password])
   		session[:user_id] = @user.id
-  		flash[:notice] = "Welcome back, #{@user.email}!"
+  		flash[:notice] = "Welcome back, #{params[:r]}!"
 
       respond_with @user do |format|
-        format.html { redirect_to listings_path }
+        format.html { 
+          if params[:r] == "yes"
+            redirect_to request.referer
+          else
+            redirect_to dashboard_path
+          end
+        }
+
         format.json
       end
   	else
   		flash.now[:alert] = "Invalid username or password."
-  		render :new
+      respond_to do |format|
+        format.html { render :new }
+        format.json
+      end
   	end
   end
 
   def destroy
   	session.delete(:user_id)
-    cookies.delete("js.stripe.com")
     flash[:notice] = "See ya later."
 	  redirect_to root_path
   end
