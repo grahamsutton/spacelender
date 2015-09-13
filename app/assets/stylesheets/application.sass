@@ -17,6 +17,7 @@
  *= require jquery-ui
  *= require owl.theme
  *= require bootstrap-datepicker3
+ *= require toastr
  *= require tooltipster
  *= require animate
  *= require_tree .
@@ -45,6 +46,7 @@ $grey-color: #DDD
 // Shadowing
 $simple-shadow: none !important //0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3
 $bold-shadow: none !important //1px 3px 2px rgba(0, 0, 0, 0.25)
+$soft-border: 1px solid #DDD
 
 
 
@@ -148,6 +150,13 @@ table
 	button:hover
 		//background-color: $secondary-color !important
 
+.btn-group
+	.btn:first-child
+		border-right: none
+
+	.btn:last-child
+		border-left: none
+
 
 // Status colors for Reservation statuses
 .rejected
@@ -161,9 +170,23 @@ table
 	color: #D9B611
 
 .generic-tabs-list
-	padding-top: 20px !important
-	padding-left: 30px !important
-	padding-right: 30px !important
+	padding: 0px !important
+	border-right: 0px
+
+	.list-group-item
+		border-right: 0px
+
+	.list-group-item.title
+		border-top: 0px
+
+#search-form
+	input[type="text"],
+	#search-btn
+		border: $soft-border !important
+
+	input[type="text"]
+		border-right: none !important
+
 
 #account-ctrl-modal
 	margin-bottom: 23px
@@ -477,6 +500,11 @@ table
 			background-color: $white-color
 			border: 1px solid $grey-color !important
 
+		select
+			padding-top: 0px !important
+			padding-bottom: 0px !important
+			height: 42px
+
 	table
 		border-right: 0 !important
 		border-left: 0 !important
@@ -622,7 +650,7 @@ table
 
 
 		#search-btn
-			height: 60px
+			height: 62px
 			width: 100%
 			border-radius: 0px
 			font-size: 20px
@@ -721,6 +749,13 @@ table
 #find-a-listing
 	z-index: 104
 
+.footer
+	clear: both
+	position: absolute
+	bottom: 0
+	padding-bottom: 20px
+
+
 #footer
 	z-index: 500
 	background-color: $secondary-color-dark
@@ -765,7 +800,7 @@ table
 			top: 110%
 			width: 0
 			height: 0
-			left: 21%
+			left: 50%
 			margin-left: -30px
 			border-top: 30px solid $secondary-color
 			border-bottom: 30px solid transparent
@@ -774,13 +809,23 @@ table
 
 
 #dashboard-content
+	height: 100vh
+
+	.dashboard-inner-nav
+		width: 220px
+		position: absolute
+		height: 100vh
+		background-color: #FFF
+		padding-right: 0px
+		border-right: $soft-border
+	
 	.dashboard-tab
 		background-color: $background-color
 		box-shadow: none !important
 		height: 100%
-		padding-top: 40px
+		padding-top: 20px
 		padding-bottom: 45px
-		overflow: auto
+		border: none !important
 
 	.loading-overlay
 		display: none
@@ -802,9 +847,112 @@ table
 			left: 0
 			right: 0
 
+#main-dashboard
+	.dash-reservs-tab
+		display: none
+
+	.dash-reservs-tab.active
+		display: table
+
+	#dash-reservs-tab-list
+		li
+			padding: 10px
+
+		li.active
+			border-bottom: 2px solid $secondary-color-dark
+			font-weight: bold
+
+		li
+			a:hover
+				color: $secondary-color-dark
+				text-decoration: none
+
+
+#youre-all-set
+	margin-top: 20px
+	background-color: $white-color !important
+
+	#create-first-listing-link
+		margin-top: 20px
+		font-size: 18px
+
+
+#submit-payment-section
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6
+		font-family: 'Chivo', sans-serif !important
+
+	table
+		input[type="text"],
+		select
+			padding-left: 10px
+			padding-right: 10px
+
+	.payment-choice-tab
+		display: none
+
+	.payment-choice-tab.active
+		display: table
+
+	.payment-choice-tab-link-list
+		li.active
+			border-bottom: 2px solid $secondary-color-dark
+			font-weight: bold
+
+	.payment-choice-tab-link:focus,
+	.payment-choice-tab-link:active
+		color: $secondary-color
+
+	.payment-choice-tab-link:hover
+		text-decoration: none
+		color: $secondary-color
+
+	#payment-reservation-details
+		tfoot
+			border-top: 2px solid $black-color
+
+			tr
+				background-color: $background-color
+
+
+.dashboard-tab
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6
+		font-family: 'Chivo', sans-serif !important
+
+
+#list-a-space-nav
+	.inner-tab-link
+		color: $black-color
+		text-decoration: none
+
+	.inner-tab-link.active
+		font-weight: bold !important
+		//box-shadow: $bold-shadow
+		padding: 10px
+		background-color: $white-color
+		color: $secondary-color-dark
+
+	.inner-tab-link.active:focus
+		box-shadow: $bold-shadow !important
+		padding: 10px
+
 
 // List A Space Form
 #list-a-space
+	.inner-tab
+		display: none
+
+	.inner-tab.active
+		display: block
 
 	table
 		input[type="text"],
@@ -815,35 +963,6 @@ table
 			border: none !important
 			padding: 10px
 			margin-bottom: 0px !important
-
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6
-		font-family: 'Chivo', sans-serif !important
-
-	.inner-tab-link
-		color: $black-color
-		text-decoration: none
-
-	.inner-tab-link.active
-		font-weight: bold
-		//box-shadow: $bold-shadow
-		padding: 10px
-		background-color: $white-color
-		color: $secondary-color-dark
-
-	.inner-tab-link.active:focus
-		box-shadow: $bold-shadow !important
-		padding: 10px
-
-	.inner-tab
-		display: none
-
-	.inner-tab.active
-		display: block
 
 	.arrow-container
 		position: relative
@@ -959,23 +1078,19 @@ table
 			img
 				width: 100%
 
+#listings-nav
+	.listing-inner-tab-link
+		color: $black-color !important
+
+	.listings-inner-tab-link.active
+		font-weight: bold
+		padding: 10px
+		color: $secondary-color-dark !important
+
 
 #listings
 	.listings-inner-tabs-list
 		margin-bottom: 35px
-
-		.listing-inner-tab-link
-			color: $white-color
-			background-color: $secondary-color-dark
-			font-size: 18px
-			box-shadow: $bold-shadow
-
-
-	.listings-inner-tab-link.active
-		font-weight: bold
-		background-color: $secondary-color
-		color: $white-color !important
-		box-shadow: $bold-shadow !important
 
 	.listings-inner-tab
 		display: none
@@ -1009,6 +1124,7 @@ table
 	.reservations-inner-tab.active
 		display: block
 
+#reservations-nav
 	.reservations-inner-tab-link.active
 		font-weight: bold
 		//box-shadow: $bold-shadow

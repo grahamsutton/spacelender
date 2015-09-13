@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 	# Associations
 	has_many :listings, :dependent => :destroy
   has_many :cards, :dependent => :destroy
-  has_one :picture, :dependent => :destroy
+  #has_one :picture, :dependent => :destroy
 
 	# Validations
   validates :first_name, presence: true, length: { minimum: 2, maximum: 30 }
@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
 	validates :uid, :uniqueness => true, :allow_blank => true
 	validates :access_code, :uniqueness => true, :allow_blank => true
 
-  before_create :encrypt_password
+  before_save :encrypt_password, :if => :password_changed?
 
 	# Filters
 	attr_accessor :password_confirmation, :email_confirmation
@@ -40,6 +40,62 @@ class User < ActiveRecord::Base
 			return nil
 		end
 	end
+
+  def create_stripe_customer
+    customer = Stripe::Customer.create(
+      description: "#{self.first_name} #{self.last_name}'s customer account.",
+      email: self.email
+    )
+    self.customer_token = customer.id
+  end
+
+  def create_stripe_account
+    account = Stripe::Account.create({
+      :country => "US",
+      :managed => true,
+      :email => self.email,
+      :legal_entity => {
+        :type => "individual",
+        :business_name => "#{self.first_name} #{self.last_name}",
+        :first_name => self.first_name,
+        :last_name => self.last_name,
+        :address => {
+          :country => "US"
+        }
+      }
+    })
+
+    self.uid = account.id
+    self.access_code = account.keys.secret
+    self.publishable_key = account.keys.publishable
+  end
+
+  def stripe_merchant_account
+    Stripe::Account.retrieve(self.uid)
+  end
+
+  def stripe_customer_account
+    Stripe::Customer.retrieve(self.customer_token)
+  end
+
+  def latest_news
+    (self.listings + self.reservations).sort{| a, b | a.created_at <=> b.created_at}
+  end
+
+  def reservations_as_renter
+    Reservation.where(:booker_id => self.id)
+  end
+
+  def reservations_as_lender
+    reservations = []
+    self.listings.each do |listing|
+      listing.reservations.each do |reservation|
+        reservations << reservation
+      end
+    end
+
+    reservations
+  end
 
 	def slug_candidates
 		[

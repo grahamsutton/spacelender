@@ -1,0 +1,18 @@
+= render 'layouts/dashboard_nav'
+
+#dashboard-content.row.section.no-shadow
+  - if @stripe_merchant_account.charges_enabled && @stripe_merchant_account.transfers_enabled
+    .col-md-6.col-md-offset-3
+      #youre-all-set.panel.panel-default.modern.dashboard-tab
+        .panel-body.padded.tab-display
+          .form-container.row
+            .col-md-12.text-center
+              %i.fa.fa-check-circle.fa-fw.fa-5x.success
+              %h2
+                You're All Set!
+            .col-md-12.text-center
+              Thanks again,
+              = "#{@current_user.first_name}"
+              You are now all set up to start listings spaces.
+            #create-first-listing-link.col-md-12.text-center
+              = link_to "Create Your First Listing", new_listing_path

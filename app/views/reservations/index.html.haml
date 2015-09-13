@@ -1,142 +1,162 @@
 = render 'layouts/dashboard_nav'
 
 #dashboard-content.row.section.no-shadow
-  .col-md-12
-    #reservations.panel.panel-default.modern.dashboard-tab
-      .panel-body.tab-display
-        .form-container.row
+  #reservations-nav.col-md-2.dashboard-inner-nav
+    / Tab List
+    %ul.list-unstyled.col-md-12.list-group.generic-tabs-list.reservations-inner-tabs-list
+      %li.list-group-item.title
+        %h5
+          Reservations
+      %li.list-group-item
+        = link_to "#reservations-ive-made", :class => "reservations-inner-tab-link active" do
+          Reservations I've Made
+      %li.list-group-item
+        = link_to "#requests", :class => "reservations-inner-tab-link" do
+          Requests
+          - if @requested_reservations.count > 0
+            %span.badge
+              = @requested_reservations.count
+      %li.list-group-item
+        = link_to "#accepted", :class => "reservations-inner-tab-link" do
+          Accepted
+      %li.list-group-item
+        = link_to "#completed", :class => "reservations-inner-tab-link" do
+          Completed
+  .col-md-10.col-md-offset-2
+    .col-md-12
+      #reservations.panel.panel-default.modern.dashboard-tab
+        .panel-body.tab-display
+          .form-container.row
+            .col-md-12
 
-          .col-md-12
+              .col-md-12
 
-            .col-md-2
-              / Tab List
-              %ul.list-unstyled.col-md-12.list-group.generic-tabs-list.reservations-inner-tabs-list
-                %li.list-group-item
-                  = link_to "#reservations-ive-made", :class => "reservations-inner-tab-link active" do
-                    Reservations I've Made
-                %li.list-group-item
-                  = link_to "#requests", :class => "reservations-inner-tab-link" do
-                    Requests
-                    - if @requested_reservations.count > 0
-                      %span.badge
-                        = @requested_reservations.count
-                %li.list-group-item
-                  = link_to "#accepted", :class => "reservations-inner-tab-link" do
-                    Accepted
-                %li.list-group-item
-                  = link_to "#completed", :class => "reservations-inner-tab-link" do
-                    Completed
+                / Reservations I've Made
+                #reservations-ive-made.reservations-inner-tab.active
+                  .col-md-12.padded-sides
+                    %h5 Reservations I've Made
+                  .row
+                    - if @reservations_ive_made
+                      - @reservations_ive_made.each do |reservation_ive_made|
+                        .col-md-4.padded-sides
+                          .panel.panel-default.modern
+                            .panel-body.padded
+                              .col-md-12.listings-img-container
+                                = image_tag reservation_ive_made.listing.pictures.first.image.url(:small), :class => "img-responsive"
+                              .row
+                                .col-md-10
+                                  = link_to reservation_ive_made.listing.name, listing_path(reservation_ive_made.listing)
+                                #listing-state.col-md-2.text-right{ "data-listing" => reservation_ive_made.listing.id }
+                                  - if reservation_ive_made.listing.active?
+                                    %i.fa.fa-circle.fa-fw.success
+                                  - else
+                                    %i.fa.fa-circle.fa-fw.error
+                              .col-md-12
+                                Status:
+                                %strong
+                                  %span.status{ :class => reservation_ive_made.status }
+                                    = reservation_ive_made.status.capitalize
+                              .col-md-12
+                                %small
+                                  Posted
+                                  = reservation_ive_made.listing.created_at.strftime("%B %m, %Y")
+                              .row.text-center
+                                - if reservation_ive_made.accepted?
+                                  .col-md-12
+                                    = link_to "Pay Now", new_invoice_path(:token => reservation_ive_made.token), :class => "btn btn-primary form-control"
+                                  .col-md-6
+                                    = link_to "Contact", "#", :class => "btn btn-default form-control"
+                                  .col-md-6
+                                    = link_to "Cancel", "#", :class => "btn btn-default form-control"
 
-            .col-md-9
 
-              / Reservations I've Made
-              #reservations-ive-made.reservations-inner-tab.active
-                %h5 Reservations I've Made
-                .row
-                  - if @reservations_ive_made
-                    - @reservations_ive_made.each do |reservation_ive_made|
-                      .col-md-3.padded-sides
-                        .panel.panel-default.modern
-                          .panel-body.padded
-                            .col-md-12.listings-img-container
-                              = image_tag reservation_ive_made.listing.pictures.first.image.url(:small), :class => "img-responsive"
-                            .row
-                              .col-md-10
-                                = link_to reservation_ive_made.listing.name, listing_path(reservation_ive_made.listing)
-                              #listing-state.col-md-2.text-right{ "data-listing" => reservation_ive_made.listing.id }
-                                - if reservation_ive_made.listing.active?
-                                  %i.fa.fa-circle.fa-fw.success
-                                - else
-                                  %i.fa.fa-circle.fa-fw.error
-                            .col-md-12
-                              Status:
-                              = reservation_ive_made.status.capitalize
-                            .col-md-12
-                              %small
-                                Posted
-                                = reservation_ive_made.listing.created_at.strftime("%B %m, %Y")
-
-              #requests.reservations-inner-tab
-                - if @requested_reservations.count > 0
-                  - @requested_reservations.each do |requested_reservation|
-                    .panel.panel-default.modern
-                      .panel-body.padded
-                        .col-md-6
-                          .col-md-12
-                            %big
-                              = link_to requested_reservation.listing.name
-                          .col-md-12
-                            = "#{number_to_currency(requested_reservation.rate.amount)}/#{requested_reservation.rate.date_range}"
+                #requests.reservations-inner-tab
+                  - if @requested_reservations.count > 0
+                    - @requested_reservations.each do |requested_reservation|
+                      .panel.panel-default.modern{ :id => "reserv-#{requested_reservation.listing.token }" }
+                        .panel-body.padded
                           .col-md-6
-                            %strong
-                              Requested by:
-                            %br
-                            = requested_reservation.booker.first_name
+                            .col-md-12
+                              %big
+                                = link_to requested_reservation.listing.name
+                            .col-md-12
+                              = "#{number_to_currency(requested_reservation.rate.amount)}/#{requested_reservation.rate.date_range}"
+                            .col-md-6
+                              %strong
+                                Requested by:
+                              %br
+                              = requested_reservation.booker.first_name
+                            .col-md-6
+                              %strong
+                                Status:
+                              %br
+                              %span.status{ :class => requested_reservation.status }
+                                = requested_reservation.status.capitalize
+                            .col-md-12
+                              %strong
+                                Time Requested:
+                              %br
+                              = requested_reservation.created_at.strftime("%l:%m %p, %B %m, %Y")
+                            %hr
+                            .col-md-12
+                              %strong
+                                Purpose:
+                              %br
+                              = requested_reservation.purpose
                           .col-md-6
-                            %strong
-                              Status:
-                            %br
-                            %span{ :class => requested_reservation.status }
-                              = requested_reservation.status.capitalize
-                          .col-md-12
-                            %strong
-                              Time Requested:
-                            %br
-                            = requested_reservation.created_at.strftime("%l:%m %p, %B %m, %Y")
-                          %hr
-                          .col-md-12
-                            %strong
-                              Purpose:
-                            %br
-                            = requested_reservation.purpose
-                        .col-md-6
-                          %table.table.table-bordered
-                            %tbody
-                              %tr
-                                %th
-                                  Total Time
-                                %td{ :colspan => "2" }
-                                  - if requested_reservation.rate.date_range == "hourly"
-                                    = pluralize(translate_time_to_hours(requested_reservation.period.end, requested_reservation.period.start), "hour")
-                              %tr
-                                %th
-                                  From
-                                %td{ :colspan => "2" }
-                                  - if requested_reservation.rate.date_range == "hourly"
-                                    = requested_reservation.period.start.strftime("%l:%m %p, %B %m, %Y")
-                                  - else
-                                    = requested_reservation.period.end.strftime("%B %m, %Y")
-                              %tr
-                                %th
-                                  Until
-                                %td{ :colspan => "2" }
-                                  - if requested_reservation.rate.date_range == "hourly"
-                                    = requested_reservation.period.end.strftime("%l:%m %p, %B %m, %Y")
-                                  - else
-                                    = requested_reservation.period.start.strftime("%B %m, %Y")
-                              %tr
-                                %td
-                                %td{ :colspan => "2" }
-                                  - if requested_reservation.rate.date_range == "hourly"
-                                    = translate_time_to_hours(requested_reservation.period.end, requested_reservation.period.start)
-                                    x
-                                    = "#{number_to_currency(requested_reservation.rate.amount)}/#{requested_reservation.rate.date_range}"
-                                  - else
-                                    = requested_reservation.period.start.strftime("%B %m, %Y")
-                            %tfoot
-                              %tr
-                                %th
-                                  Total
-                                %td.success{ :colspan => "2" }
-                                  = number_to_currency(translate_time_to_hours(requested_reservation.period.end, requested_reservation.period.start) * requested_reservation.rate.amount)
-
-                          .col-md-4
-                            = link_to "Accept", , :class => "btn btn-primary form-control", :remote => true
-                          .col-md-4
-                            = link_to "Reject", "#", :class => "btn btn-default form-control"
-                          .col-md-4
-                            = link_to "Contact", "#", :class => "btn btn-default form-control"
-
-                                      
+                            %table.table.table-bordered
+                              %tbody
+                                %tr
+                                  %th
+                                    Total Time
+                                  %td{ :colspan => "2" }
+                                    - if requested_reservation.rate.hourly?
+                                      = pluralize(translate_time_to_hours(requested_reservation.period.end, requested_reservation.period.start), "hour")
+                                %tr
+                                  %th
+                                    From
+                                  %td{ :colspan => "2" }
+                                    - if requested_reservation.rate.hourly?
+                                      = requested_reservation.period.start.strftime("%l:%m %p, %B %m, %Y")
+                                    - else
+                                      = requested_reservation.period.end.strftime("%B %m, %Y")
+                                %tr
+                                  %th
+                                    Until
+                                  %td{ :colspan => "2" }
+                                    - if requested_reservation.rate.hourly?
+                                      = requested_reservation.period.end.strftime("%l:%m %p, %B %m, %Y")
+                                    - else
+                                      = requested_reservation.period.start.strftime("%B %m, %Y")
+                                %tr
+                                  %td
+                                  %td{ :colspan => "2" }
+                                    - if requested_reservation.rate.hourly?
+                                      = translate_time_to_hours(requested_reservation.period.end, requested_reservation.period.start)
+                                      x
+                                      = "#{number_to_currency(requested_reservation.rate.amount)}/#{requested_reservation.rate.date_range}"
+                                    - else
+                                      = requested_reservation.period.start.strftime("%B %m, %Y")
+                              %tfoot
+                                %tr
+                                  %th
+                                    Total
+                                  %td.success{ :colspan => "2" }
+                                    = number_to_currency(translate_time_to_hours(requested_reservation.period.end, requested_reservation.period.start) * requested_reservation.rate.amount)
+                            .accept-reject-contanct-btns.row
+                              .col-md-4
+                                = link_to "Accept", accept_reservation_path(requested_reservation), :class => "btn btn-primary form-control", :remote => true, :method => :post
+                              .col-md-4
+                                = link_to "Reject", reject_reservation_path(requested_reservation), :class => "btn btn-default form-control", :remote => true, :method => :post
+                              .col-md-4
+                                = link_to "Contact", "#", :class => "btn btn-default form-control"
+                  - else
+                    .col-md-12.text-center
+                      %h4
+                        No Requests right now.
+                      .col-md-6.col-md-offset-3
+                        %p
+                          We'll send you an email and a notification on your dashboard when someone sends you a request for one of your listings in the future. You can approve/reject them here.
+                                        
 
 

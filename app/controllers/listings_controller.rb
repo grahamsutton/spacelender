@@ -3,16 +3,16 @@ class ListingsController < ApplicationController
 
   before_filter :current_user
   before_filter :require_login, :except => [:show, :search, :update, :edit]
-  #before_filter :check_if_stripe_is_connected?
+  before_filter :check_if_stripe_is_connected?
 
   # respond_to :html, :xml, :json
 
   def dashboard
-    if @current_user.uid
-      @account = Stripe::Account.retrieve(@current_user.uid)
-    end
-
-
+    @current_user = current_user
+    @renter_reservations = @current_user.reservations_as_renter
+    @lender_reservations = @current_user.reservations_as_lender
+    #@latest_news = @current_user.latest_news
+    @stripe_merchant_account = @current_user.stripe_merchant_account
   end
 
   # List all listings
@@ -30,8 +30,6 @@ class ListingsController < ApplicationController
       end
     end
 
-    @stripe_is_connected = check_if_stripe_is_connected?
-
     # Get Active and Inactive listings
     @activeListings = @listings.where(:active => true)
     @inactiveListings = @listings.where(:active => false)
@@ -39,6 +37,11 @@ class ListingsController < ApplicationController
 
 
   def new
+    @current_user = current_user
+
+    # Get user's Stripe account
+    @stripe_merchant_account = Stripe::Account.retrieve(@current_user.uid)
+
     @listing = Listing.new
     @listing.build_location
     @listing.periods.build
@@ -229,12 +232,40 @@ class ListingsController < ApplicationController
   end
 
 
+  def update_stripe_account
+    @current_user = current_user
 
-  def filter_search
-      
+    @stripe_merchant_account = @current_user.stripe_merchant_account
+
+    @stripe_merchant_account.legal_entity.personal_address.line1 = params[:address_line_1]
+    @stripe_merchant_account.legal_entity.personal_address.city = params[:city]
+    @stripe_merchant_account.legal_entity.personal_address.state = params[:state]
+    @stripe_merchant_account.legal_entity.personal_address.postal_code = params[:zip]
+    @stripe_merchant_account.legal_entity.personal_address.country = params[:country]
+    @stripe_merchant_account.legal_entity.dob.month = params[:dob_month]
+    @stripe_merchant_account.legal_entity.dob.day = params[:dob_day]
+    @stripe_merchant_account.legal_entity.dob.year = params[:dob_year]
+    @stripe_merchant_account.tos_acceptance.ip = request.remote_ip
+    @stripe_merchant_account.tos_acceptance.date = DateTime.now.strftime("%s")
+    @stripe_merchant_account.external_accounts.create(:external_account => params[:stripeToken])
+
+    if @stripe_merchant_account.save
+      flash[:stripe_success_notice] = "Alright, you're all good to go!"
+      redirect_to stripe_success_path
+    else
+      flash[:stripe_failure_notice] = "We weren't able to verify your account."
+      redirect_to new_listing_path
+    end
   end
 
-  
+  def account_updated
+    @current_user = current_user
+    @stripe_merchant_account = @current_user.stripe_merchant_account
+  end
+
+  def filter_search
+  end
+
   
   private
   def listing_params

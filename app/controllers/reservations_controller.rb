@@ -86,13 +86,21 @@ class ReservationsController < ApplicationController
 
 
   def accept_reservation
-    reservation = Reservation.find(params[:id])
-    reservation.accepted!
+    @reservation = Reservation.find(params[:id])
+    @reservation.accepted!
+
+    respond_to do |format|
+      format.js { render :action => "accept_reservation" }
+    end
   end
 
   def reject_reservation
-    reservation = Reservation.find(params[:id])
-    reservation.rejected!
+    @reservation = Reservation.find(params[:id])
+    @reservation.rejected!
+
+    respond_to do |format|
+      format.js { render :action => "reject_reservation" }
+    end
   end
 
 

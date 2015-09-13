@@ -11,6 +11,14 @@ class TransactionsController < ApplicationController
     @cards = Stripe::Customer.retrieve(@current_user.customer_token).sources.all(:object => "card")
   end
 
+  def new
+    @transaction = Transaction.new
+    #@reservation = Reservation(params[:id])
+    @current_user = current_user
+    @stripe_customer_account = @current_user.stripe_customer_account
+    @cards = @stripe_customer_account.sources.all(:object => "card")
+  end
+
   # private
   # def card_params
   #   params.require(:card).permit(:stripeToken)

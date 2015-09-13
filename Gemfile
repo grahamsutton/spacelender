@@ -76,6 +76,8 @@ gem 'rabl'
 
 gem 'oj'
 
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
+
 gem 'bootstrap3-datetimepicker-rails'
 
 gem 'jquery-ui-rails'
@@ -101,6 +103,8 @@ gem 'jquery-turbolinks'
 gem 'roadie-rails'
 
 gem 'wow-rails'
+
+gem 'toastr-rails'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

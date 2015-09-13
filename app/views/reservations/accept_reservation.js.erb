@@ -1,0 +1,24 @@
+$("#reserv-<%= @reservation.listing.token %> .status").removeClass("requested");
+$("#reserv-<%= @reservation.listing.token %> .status").addClass("<%= @reservation.status %>");
+$("#reserv-<%= @reservation.listing.token %> .status").html("<%= @reservation.status.capitalize %>");
+$("#reserv-<%= @reservation.listing.token %> .accept-reject-contanct-btns").fadeOut();
+
+toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-bottom-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+
+toastr.success("An email has been sent to the requester that you accepted.", "Reservation Accepted");

@@ -23,12 +23,17 @@ Rails.application.routes.draw do
   post 'reservations/:id/accept' => 'reservations#accept_reservation', :as => :accept_reservation
   post 'reservations/:id/reject' => 'reservations#reject_reservation', :as => :reject_reservation
   post 'cards/create' => 'cards#create'
-
-  get '/transactions' => 'transactions#index', :as => :transactions
+  post 'listings/update_stripe_account' => 'listings/update_stripe_account', :as => :update_stripe_account
+  get 'listings/account_updated' => 'listings/account_updated', :as => :stripe_success
 
   resources :listings, shallow: true do
     resources :reservations
   end
+
+  resources :invoices, :except => [:new]
+  get 'invoices/:token/new' => 'invoices#new', :as => :new_invoice
+
+  resources :transactions
 
   # Handles stripe callback
   get '/auth/stripe_connect/callback' => 'omniauth_callbacks#stripe_connect'

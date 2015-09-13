@@ -30,6 +30,7 @@
 //= require jquery.datepair.js
 //= require jquery.validate
 //= require jquery.validate.additional-methods
+//= require toastr
 //= require gmaps/google
 //= require turbolinks
 //= require_tree .

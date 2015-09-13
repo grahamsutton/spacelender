@@ -1,7 +1,7 @@
 #dashboard-nav-bar.row.fight-navbar-margin
-  .col-md-12
-    %ul#dashboard-nav-bar-links.list-unstyled.list-inline
-      %li.col-md-2.col-md-offset-2{ :class => ("active" if current_page?(dashboard_path)) }
+  .col-md-9.col-md-offset-3
+    %ul#dashboard-nav-bar-links.list-unstyled.list-inline.text-center
+      %li.col-md-2{ :class => ("active" if current_page?(dashboard_path)) }
         = link_to dashboard_path do
           Dashboard
       %li.col-md-2{ :class => ("active" if current_page?(listings_path)) }

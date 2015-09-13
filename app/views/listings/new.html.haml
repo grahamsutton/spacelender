@@ -1,200 +1,326 @@
 = render 'layouts/dashboard_nav'
 
 #dashboard-content.row.section.no-shadow
-  .loading-overlay
-    = image_tag "ring.gif", :class => "loading-gif"
-  .col-md-12
-    #list-a-space.panel.panel-default.modern.dashboard-tab
-      = form_for @listing, :html => {:id => "new-listing-form", :multipart => true, :class => "clearfix dropzone"} do |f|
-        .panel-body.tab-display
-          .form-container.row
 
-            .col-md-12
+  - if @stripe_merchant_account.charges_enabled && @stripe_merchant_account.transfers_enabled
+    .loading-overlay
+      = image_tag "ring.gif", :class => "loading-gif"
 
-              .col-md-2
-                / Tab List
-                %ul.list-unstyled.col-md-12.list-group.generic-tabs-list.inner-tabs-list
-                  %li.list-group-item
-                    = link_to "#name", :class => "inner-tab-link active start-tab" do
-                      1. Name & Desc.
-                  %li.list-group-item
-                    = link_to "#address", :class => "inner-tab-link" do
-                      2. Location
-                  %li.list-group-item
-                    = link_to "#dates", :class => "inner-tab-link" do
-                      3. Dates
-                  %li.list-group-item
-                    = link_to "#rates", :class => "inner-tab-link" do
-                      4. Rates
-                  %li.list-group-item
-                    = link_to "#upload-pictures", :class => "inner-tab-link end-tab" do
-                      5. Pics
+    #list-a-space-nav.col-md-2.dashboard-inner-nav
+      %ul.list-unstyled.col-md-12.list-group.generic-tabs-list.inner-tabs-list
+        %li.list-group-item.title
+          %h5
+            List A Space
+        %li.list-group-item
+          = link_to "#name", :class => "inner-tab-link active start-tab" do
+            1. Name & Desc.
+        %li.list-group-item
+          = link_to "#address", :class => "inner-tab-link" do
+            2. Location
+        %li.list-group-item
+          = link_to "#dates", :class => "inner-tab-link" do
+            3. Dates
+        %li.list-group-item
+          = link_to "#rates", :class => "inner-tab-link" do
+            4. Rates
+        %li.list-group-item
+          = link_to "#upload-pictures", :class => "inner-tab-link end-tab" do
+            5. Pics
+    .col-md-10.col-md-offset-2
+      .col-md-12
+        #list-a-space.panel.panel-default.modern.dashboard-tab
+          = form_for @listing, :html => {:id => "new-listing-form", :multipart => true, :class => "clearfix dropzone"} do |f|
+            .panel-body.tab-display
+              .form-container.row
 
-              / Tabs - Each Step is its own tab.
-              #steps.col-md-9
+                .col-md-12
 
-                - if @listing.errors
-                  %ul
-                    - @listing.errors.full_messages.each do |error|
-                      %li.error
-                        = error
+                  / Tabs - Each Step is its own tab.
+                  #steps.col-md-10.col-md-offset-1
 
-
-                / Step 1: Name and Description
-                #name.inner-tab.active.col-md-12
-                  .panel.panel-default.modern
-                    .panel-body.padded-sides
-                      %h4 Listing Name &amp; Description
-                    %table.table.table-bordered
-                      %tbody
-                        %tr
-                          %td
-                            = f.text_field :name, :class => "form-control", :placeholder => "Name"
-                        %tr
-                          %td
-                            = f.text_area :description, :id => "description", :class => "form-control", :placeholder => "Description", :rows => "6"
+                    - if @listing.errors
+                      %ul
+                        - @listing.errors.full_messages.each do |error|
+                          %li.error
+                            = error
 
 
-
-
-                / Step 2: List the Address
-                #address.inner-tab.col-md-12
-                  .panel.panel-default.modern
-                    .panel-body.padded-sides
-                      %h4 Location of Your Listing
-                    %table.table.table-bordered
-                      = f.fields_for :location do |l|
-                        %tbody
-                          %tr
-                            %td{ :colspan => "4"}
-                              = l.text_field :street_address, :class => "form-control", :placeholder => "Street Address"
-                          %tr
-                            %td.col-md-6
-                              = l.text_field :city, :class => "form-control", :placeholder => "City"
-                            %td.col-md-2
-                              = l.select :state, options_for_select(us_states), {:prompt => "State"}, class: "form-control"
-                            %td.col-md-2
-                              = l.text_field :zip, :class => "form-control", :placeholder => "Zip"
-                            %td.col-md-2
-                              = l.select :country, options_for_select(countries), {:prompt => "Country"}, class: "form-control"
-                    
-                  .col-md-12
-                    %small
-                    Don't worry! We only display the city name and state on SpaceLender. The full address is only given when you accept a reservation request.
+                    / Step 1: Name and Description
+                    #name.inner-tab.active.col-md-12
+                      .panel.panel-default.modern
+                        .panel-body.padded-sides
+                          %h4 Listing Name &amp; Description
+                        %table.table.table-bordered
+                          %tbody
+                            %tr
+                              %td
+                                = f.text_field :name, :class => "form-control", :placeholder => "Name"
+                            %tr
+                              %td
+                                = f.text_area :description, :id => "description", :class => "form-control", :placeholder => "Description", :rows => "6"
 
 
 
 
-                / Step 3: Specify Dates
-                #dates.inner-tab.col-md-12
-                  = f.hidden_field :always_available, :id => "always-available-hidden-field", :value => true
-                  %h4
-                    Dates
-                  #dates-selection.row
-                    .col-md-12
-                      .col-md-6.padded-sides
-                        #always-available.panel.panel-default.modern.padded.date-option.active
-                          .panel-body.text-center
-                            %big
-                              Always Available
-                            .col-md-12.text-center
-                              %i.fa.fa-calendar-o.fa-fw.fa-5x
-                            .col-md-12.text-center
-                              %i.fa.fa-calendar-check-o.fa-fw.fa-5x
-                            %p
-                              %small
-                                This listing will be continuously available to the public to view and request. It will only be deactivated when you manually do so yourself.
-
-                      .col-md-6.padded-sides
-                        #specific-dates.panel.panel-default.modern.padded.date-option
-                          .panel-body.text-center
-                            %big
-                              Specific Dates
-                            .col-md-12.text-center
-                              %i.fa.fa-calendar-o.fa-fw.fa-5x
-                            .col-md-12.text-center
-                              %i.fa.fa-calendar-check-o.fa-fw.fa-5x
-                            %p
-                              %small
-                                This listing will only be available to the public between the specified dates. Once the final date for the listing has passed, it will deactivate itself. You can deactivate it at any time.
-                          .panel-body.text-center
-                            #specific-dates-fields
-                              = f.fields_for :periods do |d|
-                                .col-md-6
-                                  = d.text_field :start, :id => "start-date", :class => "form-control", :placeholder => "Start"
-                                .col-md-6
-                                  = d.text_field :end, :id => "end-date", :class => "form-control", :placeholder => "End"
-
-
-
-                / Step 4: Add Rates
-                #rates.inner-tab.col-md-12
-                  .panel.panel-default.modern
-                    .panel-body.padded-sides
-                      %h4 Rates
-                    %table.table.table-bordered
-                      %tbody
-                        %tr
-
-                          / Hourly
-                          = f.fields_for :rates, @listing.rates.build do |r|
-                            %td
-                              = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 1
-                            %td
-                              = r.text_field :date_range, :class => "form-control", :value => "hourly", :readonly => "readonly"
-
-                        / Daily
-                        %tr
-                          = f.fields_for :rates, @listing.rates.build do |r|
-                            %td
-                              = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 2
-                            %td
-                              = r.text_field :date_range, :class => "form-control", :value => "daily", :readonly => "readonly"
-                          
-                          / Weekly
-                          %tr
-                          = f.fields_for :rates, @listing.rates.build do |r|
-                            %td
-                              = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 3
-                            %td
-                              = r.text_field :date_range, :class => "form-control", :value => "weekly", :readonly => "readonly"
-
-                          / Monthly
-                          %tr
-                          = f.fields_for :rates, @listing.rates.build do |r|
-                            %td
-                              = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 4
-                            %td
-                              = r.text_field :date_range, :class => "form-control", :value => "monthly", :readonly => "readonly"
+                    / Step 2: List the Address
+                    #address.inner-tab.col-md-12
+                      .panel.panel-default.modern
+                        .panel-body.padded-sides
+                          %h4 Location of Your Listing
+                        %table.table.table-bordered
+                          = f.fields_for :location do |l|
+                            %tbody
+                              %tr
+                                %td{ :colspan => "4"}
+                                  = l.text_field :street_address, :class => "form-control", :placeholder => "Street Address"
+                              %tr
+                                %td.col-md-6
+                                  = l.text_field :city, :class => "form-control", :placeholder => "City"
+                                %td.col-md-2
+                                  = l.select :state, options_for_select(us_states), {:prompt => "State"}, class: "form-control"
+                                %td.col-md-2
+                                  = l.text_field :zip, :class => "form-control", :placeholder => "Zip"
+                                %td.col-md-2
+                                  = l.select :country, options_for_select(countries), {:prompt => "Country"}, class: "form-control"
                         
-
-
-
-                / Step 5: Upload Pictures
-                #upload-pictures.inner-tab.col-md-12
-                  .panel.panel-default.modern
-                    .panel-body.padded-sides
-                      %h4 Upload Pictures
-                    %table.table.table-bordered
-                      %tbody
-                        %tr
-                          %td
-                            = f.fields_for :pictures do |p|
-                              = p.file_field :image, :name => "image[]", :id => "upload-images-field", :style => "display: none;"
-
-                            / Drop files here to upload
-                            .dropzone-area.col-md-12
-
-                  = f.submit "Post Listing!", :class => "form-control btn btn-primary"
+                      .col-md-12
+                        %small
+                        Don't worry! We only display the city name and state on SpaceLender. The full address is only given when you accept a reservation request.
 
 
 
 
-            / Next and Prev btns
-            .col-md-12.text-center
-              = button_tag :class => "btn btn-default prev-btn directional-btn" do
-                %i.fa.fa-angle-left.fa-fw.fa-lg
-                Prev
-              = button_tag :class => "btn btn-default next-btn directional-btn" do
-                Next
-                %i.fa.fa-angle-right.fa-fw.fa-lg
+                    / Step 3: Specify Dates
+                    #dates.inner-tab.col-md-12
+                      = f.hidden_field :always_available, :id => "always-available-hidden-field", :value => true
+                      .col-md-12.padded-sides
+                        %h4
+                          Dates
+                      #dates-selection.row
+                        .col-md-12
+                          .col-md-6.padded-sides
+                            #always-available.panel.panel-default.modern.padded.date-option.active
+                              .panel-body.text-center
+                                %big
+                                  Always Available
+                                .col-md-12.text-center
+                                  %i.fa.fa-calendar-o.fa-fw.fa-5x
+                                .col-md-12.text-center
+                                  %i.fa.fa-calendar-check-o.fa-fw.fa-5x
+                                %p
+                                  %small
+                                    This listing will be continuously available to the public to view and request. It will only be deactivated when you manually do so yourself.
+
+                          .col-md-6.padded-sides
+                            #specific-dates.panel.panel-default.modern.padded.date-option
+                              .panel-body.text-center
+                                %big
+                                  Specific Dates
+                                .col-md-12.text-center
+                                  %i.fa.fa-calendar-o.fa-fw.fa-5x
+                                .col-md-12.text-center
+                                  %i.fa.fa-calendar-check-o.fa-fw.fa-5x
+                                %p
+                                  %small
+                                    This listing will only be available to the public between the specified dates. Once the final date for the listing has passed, it will deactivate itself. You can deactivate it at any time.
+                              .panel-body.text-center
+                                #specific-dates-fields
+                                  = f.fields_for :periods do |d|
+                                    .col-md-6
+                                      = d.text_field :start, :id => "start-date", :class => "form-control", :placeholder => "Start"
+                                    .col-md-6
+                                      = d.text_field :end, :id => "end-date", :class => "form-control", :placeholder => "End"
+
+
+
+                    / Step 4: Add Rates
+                    #rates.inner-tab.col-md-12
+                      .panel.panel-default.modern
+                        .panel-body.padded-sides
+                          %h4 Rates
+                        %table.table.table-bordered
+                          %tbody
+                            %tr
+
+                              / Hourly
+                              = f.fields_for :rates, @listing.rates.build do |r|
+                                %td
+                                  = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 1
+                                %td
+                                  = r.text_field :date_range, :class => "form-control", :value => "hourly", :readonly => "readonly"
+
+                            / Daily
+                            %tr
+                              = f.fields_for :rates, @listing.rates.build do |r|
+                                %td
+                                  = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 2
+                                %td
+                                  = r.text_field :date_range, :class => "form-control", :value => "daily", :readonly => "readonly"
+                              
+                              / Weekly
+                              %tr
+                              = f.fields_for :rates, @listing.rates.build do |r|
+                                %td
+                                  = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 3
+                                %td
+                                  = r.text_field :date_range, :class => "form-control", :value => "weekly", :readonly => "readonly"
+
+                              / Monthly
+                              %tr
+                              = f.fields_for :rates, @listing.rates.build do |r|
+                                %td
+                                  = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 4
+                                %td
+                                  = r.text_field :date_range, :class => "form-control", :value => "monthly", :readonly => "readonly"
+                            
+
+
+
+                    / Step 5: Upload Pictures
+                    #upload-pictures.inner-tab.col-md-12
+                      .panel.panel-default.modern
+                        .panel-body.padded-sides
+                          %h4 Upload Pictures
+                        %table.table.table-bordered
+                          %tbody
+                            %tr
+                              %td
+                                = f.fields_for :pictures do |p|
+                                  = p.file_field :image, :name => "image[]", :id => "upload-images-field", :style => "display: none;"
+
+                                / Drop files here to upload
+                                .dropzone-area.col-md-12
+
+                      = f.submit "Post Listing!", :class => "form-control btn btn-primary"
+
+
+
+
+                / Next and Prev btns
+                .col-md-10.col-md-offset-1.text-center
+                  = button_tag :class => "btn btn-default prev-btn directional-btn" do
+                    %i.fa.fa-angle-left.fa-fw.fa-lg
+                    Prev
+                  = button_tag :class => "btn btn-default next-btn directional-btn" do
+                    Next
+                    %i.fa.fa-angle-right.fa-fw.fa-lg
+
+
+  - else
+    .col-md-10.col-md-offset-2
+      .col-md-12
+        #list-a-space.panel.panel-default.modern.dashboard-tab
+          .panel-body.tab-display.padded
+            .col-md-6.col-md-offset-3
+              .form-container.row
+                %h4 Listing A Space - Setup
+                %hr
+              .payment-errors
+              = form_tag(update_stripe_account_path, :id => "update-stripe-account-form") do
+
+                %fieldset.row
+                  %p
+                    We know, we know. Forms... yuck! But it's necessary. Where else are we going to drop those sweet, awesome earnings from your listings?
+                  %p
+                    If you want to be able to post listings and earn money from those listings, we're going to need some information from you to verify that you are who you say you are.
+                  %p
+                    %em
+                      These forms are only required if you want to post listings. If you are just using the site to book reservations at other people's spaces, then 
+
+                  .row
+                    .col-md-12
+                      %h5 Date of Birth
+                    .col-md-4
+                      = select_tag :dob_month, options_for_select(credit_card_months), class: "form-control"
+                    .col-md-4
+                      = select_tag :dob_day, options_for_select(numbered_days), class: "form-control"
+                    .col-md-4
+                      = select_tag :dob_year, options_for_select(years_until_now, DateTime.now.year - 18), class: "form-control"
+
+
+                %fieldset.row
+                  .col-md-12
+                    %h5 Billing Address
+                  .col-md-12
+                    = text_field_tag :address_line_1, "", :placeholder => "Address", :class => "form-control"
+                  .col-md-6
+                    = text_field_tag :city, "", :placeholder => "City", :class => "form-control"
+                  .col-md-2
+                    = select_tag :state, options_for_select(us_states), class: "form-control"
+                  .col-md-2
+                    = text_field_tag :country, "", :placeholder => "Country", :value => "USA", :class => "form-control", :readonly => "readonly"
+                  .col-md-2
+                    = text_field_tag :zip, "", :placeholder => "Zip", :class => "form-control"
+
+
+                %fieldset.row
+                  .col-md-12
+                    %h5 Link Your Card to Get Paid
+                    %p
+                      Link your debit card to your SpaceLender account to have the payments you receive transfered to your bank account.
+                    %p
+                      %em
+                        Debit cards only. Credit cards and prepaid cards are not acceptable for receiving payments. 
+                  .col-md-12
+                    = text_field_tag :card_number, "", :name => "", :class => "form-control veri-card-number", :placeholder => "Card Number", "data-stripe" => "number"
+
+                  .col-md-4
+                    = select_tag :exp_month, options_for_select(credit_card_months), { name: "", class: "form-control veri-card-exp-month", "data-stripe" => "exp-month", :prompt => "Exp. Month (MM)" }
+
+                  .col-md-4
+                    = text_field_tag :exp_year, "", :name => "", :class => "form-control veri-card-exp-year", "data-stripe" => "exp-year", :placeholder => "Exp. Year (YYYY)", :maxlength => 4
+
+                  .col-md-4
+                    = text_field_tag :cvc, "", :name => "", :class => "form-control veri-card-cvc", :placeholder => "CVC", "data-stripe" => "cvc"
+
+                  .col-md-12
+                    = text_field_tag :name, "", :name => "", :class => "form-control veri-card-name", :placeholder => "Name on Card"
+                  .col-md-12
+                    = check_box_tag :stripe_tos
+                    = label_tag "I have read and agree to the "
+                    = link_to "Stripe Connect Platform Agreement", "https://stripe.com/connect/terms"
+                  %hr
+                  .col-md-12.text-center
+                    = submit_tag "Submit", :id => "update-stripe-btn", :class => "btn btn-primary form-control"
+
+:javascript
+  $(document).ready(function() {
+    Stripe.setPublishableKey("pk_test_uBxr1leBtJ52vOzNYKH458LL");
+
+    $("#update-stripe-account-form").on("submit", function(e) {
+      var form = $(this);
+
+      form.find("#update-stripe-btn").attr("disabled", "disabled"); 
+
+      Stripe.card.createToken({
+        number: $(".veri-card-number").val(),
+        cvc: $(".veri-card-cvc").val(),
+        exp_month: $(".veri-card-exp-month").val(),
+        exp_year: $(".veri-card-exp-year").val(),
+        name: $(".veri-card-name").val(),
+        currency: "usd"
+      }, stripeResponseHandler);
+
+      return false;
+    });
+
+    function stripeResponseHandler(status, response) {
+      var form = $("#update-stripe-account-form");
+
+      if (response.error) {
+        form.find(".payment-errors").text(response.error.message);
+        form.find("#update-stripe-btn").removeAttr("disabled");
+      } else {
+        var token = response.id;
+
+        console.log("Works here too");
+
+        // Add stripe token
+        //form.find("#stripeToken").attr("value", token);
+            form.append($("<input type='hidden' name='stripeToken' />").val(token));
+
+        // Send
+        form.get(0).submit();
+      }
+    }
+  });

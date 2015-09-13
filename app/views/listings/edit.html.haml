@@ -1,404 +1,238 @@
-/========================
-/ "List A Space" Form
-/========================
+= render 'layouts/dashboard_nav'
 
-#list-a-space.col-md-8.col-md-offset-2
-  = form_for @listing, :html => {:id => "newlisting_form", :multipart => true, :class => "dropzone clearfix"}, :method => :put do |f|
-    .form-container.row
-      #steps.col-md-12
+#dashboard-content.row.section.no-shadow
+  .loading-overlay
+    = image_tag "ring.gif", :class => "loading-gif"
+  .col-md-12
+    #list-a-space.panel.panel-default.modern.dashboard-tab
+      = form_for @listing, :html => {:id => "new-listing-form", :multipart => true, :class => "clearfix dropzone"} do |f|
+        .panel-body.tab-display
+          .form-container.row
 
-
-        / Step 1: Name and Description
-        #name.col-md-12
-          %h4
-            Name &amp; Description
-            %br
-          %small
-            Try to make sure your title for the listing really captures the essence of what your trying to lend out. The Description field should be used to further clarify what the title says.
-          = f.text_field :name, :class => "form-control", :placeholder => "Name"
-          = f.text_field :description, :id => "description", :class => "form-control", :placeholder => "Description", 'data-provider' =>  'summernote'
-
-
-
-
-        / Step 2: List the Address
-        #address.col-md-12
-          %h4
-            Address
-            %br
-          %small
-            Don't worry! We only display the city name and state on SpaceLender. The full address is only given when someone books your listing.
-          = f.fields_for :location do |l|
-            = l.text_field :street_address, :class => "form-control", :placeholder => "Street Address"
-            .row
-              .col-md-6
-                = l.text_field :city, :class => "form-control", :placeholder => "City"
-              .col-md-2
-                = l.select :state, options_for_select(us_states), {:prompt => "State"}, class: "form-control"
-              .col-md-2
-                = l.text_field :zip, :class => "form-control", :placeholder => "Zip"
-              .col-md-2
-                = l.select :country, options_for_select(countries), {:prompt => "Country"}, class: "form-control"
-
-
-
-
-        / Step 3: Specify Dates
-        #dates.col-md-12
-          %h4
-            Dates
-            %br
-          %small
-            Select the dates you want this listing to be available.
-          #dates-selection.row
             .col-md-12
-              = radio_button "listing", "periods", "always_available", :class => "date-selection", "data-section" => "#always_available", :checked => "checked"
-              %span
-                Always Available
-              #always_available.date-selection-area
 
-              %br
+              .col-md-2
+                / Tab List
+                %ul.list-unstyled.col-md-12.list-group.generic-tabs-list.inner-tabs-list
+                  %li.list-group-item
+                    = link_to "#name", :class => "inner-tab-link active start-tab" do
+                      1. Name & Desc.
+                  %li.list-group-item
+                    = link_to "#address", :class => "inner-tab-link" do
+                      2. Location
+                  %li.list-group-item
+                    = link_to "#dates", :class => "inner-tab-link" do
+                      3. Dates
+                  %li.list-group-item
+                    = link_to "#rates", :class => "inner-tab-link" do
+                      4. Rates
+                  %li.list-group-item
+                    = link_to "#upload-pictures", :class => "inner-tab-link end-tab" do
+                      5. Pics
 
-              = radio_button "listing", "periods", "specific_dates", :class => "date-selection", "data-section" => "#specific_dates"
-              %span
-                Specific Dates
-              #specific_dates.date-selection-area
-                = f.fields_for :periods do |d|
-                  #datepicker
-                    .row
-                      .col-md-6
-                        = d.text_field :start, :id => "start-date", :class => "form-control", :placeholder => "Start"
-                      .col-md-6
-                        = d.text_field :end, :id => "end-date", :class => "form-control", :placeholder => "End"
+              / Tabs - Each Step is its own tab.
+              #steps.col-md-9
+
+                - if @listing.errors
+                  %ul
+                    - @listing.errors.full_messages.each do |error|
+                      %li.error
+                        = error
 
 
-
-        / Step 4: Add Rates
-        #rates.col-md-12
-          %h4
-            Rates
-            %br
-          %small
-            Select how much you want to charge for this listing and choose a charge period.
-          %hr
-          .row
-            .col-md-12
-              %span.add-subtract-rate-forms
-                / %i#add-rate-form.fa.fa-plus-square-o.fa-lg{ :onclick => "addRateForm();"}
-                / %i#subtract-rate-form.fa.fa-minus-square-o.fa-lg{ :onclick => "subtractRateForm();"}
-
-              / RATES forms
-              = f.fields_for :rates, @listing.rates.build do |r|
-                .row.rate-form
-                  .col-md-6
-                    - if @listing.rates.hourly.first
-                      = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", :value => "#{@listing.rates.hourly.first.amount}", data: {autonumeric: { aSign: 'USD $' }}
-                    - else
-                      = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}
-                  .col-md-6
-                    = r.text_field :date_range, :class => "form-control", :value => "hourly", :readonly => "readonly"
-              = f.fields_for :rates, @listing.rates.build do |r|
-                .row.rate-form
-                  .col-md-6
-                    - if @listing.rates.daily.first
-                      = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", :value => "#{@listing.rates.daily.first.amount}", data: {autonumeric: { aSign: 'USD $' }}
-                    - else
-                      = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}
-                  .col-md-6
-                    = r.text_field :date_range, :class => "form-control", :value => "daily", :readonly => "readonly"
-              / Show at least one "Rates" form
-              = f.fields_for :rates, @listing.rates.build do |r|
-                .row.rate-form
-                  .col-md-6
-                    - if @listing.rates.weekly.first
-                      = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", :value => "#{@listing.rates.weekly.first.amount}", data: {autonumeric: { aSign: 'USD $' }}
-                    - else
-                      = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}
-                  .col-md-6
-                    = r.text_field :date_range, :class => "form-control", :value => "weekly", :readonly => "readonly"
-              = f.fields_for :rates, @listing.rates.build do |r|
-                .row.rate-form
-                  .col-md-6
-                    - if @listing.rates.monthly.first
-                      = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", :value => "#{@listing.rates.monthly.first.amount}", data: {autonumeric: { aSign: 'USD $' }}
-                    - else
-                      = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}
-                  .col-md-6
-                    = r.text_field :date_range, :class => "form-control", :value => "monthly", :readonly => "readonly"
-                
+                / Step 1: Name and Description
+                #name.inner-tab.active.col-md-12
+                  .panel.panel-default.modern
+                    .panel-body.padded-sides
+                      %h4 Listing Name &amp; Description
+                    %table.table.table-bordered
+                      %tbody
+                        %tr
+                          %td
+                            = f.text_field :name, :class => "form-control", :placeholder => "Name"
+                        %tr
+                          %td
+                            = f.text_area :description, :id => "description", :class => "form-control", :placeholder => "Description", :rows => "6"
 
 
 
-        / Step 5: Upload Pictures
-        #upload-pictures.col-md-12
-          %h4
-            Edit Pictures
-          %small
-            Although not required, adding photos will draw a bigger crowd to your listing and is a much more reliable source than the description alone. There are some things that words just can't tell!
-          .row
-            - if @listing.pictures
-              - @listing.pictures.each do |pic|
-                .col-xs-6.col-md-3
-                  = link_to "#", :class => "thumbnail edit-picture-thumbnail" do
-                    = image_tag pic.image.url(:original), :class => "edit-picture img-responsive"
-                    = check_box_tag "delete_image[]", pic.id
 
-          = f.fields_for :pictures do |p|
-            = p.file_field :image, :name => "image[]", :style => "display: none;"
-          %br
-          %br
-          = link_to "Add More Photos", "#", :id => "add-more-photos"
-          / The Dropzone area
-          .dropzone-area.col-md-12.add-more-photos-box
-              
-
-    %hr
-
-    / Next/Prev Buttons
-    .col-md-12
-      = f.submit "Update Listing", :id => "post-listing-btn", :class => "btn btn-primary form-control"
+                / Step 2: List the Address
+                #address.inner-tab.col-md-12
+                  .panel.panel-default.modern
+                    .panel-body.padded-sides
+                      %h4 Location of Your Listing
+                    %table.table.table-bordered
+                      = f.fields_for :location do |l|
+                        %tbody
+                          %tr
+                            %td{ :colspan => "4"}
+                              = l.text_field :street_address, :class => "form-control", :placeholder => "Street Address"
+                          %tr
+                            %td.col-md-6
+                              = l.text_field :city, :class => "form-control", :placeholder => "City"
+                            %td.col-md-2
+                              = l.select :state, options_for_select(us_states), {:prompt => "State"}, class: "form-control"
+                            %td.col-md-2
+                              = l.text_field :zip, :class => "form-control", :placeholder => "Zip"
+                            %td.col-md-2
+                              = l.select :country, options_for_select(countries), {:prompt => "Country"}, class: "form-control"
+                    
+                  .col-md-12
+                    %small
+                    Don't worry! We only display the city name and state on SpaceLender. The full address is only given when you accept a reservation request.
 
 
+
+
+                / Step 3: Specify Dates
+                #dates.inner-tab.col-md-12
+                  - if @listing.periods.first.start && @listing.periods.first.end
+                    = f.hidden_field :always_available, :id => "always-available-hidden-field", :value => false
+                  - else
+                    = f.hidden_field :always_available, :id => "always-available-hidden-field", :value => true
+                  %h4
+                    Dates
+                  #dates-selection.row
+                    .col-md-12
+                      .col-md-6.padded-sides
+                        #always-available.panel.panel-default.modern.padded.date-option.active
+                          .panel-body.text-center
+                            %big
+                              Always Available
+                            .col-md-12.text-center
+                              %i.fa.fa-calendar-o.fa-fw.fa-5x
+                            .col-md-12.text-center
+                              %i.fa.fa-calendar-check-o.fa-fw.fa-5x
+                            %p
+                              %small
+                                This listing will be continuously available to the public to view and request. It will only be deactivated when you manually do so yourself.
+
+                      .col-md-6.padded-sides
+                        #specific-dates.panel.panel-default.modern.padded.date-option
+                          .panel-body.text-center
+                            %big
+                              Specific Dates
+                            .col-md-12.text-center
+                              %i.fa.fa-calendar-o.fa-fw.fa-5x
+                            .col-md-12.text-center
+                              %i.fa.fa-calendar-check-o.fa-fw.fa-5x
+                            %p
+                              %small
+                                This listing will only be available to the public between the specified dates. Once the final date for the listing has passed, it will deactivate itself. You can deactivate it at any time.
+                          .panel-body.text-center
+                            #specific-dates-fields
+                              = f.fields_for :periods do |d|
+                                - if @listing.periods.first.start && @listing.periods.first.end
+                                  .col-md-6
+                                    = d.text_field :start, :id => "start-date-edit", :class => "form-control", :placeholder => "Start"
+                                  .col-md-6
+                                    = d.text_field :end, :id => "end-date-edit", :class => "form-control", :placeholder => "End"
+                                - else
+                                  .col-md-6
+                                    = d.text_field :start, :id => "start-date-edit", :class => "form-control", :placeholder => "Start"
+                                  .col-md-6
+                                    = d.text_field :end, :id => "end-date-edit", :class => "form-control", :placeholder => "End"
+
+
+
+
+                / Step 4: Add Rates
+                #rates.inner-tab.col-md-12
+                  .panel.panel-default.modern
+                    .panel-body.padded-sides
+                      %h4 Rates
+                    %table.table.table-bordered
+                      %tbody
+                        %tr
+
+                          / Hourly
+                          = f.fields_for :rates, @listing.rates.build do |r|
+                            %td
+                              = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 1
+                            %td
+                              = r.text_field :date_range, :class => "form-control", :value => "hourly", :readonly => "readonly"
+
+                        / Daily
+                        %tr
+                          = f.fields_for :rates, @listing.rates.build do |r|
+                            %td
+                              = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 2
+                            %td
+                              = r.text_field :date_range, :class => "form-control", :value => "daily", :readonly => "readonly"
+                          
+                          / Weekly
+                          %tr
+                          = f.fields_for :rates, @listing.rates.build do |r|
+                            %td
+                              = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 3
+                            %td
+                              = r.text_field :date_range, :class => "form-control", :value => "weekly", :readonly => "readonly"
+
+                          / Monthly
+                          %tr
+                          = f.fields_for :rates, @listing.rates.build do |r|
+                            %td
+                              = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 4
+                            %td
+                              = r.text_field :date_range, :class => "form-control", :value => "monthly", :readonly => "readonly"
+                        
+
+
+
+                / Step 5: Upload Pictures
+                #upload-pictures.inner-tab.col-md-12
+                  .panel.panel-default.modern
+                    .panel-body.padded-sides
+                      %h4 Upload Pictures
+                    %table.table.table-bordered
+                      %tbody
+                        %tr
+                          %td
+                            = f.fields_for :pictures do |p|
+                              = p.file_field :image, :name => "image[]", :id => "upload-images-field", :style => "display: none;"
+
+                            / Drop files here to upload
+                            .dropzone-area.col-md-12
+
+                  = f.submit "Post Listing!", :class => "form-control btn btn-primary"
+
+
+
+
+            / Next and Prev btns
+            .col-md-12.text-center
+              = button_tag :class => "btn btn-default prev-btn directional-btn" do
+                %i.fa.fa-angle-left.fa-fw.fa-lg
+                Prev
+              = button_tag :class => "btn btn-default next-btn directional-btn" do
+                Next
+                %i.fa.fa-angle-right.fa-fw.fa-lg
 
 
 :javascript
+  $(document).ready(function() {
+    // DateTime pickers for Start and End dates (in "List A Space > 3. Dates")
+    $("#start-date-edit").datetimepicker({
+      format: "ddd, MMM D",
+      minDate: moment().add('hours', 3),
+      sideBySide: true,
+      stepping: 0,
+    }).on("dp.change", function(e) {
+      var selectedDate = e.date;
+      $("#end-date").data("DateTimePicker").minDate(selectedDate.add('hours', 1));
+      //$("#end").data("DateTimePicker").defaultDate(selectedDate.add('hours', '1'));
+      //$("#end").data("DateTimePicker").maxDate(selectedDate.add('days', 1));
+    });
 
-var has_images = false;
-
-$(document).ready(function() {
-
-  // disable auto discover
-  Dropzone.autoDiscover = false;
-  
-  $(".dropzone-area").click(function(e){
-    $(".dropzone").click();
-    e.stopPropagation();
+    $("#end-date-edit").datetimepicker({
+      format: "ddd, MMM D",
+      sideBySide: true,
+      minDate: moment().add('hours', 4),
+      stepping: 0,
+      defaultDate: "#{@listing.periods.first.end.strftime('%a, %b %e')}"
+    }).on("dp.change", function(e) {
+      var selectedDate = e.date;
+      $("#start-date").data("DateTimePicker").maxDate(selectedDate.subtract('hours', 1));
+    });
   });
- 
-  // grap our upload form by its id
-  $("#newlisting_form").dropzone({
-    // restrict image size to a maximum 1MB
-    maxFilesize: 1,
-    // changed the passed param to one accepted by
-    // our rails app
-    paramName: "image[]",
-    // show remove links on each image upload
-    addRemoveLinks: true,
-    // The configuration we've talked about above
-    autoProcessQueue: false,
-    uploadMultiple: true,
-    parallelUploads: 100,
-    maxFiles: 100,
-    previewsContainer: ".dropzone-area",
-    clickable: true,
-    
-     // The setting up of the dropzone
-    init: function() {
-      var myDropzone = this;
-
-      var dzMessage = $(".dz-default.dz-message").clone();
-      $(".dz-default.dz-message").remove();
-
-      $(".dropzone-area").html(dzMessage);
-      
-      this.on("addedfile", function(file) { 
-        has_images = true;
-      });
-  
-      // First change the button to actually tell Dropzone to process the queue.
-      this.element.querySelector("input[type=submit]").addEventListener("click", function(e) {
-        // Make sure that the form isn't actually being sent.
-        e.preventDefault();
-        e.stopPropagation();
-        myDropzone.processQueue();
-      });
-  
-      // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
-      // of the sending event because uploadMultiple is set to true.
-      this.on("sendingmultiple", function() {
-        // Gets triggered when the form is actually being sent.
-        // Hide the success button or the complete form.
-      });
-      this.on("successmultiple", function(files, response) {
-        // Gets triggered when the files have successfully been sent.
-        // Redirect user or notify of success.
-        window.location.href = "/listings?q=ml"
-      });
-      this.on("errormultiple", function(files, response) {
-        // Gets triggered when there was an error sending the files.
-        // Maybe show form again, and notify user of error
-      });
-    }
-  });
-
-  $(".autonumeric-amount").autoNumeric();
-
-  $("#add-more-photos").on("click", function(e) {
-    e.preventDefault();
-
-    $(".dropzone-area").show();
-    $(this).hide();
-  });
-
-  $(".edit-picture").on("click", function(e) {
-    e.preventDefault();
-  });
-
-
-
-  var formSections = $(".inner-tab-link");
-
-  // Submit form when Post Listing button is clicked because HAML was being stupid
-  // and throwing an error
-  $("#post-listing-btn").on("click", function() {
-    if (has_images == false){
-      $("#newlisting_form").submit();
-    }
-  });
-
-
-  // Enable Summernote
-  $('[data-provider="summernote"]').each(function(){
-    $(this).summernote({
-      height: 200
-     });
-  });
-
-  $('.note-toolbar .note-fontsize, .note-toolbar .note-color, .note-toolbar .note-para .dropdown-menu li:first, .note-toolbar .note-line-height').remove();
-
-  // Retrieve value from Summernote text editor on "List A Space" form submission
-  $('.inner-tab-link,.next-btn').click(function(){
-    $("#description").val($('[data-provider="summernote"]').code());
-  });
-
-
-  // Next and Previous Buttons for "List A Space" form
-  $(".next-btn").on("click", function(e) {
-    e.preventDefault();
-    formSections.filter('.active').parent().next('li').find('a').click();
-  });
-
-  $(".prev-btn").on("click", function(e) {
-    e.preventDefault();
-    formSections.filter('.active').parent().prev('li').find('a').click();
-  });
-
-
-  // Tabs 
-  $(".inner-tab-link").on("click", function(e) {
-    e.preventDefault();
-
-    var id = $(this).attr("href");
-
-    $(".inner-tab-link").removeClass("active");
-    $(this).addClass("active");
-
-    $(".inner-tab").removeClass("active");
-    $(id).addClass("active");
-
-
-    //Remove active class from Next/Prev buttons
-    $(".next-prev-btns").removeClass("active");
-
-    // Display Next/Prev buttons according to what tab is selected
-    if ($(id).is(":last-child")) {
-      $(".prev-btn-only").addClass("active");
-    } else if ($(id).is(":first-child")) {
-      $(".next-btn-only").addClass("active");
-    } else {
-      $(".both-btns").addClass("active");
-    }
-  });
-
-  // Get today's date in mm/dd/yyyy format
-  function getTodayAsMMDDYYYY() {
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
-    var yyyy = today.getFullYear();
-
-    if(dd<10) {
-        dd='0'+dd
-    } 
-
-    if(mm<10) {
-        mm='0'+mm
-    } 
-
-    return today = mm+'/'+dd+'/'+yyyy;
-  }
-
-  function makeOpaque() {
-    var section = $("#listing_periods_specific_dates").data("section");
-
-    if ($("#listing_periods_specific_dates").is(":checked")) {
-      $(section).css("opacity", "1.0");
-      $(section + " input").removeAttr("disabled");
-    } else {
-      $(section).css("opacity", "0.3");
-      $(section + " input").attr("disabled", "disabled");
-    }
-  }
-
-
-  
-  // Make Specific dates opaque.
-  makeOpaque();
-
-  // Date selection for Step 3
-  $(".date-selection").on("click", function() {
-    makeOpaque();
-  });
-
-
-
-
-  /* 
-   * Credit to: user2586273 from StackOverflow for this bit of code, which is found here:
-   * http://stackoverflow.com/questions/11933173/how-to-restrict-the-selectable-date-ranges-in-bootstrap-datepicker
-   * Thanks, bro.
-   */
-  var startDate = new Date('01/01/2012');
-  var FromEndDate = new Date();
-  var ToEndDate = new Date();
-
-  ToEndDate.setDate(ToEndDate.getDate()+365);
-
-  $('#start-date').datepicker({
-      weekStart: 1,
-      startDate: getTodayAsMMDDYYYY(),
-      autoclose: true
-  }).on('changeDate', function(selected){
-      startDate = new Date(selected.date.valueOf());
-      startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
-      $('#end-date').datepicker('setStartDate', startDate);
-  }); 
-  
-  $('#end-date').datepicker({
-      weekStart: 1,
-      startDate: startDate,
-      endDate: ToEndDate,
-      autoclose: true
-  }).on('changeDate', function(selected){
-      FromEndDate = new Date(selected.date.valueOf());
-      FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
-      $('#start-date').datepicker('setEndDate', FromEndDate);
-  });
-
-
-  // var startDate = getTodayAsMMDDYYYY();
-
-  // // Datepickers
-  // $("#start-date").datepicker({
-  //   startDate: startDate
-  // }).on('changeDate', function(selected){
-  //     startDate = new Date(selected.date.valueOf());
-  //     startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
-  //     $('.to_date').datepicker('setStartDate', startDate);
-  // }); ;
-
-  // $("#end-date").datepicker({
-  //   startDate: startDate
-  // });
-
-});

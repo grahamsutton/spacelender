@@ -26,7 +26,7 @@
         - if @current_user
           - if !current_page?(dashboard_path)
             %li
-              = link_to dashboard_path, :id => "list-space-nav-btn" do
+              = link_to new_listing_path, :id => "list-space-nav-btn" do
                 List A Space
           %li{:class => ("nav-link-active" unless !current_page?(dashboard_path))}
             = link_to "Dashboard", dashboard_path

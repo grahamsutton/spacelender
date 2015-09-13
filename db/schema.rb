@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150906044045) do
+ActiveRecord::Schema.define(version: 20150911085617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,24 +21,21 @@ ActiveRecord::Schema.define(version: 20150906044045) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "card_token"
+    t.string   "token"
   end
 
   add_index "cards", ["user_id"], name: "index_cards_on_user_id", using: :btree
 
   create_table "invoices", force: :cascade do |t|
-    t.integer  "listing_id"
     t.float    "amount"
-    t.datetime "rental_date"
-    t.text     "remak"
-    t.datetime "paid_date"
     t.integer  "receiver_id"
-    t.float    "discount_amount"
-    t.string   "discount_type"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "reservation_id"
+    t.integer  "payer_id"
   end
 
-  add_index "invoices", ["listing_id"], name: "index_invoices_on_listing_id", using: :btree
+  add_index "invoices", ["reservation_id"], name: "index_invoices_on_reservation_id", using: :btree
 
   create_table "listings", force: :cascade do |t|
     t.integer  "user_id"
@@ -121,9 +118,32 @@ ActiveRecord::Schema.define(version: 20150906044045) do
     t.integer  "status"
     t.text     "purpose"
     t.boolean  "agreement"
+    t.string   "token"
   end
 
   add_index "reservations", ["listing_id"], name: "index_reservations_on_listing_id", using: :btree
+
+  create_table "sessions", force: :cascade do |t|
+    t.string   "session_id", null: false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
+  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
+
+  create_table "transactions", force: :cascade do |t|
+    t.integer  "reservation_id"
+    t.float    "amound_paid"
+    t.datetime "paid_date"
+    t.integer  "receiver_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "card_last4"
+  end
+
+  add_index "transactions", ["reservation_id"], name: "index_transactions_on_reservation_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
@@ -143,10 +163,11 @@ ActiveRecord::Schema.define(version: 20150906044045) do
   end
 
   add_foreign_key "cards", "users"
-  add_foreign_key "invoices", "listings"
+  add_foreign_key "invoices", "reservations"
   add_foreign_key "listings", "users"
   add_foreign_key "locations", "listings"
   add_foreign_key "messages", "users"
   add_foreign_key "pictures", "listings"
   add_foreign_key "reservations", "listings"
+  add_foreign_key "transactions", "reservations"
 end

@@ -1,0 +1,120 @@
+#submit-payment-section.col-md-8.col-md-offset-2
+  .panel.panel-default.modern.dashboard-tab
+    .panel-body.padded.tab-display
+      .row
+        .col-md-8
+          %h4
+            Submit A Payment
+      %p
+        Please review that all information is correct. If there are any inaccuracies, you should contact the lender to ask him or her to clarify what you don't understand.
+      %br
+      #payment-reservation-details.row
+        .col-md-12
+          %table.table
+            %tbody
+              %tr
+                %th
+                  Lender's Name
+                %td
+                  = "#{@reservation.listing.user.first_name} #{@reservation.listing.user.last_name}"
+              %tr
+                %th
+                  Listing
+                %td
+                  = @reservation.listing.name
+              %tr
+                %th
+                  Location
+                %td
+                  = @reservation.listing.location.full_street_address
+              %tr
+                %th
+                  Reservation ID
+                %td
+                  = @reservation.token
+              %tr
+                %th
+                  From
+                %td
+                  - if !@reservation.rate.hourly?
+                    = @reservation.period.start.strftime("%B %d, %Y")
+                  - else
+                    = @reservation.period.start.strftime("%l:%m %p, %B %m, %Y")
+              %tr
+                %th
+                  To
+                %td
+                  - if !@reservation.rate.hourly?
+                    = @reservation.period.end.strftime("%B %d, %Y")
+                  - else
+                    = @reservation.period.end.strftime("%l:%m %p, %B %m, %Y")
+              %tr
+                %th
+                  Rate
+                %td
+                  = translate_time_to_hours(@reservation.period.end, @reservation.period.start)
+                  x
+                  = number_to_currency(@reservation.rate.amount)
+            %tfoot
+              %tr
+                %th
+                  Total
+                %th
+                  = number_to_currency(translate_time_to_hours(@reservation.period.end, @reservation.period.start) * @reservation.rate.amount)
+
+
+      .row
+        .col-md-12
+          %ul.list-unstyled.list-inline.payment-choice-tab-link-list
+            %li.text-center.padded.active
+              = link_to "Use Card on File", "#use-card-on-file", :class => "payment-choice-tab-link active"
+            %li.text-center.padded
+              = link_to "Use New Card", "#use-new-card", :class => "payment-choice-tab-link"
+    %table#use-card-on-file.table.table-bordered.table-striped.payment-choice-tab.active
+      = form_for @invoice do |f|
+        %tbody
+          - if @cards.count > 0
+            - @cards.each do |card|
+              %tr
+                %td
+                  = radio_button_tag "card", card.id
+                %td
+                  %i.fa.fa-fw.fa-lg{ :class => "fa-cc-#{card.brand.downcase}" }
+                  Card ending in
+                  %strong
+                    = card.last4
+                %td
+                  = "#{card.exp_month}/#{card.exp_year}"
+          - else
+            %tr
+              %td.text-center
+                No Cards on File.
+
+
+    %table#use-new-card.table.table-bordered.payment-choice-tab
+      = form_for @invoice, :html => { :id => "new-card-form" } do |f|
+        = f.hidden_field :reservation_token, :value => @reservation.token
+        %tbody
+          %tr
+            %td.col-md-6
+              = text_field_tag :card_number, "", :name => "", :class => "form-control payment-card-number", :placeholder => "Card Number", "data-stripe" => "number"
+            %td.col-md-3
+              = select_tag :exp_month, options_for_select(credit_card_months), { name: "", class: "form-control payment-exp-month", "data-stripe" => "exp-month", :prompt => "Exp. Month (MM)" }
+            %td.col-md-3
+              = text_field_tag :exp_year, "", :name => "", :class => "form-control payment-exp-year", "data-stripe" => "exp-year", :placeholder => "Exp. Year (YYYY)", :maxlength => 4
+          %tr
+            %td.col-md-4
+              = text_field_tag :cvc, "", :name => "", :class => "form-control payment-cvc", :placeholder => "CVC", "data-stripe" => "cvc"
+            %td.col-md-8{ :colspan => "2"}
+              = text_field_tag :name, "", :name => "", :class => "form-control payment-name", :placeholder => "Name on Card"
+          %tr
+            %td{ :colspan => "3" }
+              = check_box_tag "store_card", true
+              Store this payment method
+          %tr
+            %td
+              .payment-errors.error
+              = submit_tag "Pay", :id => "payment-pay-btn", :class => "btn btn-primary"
+
+
+

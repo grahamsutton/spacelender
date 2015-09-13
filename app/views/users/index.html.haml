@@ -10,7 +10,7 @@
             Find space for the things you need to do.
     .row.to-the-windows
       .col-md-12.to-the-wall
-        = form_tag({:controller => "listings", :action => "search"}, :html => { :id => "search-form" }, :method => :get) do
+        = form_tag({:controller => "listings", :action => "search"}, :id => "search-form", :method => :get) do
           .row
             .col-md-7
               = text_field_tag :search, nil, :class => "form-control", :placeholder => "Search for spaces.", "aria-describedby" => "search-icon-addon"
@@ -18,31 +18,37 @@
               = text_field_tag :city, nil, :class => "form-control", :placeholder => "City", :id => "city"
             .col-md-2
               = submit_tag :Search, :id => "search-btn", :class => "btn btn-primary"
-#how-it-works.row.section.homepage-section.text-center
-  .col-md-12
-    %h2
-      So How Does It Work?
-  .col-md-12.text-center
-    .col-md-6.col-md-offset-3
-      = image_tag "guy-without-marks.png", :class => "img-responsive"
-      = image_tag "question-mark.png", :id => "qm1", :class => "question-mark-img wow zoomIn", "data-wow-iteration" => "3"
-      = image_tag "question-mark.png", :id => "qm2", :class => "question-mark-img wow zoomIn", "data-wow-iteration" => "3", "data-wow-delay" => "0.3s"
-      = image_tag "question-mark.png", :id => "qm3", :class => "question-mark-img wow zoomIn", "data-wow-iteration" => "3", "data-wow-delay" => "0.8s"
+  .col-md-12.footer
+    .row
+      .col-md-6
+        &copy; 2015 SpaceLender, Inc. - All Rights Reserved.
+      .col-md-6.text-center
+        Suggestions? Hit us up at suggestions@spacelender.com
+/ #how-it-works.row.section.homepage-section.text-center
+/   .col-md-12
+/     %h2
+/       So How Does It Work?
+/   .col-md-12.text-center
+/     .col-md-6.col-md-offset-3
+/       = image_tag "guy-without-marks.png", :class => "img-responsive"
+/       = image_tag "question-mark.png", :id => "qm1", :class => "question-mark-img wow zoomIn", "data-wow-iteration" => "3"
+/       = image_tag "question-mark.png", :id => "qm2", :class => "question-mark-img wow zoomIn", "data-wow-iteration" => "3", "data-wow-delay" => "0.3s"
+/       = image_tag "question-mark.png", :id => "qm3", :class => "question-mark-img wow zoomIn", "data-wow-iteration" => "3", "data-wow-delay" => "0.8s"
 
-#find-a-listing.row.section.homepage-section.text-center.wow.slideInUp
-  .col-md-6.icon-cont
-    %i.fa.fa-newspaper-o.fa-5x
-  .col-md-6.col-md-offset-5
-    %h3
-      First, find a listing!
-    %ul.list-unstyled
-      %li
-        from one of our verified spacelenders.
-        %br
-        Just type what you're looking for in the Search Bar and BAM! Look at those sweet results pile in.
+/ #find-a-listing.row.section.homepage-section.text-center.wow.slideInUp
+/   .col-md-6.icon-cont
+/     %i.fa.fa-newspaper-o.fa-5x
+/   .col-md-6.col-md-offset-5
+/     %h3
+/       First, find a listing!
+/     %ul.list-unstyled
+/       %li
+/         from one of our verified spacelenders.
+/         %br
+/         Just type what you're looking for in the Search Bar and BAM! Look at those sweet results pile in.
 
-#select-a-price.row.section.homepage-section.text-center.wow.slideInUp
-  .col-md-6.icon-cont
+/ #select-a-price.row.section.homepage-section.text-center.wow.slideInUp
+/   .col-md-6.icon-cont
 
 
-= render 'layouts/footer'
+/ = render 'layouts/footer'

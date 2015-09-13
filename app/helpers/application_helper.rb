@@ -1,9 +1,7 @@
 module ApplicationHelper
     def countries
       [ 
-        ["United States", "US"],
-        ["Canada", "CA"],
-        ["Guatemala", "GU"]
+        ["United States", "US"]
       ]
     
     end
@@ -130,6 +128,29 @@ module ApplicationHelper
   			# @array.push(["#{Time.now.year + i}", Time.now.year])
   		end
   	end
+
+    def numbered_days
+      days = []
+
+      (1..31).each do |day|
+        if day < 10
+          days << ["0#{day}", "0#{day}"]
+        else
+          days << ["#{day}", "#{day}"]
+        end
+      end
+
+      days
+    end
+
+    def years_until_now
+      years = []
+      (1900..DateTime.now.year).each do |year|
+        years << [year, year]
+      end
+
+      years
+    end
 
     def translate_time_to_hours(endTime, startTime)
       totalHours = (endTime - startTime).to_i / 3600
