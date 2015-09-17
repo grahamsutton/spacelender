@@ -1,0 +1,7 @@
+<% if activity.owner.id == @current_user.id %>
+	You
+<% else %>
+	<%= link_to "#{activity.owner.first_name} #{activity.owner.last_name.truncate(2, omission: '.')}", activity.owner if activity.owner %>
+<% end %>
+
+requested <%= link_to "a reservation for #{activity.trackable.listing.name}", reservations_path(:d => "requests") %>.

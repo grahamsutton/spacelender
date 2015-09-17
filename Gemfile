@@ -78,6 +78,8 @@ gem 'rabl'
 
 gem 'oj'
 
+gem 'public_activity'
+
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 
 gem 'bootstrap3-datetimepicker-rails'
@@ -113,6 +115,13 @@ gem 'toastr-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+group :development do
+  gem 'capistrano'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+  gem 'capistrano-rbenv', github: "capistrano/rbenv"
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

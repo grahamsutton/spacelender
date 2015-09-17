@@ -9,6 +9,8 @@ $(document).ready(function() {
 	$("#new-card-form").on("submit", function(e) {
 		var form = $(this);
 
+		console.log("this launched");
+
 		form.find("#payment-pay-btn").attr("disabled", "disabled"); 
 
 		Stripe.card.createToken({

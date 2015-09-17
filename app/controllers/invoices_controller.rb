@@ -33,8 +33,6 @@ class InvoicesController < ApplicationController
     else
       # User used an existing card on file
 
-
-
     end
 
     time = translate_time_to_hours(@reservation.period.end, @reservation.period.start)
@@ -58,11 +56,15 @@ class InvoicesController < ApplicationController
       
     rescue Stripe::CardError => e
       flash[:notice] = "Your card was declined. Please provide an acceptable card."
+      render :new
     end
 
     @invoice = Invoice.new(:reservation_id => @reservation.id, :payer_id => @current_user.id, :receiver_id => @listing.user.id, :amount => charge_amount)
 
     if @invoice.save
+      # Create notification
+      @invoice.create_activity :create, :owner => @current_user, :recipient => @listing.user, :parameters => { :total => @reservation.subtotal - @reservation.fee }
+
       flash[:notice] = "Your payment was succesfully processed."
       redirect_to dashboard_path
     else

@@ -1,0 +1,26 @@
+.col-md-12.padded
+  .panel.panel-default.modern
+    .panel-body.padded
+      %h5
+        News Feed
+    %ul#news-feed-list.list-group.list-unstyled
+      - if @activities.count > 0
+        - @activities.each do |activity|
+          %li.list-group-item
+            .row
+              .col-md-9
+                .list-group-item-heading
+                  - if activity.trackable_type == "Reservation"
+                    %i.fa.fa-book.fa-fw
+                  - elsif activity.trackable_type == "Invoice"
+                    %i.fa.fa-credit-card.fa-fw
+                  &nbsp;
+                  = render_activity activity
+              .col-md-3.faded.text-right
+                %small
+                  = distance_of_time_in_words(activity.created_at, DateTime.now)
+                  ago
+      - else
+        .panel-body.padded
+          .col-md-12
+            No exciting news yet.

@@ -23,7 +23,7 @@
 
               .col-md-12
                 #listings-youve-posted.listings-inner-tab.active.col-md-12
-                  - if @listings
+                  - if @listings.count > 0
                     - @listings.each do |listing|
                       .col-md-3.padded-sides
                         .panel.panel-default.modern
@@ -55,6 +55,16 @@
                                   = link_to "Reactivate"
                                   |
                                   = link_to "Delete"
+                  - else
+                    .col-md-10.col-md-offset-1
+                      .panel.panel-defualt.modern
+                        .panel-body.padded.text-center
+                          %h4
+                            You haven't posted any listings!
+                          %p
+                            Got a some space you want to rent out? It's an easy way to make some cash.
+                          = link_to "List Your First Space", new_listing_path, :class => "btn btn-primary"
+
 
                 #favorited-listings.listings-inner-tab.col-md-12
                   Secondly active

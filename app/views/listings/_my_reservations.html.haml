@@ -1,0 +1,60 @@
+/ Notifications
+.col-md-12.padded
+  .panel.panel-default.modern
+    .panel-body.padded
+      .row
+        .col-md-6
+          %h5
+            My Reservations
+        .col-md-6.text-right
+          %ul#dash-reservs-tab-list.list-unstyled.list-inline
+            %li
+              As a:
+            %li.active
+              = link_to "#reserv-as-renter", :class => "dash-reservs-tab-link active" do
+                Renter (
+                = @renter_reservations.count
+                )
+            %li
+              = link_to "#reserv-as-lender", :class => "dash-reservs-tab-link" do
+                Lender (
+                = @lender_reservations.count
+                )
+    - if @renter_reservations.count > 0
+      %table#reserv-as-renter.dash-reservs-tab.active.table.table-bordered
+        - @renter_reservations.each do |reservation|
+          %tr
+            %td
+              = link_to reservation.listing.name, listing_path(reservation.listing)
+            %td
+              Starts in 
+              - if reservation.rate.hourly?
+                = distance_of_time_in_words(reservation.period.start.strftime("%l:%m %p, %B %m, %Y"), DateTime.now)
+              - else
+                = distance_of_time_in_words(reservation.period.start.strftime("%B %d, %Y"), DateTime.now)
+            %td
+              = "#{number_to_currency(reservation.rate.amount)} #{reservation.rate.date_range}"
+            %td{ :class => reservation.status }
+              = reservation.status.capitalize
+    - else
+      #reserv-as-renter.dash-reservs-tab.active.panel-body.padded.text-center
+        .col-md-12
+          No upcoming reservations.
+
+    - if @lender_reservations.count > 0
+      %table#reserv-as-lender.dash-reservs-tab.table.table-bordered
+        - @lender_reservations.each do |reservation|
+          %tr
+            %td
+              = link_to reservation.listing.name, listing_path(reservation.listing)
+            %td
+              - if reservation.rate.hourly?
+                = reservation.period.start.strftime("%l:%m %p, %B %m, %Y")
+              - else
+                = reservation.period.start.strftime("%B %d, %Y")
+            %td
+              = "#{number_to_currency(reservation.rate.amount)} #{reservation.rate.date_range}"
+    - else
+      #reserv-as-lender.dash-reservs-tab.panel-body.padded.text-center
+        .col-md-12
+          No upcoming reservations.

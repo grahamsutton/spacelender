@@ -69,6 +69,8 @@ class ReservationsController < ApplicationController
     	# Send Email to Lender
     	#ReservationMailer.lender_reservation_confirmation_email(@reservation.listing.user.email, @current_user, @reservation, time).deliver
 
+      # Create notification
+      @reservation.create_activity :create, :owner => @current_user, :recipient => @listing.user
 
 			flash[:notice] = "Your reservation was succesfully made."
 			redirect_to reservations_path

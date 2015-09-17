@@ -5,52 +5,32 @@
     #main-dashboard.panel.panel-default.modern.dashboard-tab
       .panel-body.tab-display
         .form-container.row
-          / Notifications
-          .col-md-6.padded
-            .panel.panel-default.modern
-              .panel-body.padded
-                .row
-                  .col-md-6
-                    %h5
-                      My Reservations
-                  .col-md-6.text-right
-                    %ul#dash-reservs-tab-list.list-unstyled.list-inline
-                      %li
-                        As a:
-                      %li.active
-                        = link_to "#reserv-as-renter", :class => "dash-reservs-tab-link active" do
-                          Renter
-                      %li
-                        = link_to "#reserv-as-lender", :class => "dash-reservs-tab-link" do
-                          Lender
-              %table#reserv-as-renter.dash-reservs-tab.active.table.table-bordered
-                - if @renter_reservations
-                  - @renter_reservations.each do |reservation|
-                    %tr
-                      %td
-                        = link_to reservation.listing.name, listing_path(reservation.listing)
-                      %td
-                        Starts in 
-                        - if reservation.rate.hourly?
-                          = distance_of_time_in_words(reservation.period.start.strftime("%l:%m %p, %B %m, %Y"), DateTime.now)
-                        - else
-                          = distance_of_time_in_words(reservation.period.start.strftime("%B %d, %Y"), DateTime.now)
-                      %td
-                        = "#{number_to_currency(reservation.rate.amount)} #{reservation.rate.date_range}"
-              %table#reserv-as-lender.dash-reservs-tab.table.table-bordered
-                - if @lender_reservations
-                  - @lender_reservations.each do |reservation|
-                    %tr
-                      %td
-                        = link_to reservation.listing.name, listing_path(reservation.listing)
-                      %td
-                        - if reservation.rate.hourly?
-                          = reservation.period.start.strftime("%l:%m %p, %B %m, %Y")
-                        - else
-                          = reservation.period.start.strftime("%B %d, %Y")
-                      %td
-                        = "#{number_to_currency(reservation.rate.amount)} #{reservation.rate.date_range}"
-
-
-
-      
+          .col-md-6
+            = render 'listings/my_reservations'
+            = render 'listings/news_feed'
+          .col-md-6
+            .col-md-12.padded
+              .panel.panel-default.modern
+                .panel-body.padded
+                  .row
+                    .col-md-3
+                      = image_tag Listing.first.pictures.first.image.url(:thumb)
+                    .col-md-9
+                      %h4
+                        = "#{@current_user.first_name} #{@current_user.last_name}"
+                      %p
+                        %strong
+                          Ratings
+                      .col-md-6
+                        %table.table.table-bordered
+                          %tbody
+                            %tr
+                              %td
+                                Lender
+                              %td
+                                8.9
+                            %tr
+                              %td
+                                Renter
+                              %td
+                                9.4

@@ -29,8 +29,9 @@
 @import "bootswatch/paper/bootswatch"
 @import "bootstrap-datetimepicker"
 @import url(http://fonts.googleapis.com/css?family=Handlee)
-@import url(http://fonts.googleapis.com/css?family=Chivo)
-
+//@import url(http://fonts.googleapis.com/css?family=Chivo)
+//@import url(https://fonts.googleapis.com/css?family=Pontano+Sans)
+@import url(https://fonts.googleapis.com/css?family=Oxygen)
 
 // Color Palette
 $background-color: #F2F1EF
@@ -43,6 +44,10 @@ $red-color: #e74c3c
 $black-color: #666
 $grey-color: #DDD
 
+// Fonts
+$primary-font: 'Handlee', sans-serif
+$secondary-font: 'Oxygen', sans-serif
+
 // Shadowing
 $simple-shadow: none !important //0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3
 $bold-shadow: none !important //1px 3px 2px rgba(0, 0, 0, 0.25)
@@ -52,7 +57,7 @@ $soft-border: 1px solid #DDD
 
 body
 	background-color: $background-color
-	font-family: 'Chivo', sans-serif
+	font-family: $secondary-font
 	//overflow: auto
 
 input[type="text"],
@@ -67,7 +72,7 @@ textarea:focus
 	box-shadow: $bold-shadow !important
 
 a
-	font-family: 'Chivo', sans-serif
+	font-family: $secondary-font
 	color: $secondary-color
 
 .btn:focus,
@@ -163,8 +168,9 @@ table
 	color: #e74c3c
 
 .accepted,
-.completed
-	color: #2ecc71
+.completed,
+.paid
+	color: #8DB255
 
 .requested
 	color: #D9B611
@@ -395,15 +401,19 @@ table
 		color: $secondary-color
 
 	.container-fluid
-		margin-right: -15px
+		padding-right: 0px
+		padding-left: 0px
 
 	.navbar-btn
 		color: $white-color !important
 		border-radius: 0px
 		margin-top: 0px
 		margin-bottom: 0px
+		border: none !important
 
-	.navbar-btn:hover
+	.navbar-btn:hover,
+	.navbar-btn:focus,
+	.navbar-btn:active
 		background-color: $secondary-color-dark
 		color: $white-color
 
@@ -485,7 +495,7 @@ table
 	h4,
 	h5,
 	h6
-		font-family: "Chivo", sans-serif
+		font-family: $secondary-font
 
 	.login-title
 		font-family: 'Handlee', sans-serif !important
@@ -494,11 +504,21 @@ table
 		input.form-control,
 		textarea,
 		select
-			padding: 20px !important
+			padding: 0 30px !important
 			box-shadow: $bold-shadow !important
 			margin-bottom: 25px !important
 			background-color: $white-color
 			border: 1px solid $grey-color !important
+
+		select:focus,
+		select:active
+			border: none !important
+
+		textarea
+			height: 160px
+			line-height: normal
+			padding-top: 20px !important
+			padding-bottom: 20px !important
 
 		select
 			padding-top: 0px !important
@@ -541,11 +561,12 @@ table
 			color: #e74c3c
 
 		input.form-control,
-		textarea,
 		select
-			padding: 30px
+			padding: 0px 30px
 			box-shadow: $bold-shadow
 			border: none
+			height: 60px
+			line-height: normal
 
 		input.valid:focus
 			color: #2ecc71
@@ -601,14 +622,14 @@ table
 		color: $secondary-color
 
 	.header-subtitle
-		font-family: 'Chivo'
+		font-family: $secondary-font
 		font-size: 0.5em
 		color: $secondary-color-dark
 
 	// Search Bar dropdown
 	.ui-autocomplete
 		box-shadow: $bold-shadow !important
-		font-family: 'Chivo' !important
+		font-family: $secondary-font !important
 		background-color: $white-color
 
 	#search-form
@@ -636,13 +657,15 @@ table
 
 		input[type="text"].form-control,
 		input[type="password"].form-control
-			padding: 30px
+			padding: 0px 30px
 			box-shadow: $bold-shadow
 			border: none
 			margin-left: 0px
 			margin-right: 0px
 			font-size: 20px
 			background: $white-color
+			height: 62px
+			line-height: normal
 
 		input[type="text"].form-control:focus,
 		input[type="password"].form-control:focus
@@ -811,6 +834,9 @@ table
 #dashboard-content
 	height: 100vh
 
+	.panel
+		margin-bottom: 0px
+
 	.dashboard-inner-nav
 		width: 220px
 		position: absolute
@@ -823,7 +849,7 @@ table
 		background-color: $background-color
 		box-shadow: none !important
 		height: 100%
-		padding-top: 20px
+		padding-top: 30px
 		padding-bottom: 45px
 		border: none !important
 
@@ -884,7 +910,7 @@ table
 	h4,
 	h5,
 	h6
-		font-family: 'Chivo', sans-serif !important
+		font-family: $secondary-font !important
 
 	table
 		input[type="text"],
@@ -926,7 +952,7 @@ table
 	h4,
 	h5,
 	h6
-		font-family: 'Chivo', sans-serif !important
+		font-family: $secondary-font !important
 
 
 #list-a-space-nav
@@ -953,6 +979,9 @@ table
 
 	.inner-tab.active
 		display: block
+
+	.next-and-prev-btns
+		margin-top: 20px
 
 	table
 		input[type="text"],
@@ -1230,5 +1259,13 @@ table
 			background-color: $background-color
 
 
+#news-feed-list
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6
+		color: $black-color
 
 

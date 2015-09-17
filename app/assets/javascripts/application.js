@@ -54,4 +54,14 @@ $(document).ready(function() {
 			$(".account-ctrl-modal-title").html("Login");
 		}
 	});
+
+	/* SyncUI script (Learn more at http://syncui.com/) */
+    // (function (w, d, nmsp, st) {
+    //     w[nmsp] = w[nmsp] || function() { (w[nmsp].q = w[nmsp].q || []).push(arguments); };
+    //     var s = d.createElement(st), fst = d.getElementsByTagName('head')[0];
+    //     s.async = 1; s.src = "//syncui.com/hub?v=" + (new Date()).getTime();
+    //     fst.appendChild(s);
+    // })(window, document, "syncui", "script");
+    // syncui("4bcf14ee-6135-4692-b281-e091ec650484");
+    /* END SyncUI script */
 });

@@ -3,9 +3,8 @@ class ListingsController < ApplicationController
 
   before_filter :current_user
   before_filter :require_login, :except => [:show, :search, :update, :edit]
-  before_filter :check_if_stripe_is_connected?
 
-  # respond_to :html, :xml, :json
+  respond_to :html, :xml, :json
 
   def dashboard
     @current_user = current_user
@@ -13,6 +12,9 @@ class ListingsController < ApplicationController
     @lender_reservations = @current_user.reservations_as_lender
     #@latest_news = @current_user.latest_news
     @stripe_merchant_account = @current_user.stripe_merchant_account
+
+    # Get News Feed
+    @activities = PublicActivity::Activity.order("created_at desc")
   end
 
   # List all listings

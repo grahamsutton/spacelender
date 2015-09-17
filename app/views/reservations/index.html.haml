@@ -8,19 +8,19 @@
         %h5
           Reservations
       %li.list-group-item
-        = link_to "#reservations-ive-made", :class => "reservations-inner-tab-link active" do
+        = link_to "#reservations-ive-made", :id => "reservations-ive-made-link", :class => "reservations-inner-tab-link active" do
           Reservations I've Made
       %li.list-group-item
-        = link_to "#requests", :class => "reservations-inner-tab-link" do
+        = link_to "#requests", :id => "requests-link", :class => "reservations-inner-tab-link" do
           Requests
           - if @requested_reservations.count > 0
             %span.badge
               = @requested_reservations.count
       %li.list-group-item
-        = link_to "#accepted", :class => "reservations-inner-tab-link" do
+        = link_to "#accepted", :id => "accepted-link", :class => "reservations-inner-tab-link" do
           Accepted
       %li.list-group-item
-        = link_to "#completed", :class => "reservations-inner-tab-link" do
+        = link_to "#completed", :id => "completed-link", :class => "reservations-inner-tab-link" do
           Completed
   .col-md-10.col-md-offset-2
     .col-md-12
@@ -33,10 +33,10 @@
 
                 / Reservations I've Made
                 #reservations-ive-made.reservations-inner-tab.active
-                  .col-md-12.padded-sides
-                    %h5 Reservations I've Made
-                  .row
-                    - if @reservations_ive_made
+                  - if @reservations_ive_made.count > 0
+                    .col-md-12.padded-sides
+                      %h5 Reservations I've Made
+                    .row
                       - @reservations_ive_made.each do |reservation_ive_made|
                         .col-md-4.padded-sides
                           .panel.panel-default.modern
@@ -68,7 +68,16 @@
                                     = link_to "Contact", "#", :class => "btn btn-default form-control"
                                   .col-md-6
                                     = link_to "Cancel", "#", :class => "btn btn-default form-control"
-
+                  - else
+                    .col-md-10.col-md-offset-1
+                      .panel.panel-defualt.modern
+                        .panel-body.padded.text-center
+                          %h4
+                            You haven't made any reservations!
+                          %p
+                            You can make a reservation by searching for listings in the Search bar.
+                            %br
+                            Try search for a listing you like, and clicking the "Make A Request" button.
 
                 #requests.reservations-inner-tab
                   - if @requested_reservations.count > 0
@@ -129,20 +138,26 @@
                                     - else
                                       = requested_reservation.period.start.strftime("%B %m, %Y")
                                 %tr
-                                  %td
+                                  %th Rate
                                   %td{ :colspan => "2" }
                                     - if requested_reservation.rate.hourly?
                                       = translate_time_to_hours(requested_reservation.period.end, requested_reservation.period.start)
                                       x
                                       = "#{number_to_currency(requested_reservation.rate.amount)}/#{requested_reservation.rate.date_range}"
+                                      = "= #{number_to_currency(requested_reservation.subtotal)}"
                                     - else
                                       = requested_reservation.period.start.strftime("%B %m, %Y")
+                                %tr
+                                  %td
+                                    SL Fee
+                                  %td
+                                    = number_to_currency(requested_reservation.fee)
                               %tfoot
                                 %tr
                                   %th
                                     Total
                                   %td.success{ :colspan => "2" }
-                                    = number_to_currency(translate_time_to_hours(requested_reservation.period.end, requested_reservation.period.start) * requested_reservation.rate.amount)
+                                    = number_to_currency(requested_reservation.subtotal - requested_reservation.fee)
                             .accept-reject-contanct-btns.row
                               .col-md-4
                                 = link_to "Accept", accept_reservation_path(requested_reservation), :class => "btn btn-primary form-control", :remote => true, :method => :post
@@ -151,12 +166,31 @@
                               .col-md-4
                                 = link_to "Contact", "#", :class => "btn btn-default form-control"
                   - else
-                    .col-md-12.text-center
-                      %h4
-                        No Requests right now.
-                      .col-md-6.col-md-offset-3
-                        %p
-                          We'll send you an email and a notification on your dashboard when someone sends you a request for one of your listings in the future. You can approve/reject them here.
-                                        
+                    .col-md-10.col-md-offset-1
+                      .panel.panel-defualt.modern
+                        .panel-body.padded.text-center
+                          %h4
+                            No Requests right now.
+                          %p
+                            We'll send you an email and a notification on your dashboard when 
+                            %br
+                            someone sends you a request for one of your listings in the future. 
+                            %br
+                            You can approve/reject them here.
+                                      
 
+:javascript
+  $(document).ready(function() {
+    if (#{params[:d]} !== "") {
 
+      $(".reservations-inner-tab-link").removeClass("active");
+      $(".reservations-inner-tab-link").each(function() {
+        if ($(".reservations-inner-tab-link").attr("href") === "##{params[:d]}") {
+          $("##{params[:d]}-link']").addClass("active");
+        }
+      });
+
+      $(".reservations-inner-tab").removeClass("active");
+      $("##{params[:d]}").addClass("active");
+    }
+  });
