@@ -121,6 +121,7 @@ group :development do
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-rbenv', github: "capistrano/rbenv"
+  gem 'capistrano-passenger'
 end
 
 group :development, :test do
