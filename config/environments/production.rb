@@ -46,6 +46,19 @@ Rails.application.configure do
     :enable_starttls_auto => true
   }
 
+  AWS.config(:s3_endpoint => ENV['s3_endpoint'])
+
+  config.paperclip_defaults = {
+    :storage => :s3,
+    :s3_credentials => {
+      :bucket => ENV['s3_bucket_name'],
+      :s3_credentials => "#{Rails.root}/config/aws.yml"
+    },
+    :url =>':s3_domain_url',
+    :s3_permissions => "public-read",
+    :s3_protocol => "http"
+  }
+
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
   # Specifies the header that your server uses for sending files.
