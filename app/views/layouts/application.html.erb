@@ -2,8 +2,9 @@
 <html>
 <head>
   <title>SpaceLender</title>
-  <script type="text/javascript" src="//maps.google.com/maps/api/js?v=3.13&amp;sensor=false&amp;libraries=geometry"></script>
-  <script type="text/javascript" src="//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js"></script>
+  <%= javascript_include_tag "//maps.google.com/maps/api/js?v=3.13&amp;sensor=false&amp;libraries=geometry;key=AIzaSyAJYU3O00L8NdeRV3gTRNx1op8wH9B-aSQ" %>
+  <!--<script type="text/javascript" src="//maps.google.com/maps/api/js?v=3.13&amp;sensor=false&amp;libraries=geometry"></script>-->
+  <!--<script type="text/javascript" src="//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js"></script>-->
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
@@ -15,18 +16,5 @@
 <%= render 'layouts/nav' %>
 <%= yield %>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		// $("#nav-search-bar").focusin(function() {
-		// 	$("#nav-search-bar-btn").css("border-bottom", "2px solid #2196F3");
-		// 	$("#nav-search-bar-btn").css("margin-top", "0px");
-		// });
-
-		// $("#nav-search-bar").focusout(function() {
-		// 	$("#nav-search-bar-btn").css("border-bottom", "1px solid #EEE");
-		// 	$("#nav-search-bar-btn").css("margin-top", "1px");
-		// });
-	});
-</script>
 </body>
 </html>

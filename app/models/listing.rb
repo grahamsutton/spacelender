@@ -11,6 +11,7 @@ class Listing < ActiveRecord::Base
   has_many :pictures, :dependent => :destroy
   has_many :periods, :as => :periodic, :dependent => :destroy
   has_many :reservations, :dependent => :destroy
+  has_many :favorited_listings, :dependent => :destroy
 
   validates :name, presence: true, length: { minimum: 8, maximum: 120 }
   validates :description, presence: true, length: { minimum: 26, maximum: 4000 }
@@ -23,7 +24,8 @@ class Listing < ActiveRecord::Base
   
   # Search method
   def self.search(search)
-     where(['lower(name) LIKE ? OR lower(description) LIKE ?', "%#{search.downcase}%", "%#{search.downcase}%"])
+    search_term = search.strip
+    where(['lower(name) LIKE ? OR lower(description) LIKE ?', "%#{search_term.downcase}%", "%#{search_term.downcase}%"])
   end
 
   def image_url

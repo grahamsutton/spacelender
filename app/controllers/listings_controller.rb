@@ -182,6 +182,7 @@ class ListingsController < ApplicationController
   
   # search method
   def search
+      @favorited_listing = FavoritedListing.new
       @listings = Listing.search(params[:search].downcase)
       @results = Array.new
       @cityCoordinates = Geocoder.coordinates(params[:city])
@@ -191,17 +192,31 @@ class ListingsController < ApplicationController
       if !params[:city].nil? && params[:city] != ""
         @results = @listings.select { |listing| listing.location.distance_from(@cityCoordinates) < 50 }
       else
-        @listings.each do |listing|
-          @results << listing
-        end
+        @results = @listings
       end
       
       @coordinates = @results.map do |listing|
-        { :lat => listing.location.latitude, :lng => listing.location.longitude, :id => listing.id }
+        rates = {}
+        listing.rates.each do |rate|
+          rates[rate.date_range] = rate.amount
+        end
+
+        pictures = {}
+        listing.pictures.each_with_index do |img, index|
+          pictures[index] = img.image.url(:thumb)
+        end
+
+        { 
+          :lat => listing.location.latitude, 
+          :lng => listing.location.longitude, 
+          :slug => listing.slug, 
+          :title => listing.name, 
+          :rates => rates,
+          :pictures => pictures
+        }
       end
       
       @coordinates = @coordinates.to_json
-      
       respond_with(@results)
   end
 

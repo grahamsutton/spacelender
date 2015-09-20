@@ -24,7 +24,9 @@
               .col-md-12
                 #listings-youve-posted.listings-inner-tab.active.col-md-12
                   - if @listings.count > 0
-                    - @listings.each do |listing|
+                    - @listings.each_with_index do |listing, index|
+                      - if index % 4 == 0
+                        .row.row-divider
                       .col-md-3.padded-sides
                         .panel.panel-default.modern
                           .panel-body.padded

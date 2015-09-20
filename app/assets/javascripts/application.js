@@ -14,7 +14,6 @@
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require jquery-ui
-//= require gmaps-auto-complete
 //= require dropzone
 //= require bootstrap-sprockets
 //= require moment
@@ -31,7 +30,7 @@
 //= require jquery.validate
 //= require jquery.validate.additional-methods
 //= require toastr
-//= require gmaps/google
+//= require gmapsjs
 //= require turbolinks
 //= require_tree .
 

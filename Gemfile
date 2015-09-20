@@ -70,7 +70,7 @@ gem 'owlcarousel-rails'
 
 gem 'animate-rails'
 
-gem 'gmaps4rails'
+gem 'gmapsjs'
 
 gem 'responders'
 
@@ -85,8 +85,6 @@ gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 gem 'bootstrap3-datetimepicker-rails'
 
 gem 'jquery-ui-rails'
-
-gem 'gmaps-autocomplete-rails'
 
 gem 'bootstrap-datepicker-rails'
 

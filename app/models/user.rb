@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
 	# Associations
 	has_many :listings, :dependent => :destroy
   has_many :cards, :dependent => :destroy
+  has_many :favorited_listings, :dependent => :destroy
   #has_one :picture, :dependent => :destroy
 
 	# Validations

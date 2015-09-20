@@ -246,6 +246,31 @@ $(document).ready(function() {
 
 
 
+
+    //======================================
+    // Search Listing Results Page
+    //======================================
+
+    $(".search-listing-carousel").owlCarousel({
+      items: 1,
+      lazyLoad: true,
+      navigation: true,
+      navigationText: ["<i class='fa fa-angle-left fa-fw fa-4x'></i>", "<i class='fa fa-angle-right fa-fw fa-4x'></i>"]
+    });
+
+    // var handler = Gmaps.build('Google');
+    // var markers;
+    // handler.buildMap({ internal: {id: 'map'}, provider: { scrollwheel: false }}, function(){
+    //   markers = handler.addMarkers(#{@coordinates});
+    //   handler.bounds.extendWith(markers);
+    //   handler.fitMapToBounds();
+    //   //handler.getMap().setZoom(14);
+
+    //   google.maps.event.trigger(markers, 'click');
+    // });
+
+
+
     //======================================
     // Show Listing Page
     //======================================

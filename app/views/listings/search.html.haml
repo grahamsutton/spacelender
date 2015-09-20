@@ -1,81 +1,67 @@
 %style
-  body, #map { height: 100%; margin: 0px; }
-- if @results.count > 0
-  #search-results-container.row{ :class => ("no-results-css-fix" if @results.count == 0) }
-    .col-md-7.left-column
-      / Filter settings
-      .col-md-12
+  html, body { height: 100%; }
+- if @results.size > 0
+  .row
+    #search-results-container.col-md-7.left-column
+      .row
         .col-md-12
-          .panel.panel-default
-            .panel-body
-              .row
-                .col-md-6
-                  = link_to "+ Filter Search", "#", :id => "filter-search-link"
-                .col-md-6.text-right
-                  = @results.count
-                  results for:
-                  %strong
-                    = params[:search]
-                  - if !params[:city].nil? && params[:city] != ""
-                    in
-                    %strong
-                      = params[:city]
-            #display-filter-settings
-              %hr
-              .row
-                .col-md-12
-                  .col-md-12
-                    = form_tag({:controller => "listings", :action => "filter_search"}, :method => :get) do
-                      .row
-                        .col-md-9
-                          .input-group.search-input-group
-                            %span#search-icon-addon.input-group-addon
-                              %span.glyphicon.glyphicon-search
-                            = text_field_tag :search, nil, :class => "form-control", :placeholder => "        Search for spaces.", "aria-describedby" => "search-icon-addon"
+          .col-md-6
+            = button_tag :id => "filter-dropdown-btn", :class => "btn btn-default" do
+              %i.fa.fa-tasks.fa-fw
+              &nbsp;
+              Filter
+          .col-md-6.text-right.search-results-summary
+            %span
+              Found
+              %strong
+                = @results.size
+              listings
+              - if !params[:city].empty?
+                near
+                %strong
+                  = params[:city]
 
-      / Display results
-      .col-md-12
-        - @results.each do |listing|
-          .col-md-12
-            .panel.panel-default.search-result-container
-              .panel-body
-                .col-md-6.info-side.text-right
-                  %big
-                    %strong
-                      = link_to listing.name, listing_path(listing)
-                  %p
-                    = "#{listing.location.city}, #{listing.location.state}"
-                  Posted by:
-                  = link_to listing.user.first_name, root_path, :class => "primary-color"
-                  %p
-                    = pluralize(listing.pictures.count, "photo")
-                  .row.text-left
-                    .col-md-12
-                      .col-md-12
-                        %i.fa.fa-star-o.fa-lg.fa-fw
+        .col-md-12
+          - if @results.size > 0
+            - @results.each_with_index do |listing, index|
+              - if index % 2 == 0
+                .row
+              .col-md-6.search-listing-result
+                .panel.panel.modern
+                  .col-md-12.search-listing-carousel
+                    - if listing.pictures.size > 0
+                      - listing.pictures.each do |img|
+                        .col-md-12.search-listing-item
+                          %img.lazyOwl{ "data-src" => img.image.url(:small) }
+                  = form_for @favorited_listing, :remote => true do
+                    %i.fa.fa-bookmark-o.fa-fw.fa-2x.search-listing-result-bookmark.active
+                  .panel-body.padded
+                    .row
+                      .col-md-7
+                        .search-listing-title
+                          = link_to listing.name, listing_path(listing)
                         %small
-                          = link_to "Save"
-                .col-md-6.pictures-side
-                  .search-result-carousel
-                    - if listing.pictures
-                      - listing.pictures.each do |pic|
-                        .item
-                          = image_tag pic.image.url(:original)
-                .panel.panel-default.result-rates-display
-                  .panel-body
-                    %ul.list-unstyled
-                      - listing.rates.each do |rate|
-                        %li
-                          %span.rate-amount
-                            = number_to_currency(rate.amount).gsub(/\.00$/, "")
-                          %span.rate-date-range
-                            = rate.date_range
-      = render 'layouts/footer'
+                          = listing.location.very_ambiguous_address
+                      .col-md-5
+                        .search-listing-rates.clearfix
+                          %ul.list-unstyled.clearfix
+                            - if listing.rates.size > 0
+                              - listing.rates.each do |rate|
+                                %li
+                                  .col-md-5.text-right
+                                    = rate.date_range
+                                  .col-md-7.text-right
+                                    = number_to_currency(rate.amount).gsub(/\.00/, "")
+          
              
-    .col-md-5.right-column
-      #google-map
-        #map-outer-container.col-md-12
-          #map.search-results-map
+    #map-container.col-md-5.right-column
+      #map-inner-container.row{ :style => "width: 100%; height: 100%;" }
+        #map{ :style => "width: 100%; height: 100%;" }
+        
+
+
+
+
 - else
   #search-results-container.row
     .col-md-7.left-column
@@ -96,54 +82,71 @@
                     %strong
                       = params[:city]
 
-- if (@results.length > 0)           
-  :javascript
-    var Hilitor;Hilitor=function(e,t){var i,o,n,s,h,r,a,l,d;l=document.getElementById(e)||document.body,n=t||"EM",a=new RegExp("^(?:"+n+"|SCRIPT|FORM|SPAN)$"),o=["#ff6","#a0ffff","#9f9","#f99","#f6f"],d=[],i=0,s="",h=!1,r=!1,this.setMatchType=function(e){switch(e){case"left":this.openLeft=!1,this.openRight=!0;break;case"right":this.openLeft=!0,this.openRight=!1;break;case"open":this.openLeft=this.openRight=!0;break;default:this.openLeft=this.openRight=!1}},this.setRegex=function(e){var t;e=e.replace(/^[^\w]+|[^\w]+$/g,"").replace(/[^\w'-]+/g,"|"),t="("+e+")",this.openLeft||(t="\\b"+t),this.openRight||(t+="\\b"),s=new RegExp(t,"i")},this.getRegex=function(){var e;return e=s.toString(),e=e.replace(/(^\/(\\b)?|\(|\)|(\\b)?\/i$)/g,""),e=e.replace(/\|/g," ")},this.hiliteWords=function(e){var t,h,r,l,f;if(void 0!==e&&e&&s&&!a.test(e.nodeName)){if(e.hasChildNodes())for(h=0;h<e.childNodes.length;)this.hiliteWords(e.childNodes[h]),h++;3===e.nodeType&&(l=e.nodeValue)&&(f=s.exec(l))&&(d[f[0].toLowerCase()]||(d[f[0].toLowerCase()]=o[i++%o.length]),r=document.createElement(n),r.appendChild(document.createTextNode(f[0])),r.style.backgroundColor=d[f[0].toLowerCase()],r.style.fontStyle="inherit",r.style.color="#000",t=e.splitText(f.index),t.nodeValue=t.nodeValue.substring(f[0].length),e.parentNode.insertBefore(r,t))}},this.remove=function(){var e,t,i;for(e=document.getElementsByTagName(n);e.length&&(t=e[0]);)i=t.parentNode,i.replaceChild(t.firstChild,t),i.normalize()},this.apply=function(e){this.remove(),void 0!==e&&e&&(this.setRegex(e),this.hiliteWords(l))}};
-  
-    $(document).ready(function(event) {
-      myHilitor = new Hilitor("table");
-      myHilitor.apply("#{@search}");
 
+:javascript
+  $(document).ready(function() {
+      // Adjust "search view" styles
+      $("nav").addClass("navbar-fixed-top");
+      $("nav").css("padding-right", "15px");
+      $("body").css("padding-top", "70px");
 
-      // Search Result Carousel of images
-      $(".search-result-carousel").owlCarousel({
-           items : 1,
-           itemsDesktop : [1199,3],
-           itemsDesktopSmall : [979,3]
-     
+      // Create Map
+      var bounds = new google.maps.LatLngBounds();
+      var map = new GMaps({
+        div: "#map",
+        zoom: 14,
+        disableDefaultUI: true,
+        zoomControl: true
       });
 
+      var coordinates = #{@coordinates};
 
-      // Shows the Filter Search settings when the link "Filter Search" link is clicked
-      $("#filter-search-link").on("click", function(e) {
-        e.preventDefault();
+      for (var i = 0; i < coordinates.length; i++) {
+        var rates = "";
+        //var pictures = '<div class="search-listing-carousel-map">';
 
-        $("#display-filter-settings").slideToggle();
-      });
+        $.each(coordinates[i].rates, function(key, value) {
+          rates += '<div class="col-md-6">'
+                +     key
+                +  '</div>'
+                +  '<div class="col-md-6 text-right">'
+                +     '$' + value
+                +  '</div>' 
+        });
 
-      // Tooltip for images on hover
-      // $(".pictures-side").tooltipster({
-      //   content: $("<p><strong>Hold Click + Drag</strong> to the <strong>LEFT</strong> to see more photos!</p>"),
-      //   hideOnClick: true
-      // });
-      
-    }); //end document.ready
+        /* $.each(coordinates[i].pictures, function(key, value) {
+          pictures += '<div class="search-listing-item">'
+                    +   '<img class="lazyOwl" data-src="' + value + '">'
+                    + '</div>';
+        });
+
+        pictures += '</div>'; */
 
 
 
+        var marker = map.addMarker({
+          lat: coordinates[i].lat,
+          lng: coordinates[i].lng,
+          title: coordinates[i].title,
+          position: new google.maps.LatLng(coordinates[i].lat, coordinates[i].lng),
+          infoWindow: {
+            content: '<div class="overlay">' 
+                        + '<a href="/listings/' + coordinates[i].slug + '">' + coordinates[i].title + '</a>'
+                    //+ '<div class="row">'
+                    //+   pictures
+                    //+ '</div>'
+                    + '<ul class="list-unstyled">'
+                    +   '<li>'
+                    +     '<div class="row">'
+                    +       rates
+                    +     '</div>'
+                    +   '</li>'
+                    + '</ul>'
+                  + '</div>'
+          }
+        });
 
-    
-    var handler = Gmaps.build('Google');
-    var markers;
-    handler.buildMap({ internal: {id: 'map'}, provider: { scrollwheel: false }}, function(){
-      markers = handler.addMarkers(#{@coordinates});
-      handler.bounds.extendWith(markers);
-      handler.fitMapToBounds();
-      //handler.getMap().setZoom(14);
-
-      google.maps.event.trigger(markers, 'click');
-    });
-
-    $(".search-result-container").on("hover", function() {
-      
-    });
+        bounds.extend(marker.position);
+        map.fitBounds(bounds);
+      }
+  });

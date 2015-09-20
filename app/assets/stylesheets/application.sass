@@ -30,7 +30,6 @@
 @import "bootstrap-datetimepicker"
 @import url(http://fonts.googleapis.com/css?family=Handlee)
 //@import url(http://fonts.googleapis.com/css?family=Chivo)
-//@import url(https://fonts.googleapis.com/css?family=Pontano+Sans)
 @import url(https://fonts.googleapis.com/css?family=Oxygen)
 
 // Color Palette
@@ -75,6 +74,11 @@ a
 	font-family: $secondary-font
 	color: $secondary-color
 
+a:hover
+	text-decoration: none
+	font-weight: bold
+	color: $secondary-color-dark
+
 .btn:focus,
 a:focus
 	box-shadow: none !important
@@ -92,6 +96,9 @@ h6,
 .squiggly
 	font-family: 'Handlee' !important
 	color: $secondary-color
+
+.navbar-brand:hover
+	font-weight: normal
 
 label
 	color: $black-color !important
@@ -125,6 +132,9 @@ table
 	td.table-padded-select
 		padding-top: 20px !important
 		padding-bottom: 20px !important
+
+.row.row-divider
+	margin-bottom: 24px
 
 .dropdown-menu
 	border-radius: 0
@@ -482,6 +492,88 @@ table
 	input[type="password"],
 	.panel-heading
 		box-shadow: 0px 0px 1px rgba(127, 127, 127, 0.375) !important
+
+
+#map-container
+	position: fixed
+	right: 0
+	height: 100%
+	padding-top: 64px
+	padding-left: 0px
+	padding-right: 0px
+	top: 0
+	border-left: $soft-border
+
+	#map-inner-container
+		margin: 0
+
+.map-fixed-navbar
+	position: fixed
+
+#search-results-container
+	padding-top: 10px
+
+	#filter-dropdown-btn
+		margin-bottom: 10px
+
+	.search-results-summary,
+	.search-results-summary span
+		padding-top: 6px
+		padding-bottom: 6px
+
+
+// Template for individual Search Result listings
+.search-listing-result
+	.search-listing-carousel
+		.search-listing-item
+			img
+				display: block
+				height: auto
+				width: 100%
+
+	.search-listing-title
+		font-size: 120%
+
+	.search-listing-rates
+		ul
+			margin-top: 5%
+			margin-bottom: 0
+
+	.search-listing-result-bookmark
+		position: absolute
+		right: 5%
+		top: 5%
+		color: #FFF
+		opacity: 0.5
+
+	.search-listing-result-bookmark:hover
+		opacity: 1
+		cursor: pointer
+
+	// .search-listing-result-bookmark.active
+	// 	color: #ffcc88
+	// 	opacity: 1
+
+	.owl-pagination
+		display: none
+
+	.owl-buttons
+		position: absolute
+		bottom: 60%
+		width: 100%
+		
+		div
+			padding: 0 !important
+			margin: 0 !important
+			background: none !important
+
+		.owl-prev
+			position: absolute
+			left: -5%
+
+		.owl-next
+			position: absolute
+			right: -5%
 
 
 .panel.modern

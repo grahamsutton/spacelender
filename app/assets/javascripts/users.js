@@ -89,16 +89,16 @@ $(document).ready(function() {
     wow.init();
 
     // Gmaps AutoComplete for Search Bar
-    jQuery(function() {
-      var completer;
+    // jQuery(function() {
+    //   var completer;
     
-      completer = new GmapsCompleter({
-        inputField: '#city',
-        errorField: '#gmaps-error'
-      });
+    //   completer = new GmapsCompleter({
+    //     inputField: '#city',
+    //     errorField: '#gmaps-error'
+    //   });
     
-      completer.autoCompleteInit({
-        country: "us"
-      });
-    });
+    //   completer.autoCompleteInit({
+    //     country: "us"
+    //   });
+    // });
 });

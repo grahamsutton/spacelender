@@ -136,9 +136,7 @@ GEM
     geocoder (1.2.9)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
-    gmaps-autocomplete-rails (0.1.4)
-      rails (>= 3.1.0)
-    gmaps4rails (2.1.2)
+    gmapsjs (0.4.16)
     haml (4.0.7)
       tilt
     haml-rails (0.9.0)
@@ -363,8 +361,7 @@ DEPENDENCIES
   friendly_id
   fullcalendar-rails
   geocoder
-  gmaps-autocomplete-rails
-  gmaps4rails
+  gmapsjs
   haml-rails
   jbuilder (~> 2.0)
   jquery-rails
