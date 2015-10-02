@@ -4,7 +4,7 @@ $(document).ready(function() {
 	// Stripe Config
 	//======================================
 
-	Stripe.setPublishableKey("pk_test_uBxr1leBtJ52vOzNYKH458LL");
+	Stripe.setPublishableKey("pk_test_clq5kjvbP5jlx43GycNL6sRG");
 
 	$("#new-card-form").on("submit", function(e) {
 		var form = $(this);
@@ -38,6 +38,7 @@ $(document).ready(function() {
 			// Add stripe token
 			//form.find("#stripeToken").attr("value", token);
       		form.append($("<input type='hidden' name='stripeToken' />").val(token));
+      		form.append($("<input type='hidden' name='card_last4' />").val($(".payment-card-number").val().slice(-4)));
 
 			// Send
 			form.get(0).submit();

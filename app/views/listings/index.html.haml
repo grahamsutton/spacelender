@@ -27,9 +27,9 @@
                     - @listings.each_with_index do |listing, index|
                       - if index % 4 == 0
                         .row.row-divider
-                      .col-md-3.padded-sides
+                      .col-md-4.padded-sides
                         .panel.panel-default.modern
-                          .panel-body.padded
+                          .panel-body
                             .col-md-12.listings-img-container
                               = image_tag listing.pictures.first.image.url(:small), :class => "img-responsive"
                             .row

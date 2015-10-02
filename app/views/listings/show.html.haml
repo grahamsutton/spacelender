@@ -1,4 +1,15 @@
 #listing-cover-photo-backdrop.counter-navbar-margin.row
+  #listing-cover-rates.col-md-2
+    .panel.modern.padded.clearfix
+      - if @listing.rates.size > 0
+        - @listing.rates.order("created_at ASC").each do |rate|
+          %ul.list-unstyled
+            %li
+              .col-md-4
+                = rate.date_range[0,1].capitalize
+              .col-md-8
+                = number_to_currency(rate.amount).gsub(/\.00/, "")
+
   #listing-cover-photo.section.row{ :style => "background: url('#{@listing.pictures.first.image.url(:large)}') no-repeat center;" }
 
 #listing-details.row
@@ -55,7 +66,15 @@
             %h4
               = @listing.name
           .col-md-4.text-right
-            = button_tag "Make A Request", :id => "make-a-request-btn", :class => "btn btn-primary", "data-toggle" => "modal", "data-target" => ".modal-launch-1"
+            - if @current_user && @listing.user != @current_user
+              = button_tag "Make A Request", :id => "make-a-request-btn", :class => "btn btn-primary", "data-toggle" => "modal", "data-target" => ".modal-launch-1"
+            - else
+              = link_to edit_listing_path(@listing), :class => "btn btn-default" do
+                %i.fa.fa-cog.fa-fw
+                Edit
+          .col-md-12
+            = safe_join(@listing.description.split("\r\n"), "<br />".html_safe)
+
                 
 
     .panel.panel-default.modern
@@ -68,6 +87,12 @@
             %br
             %p.lead
               = @listing.user.first_name
+            %br
+            - if @current_user && @listing.user != @current_user
+              = button_tag :class => "btn btn-default", "data-toggle" => "modal", "data-target" => ".modal-launch-2" do
+                %i.fa.fa-envelope.fa-fw
+                &nbsp;
+                Contact
           .col-md-5
             %strong
               Listing Posted:
@@ -92,65 +117,83 @@
             %h4 Rates
       %table.table.table-bordered
         %tbody
-          - @listing.rates.each do |rate|
+          - @listing.rates.order("created_at ASC").each do |rate|
             %tr
               %th
                 = rate.date_range
               %td
                 = number_to_currency(rate.amount)
 
-    / Listing Pictures
-    .panel.panel-default.modern
-      .panel-body.padded
-        .row
-          .col-md-12
-            %h4
-              Description
-          .col-md-12
-            = safe_join(@listing.description.split("\r\n"), "<br />".html_safe)
+- if @current_user && @listing.user != @current_user
+  @slug = @listing.user.slug
 
-- if @current_user
   / Reservation Modal
   = render 'listings/reservation_modal'
-- else
+  = render 'messages/compose'
+- elsif !@current_user
   = render 'layouts/login_or_register_modal'
 
 
 :javascript
   $(document).ready(function() {
 
-    // For Hourly rates only
+    $(".resrv-next-btn").on("click", function() {
+      if ($("#reservation-step-2").hasClass("active")) {
+        var timeRange = $(".rate-radio-btn:checked").data("time-range");
+        calculate(timeRange);
+      }
+    });
+
+    // For Hourly and Daily rates only
     $("#start").datetimepicker().on("dp.change", function(e) {
       if ($("#end").val() !== "") {
+        var timeRange = $(".rate-radio-btn:checked").data("time-range");
+        calculate(timeRange);
+      }
+    });
+
+    // For Hourly and Daily rates only
+    $("#end").datetimepicker().on("dp.change", function(e) {
+      var timeRange = $(".rate-radio-btn:checked").data("time-range");
+      calculate(timeRange);
+    });
+
+
+    function calculate(timeRange) {
+      //Hourly
+      if (timeRange === "hourly") {
         // Get total hours and estimated total
         totalHours = getTotalHours($("#start").val(), $("#end").val());
         estimatedTotal = totalHours * #{@listing.rates.hourly.first.amount};
 
-        // Append the rate to the Review Section
-        $(".review-rate").html(totalHours + " x " + "#{number_to_currency(@listing.rates.hourly.first.amount)}");
+        appendToReview(totalHours, "hours", "#{number_to_currency(@listing.rates.hourly.first.amount)}");
 
         // Update the estimates review
-        updateEstimates(totalHours, estimatedTotal);
+        updateEstimates(totalHours, estimatedTotal, "hrs");
+
+
+      // Daily
+      } else if (timeRange === "daily") {
+        totalDays = getTotalDays($("#start").val(), $("#end").val());
+        totalDays++; // Increment by one because same start and end date implies "one day"
+        estimatedTotal = totalDays * #{@listing.rates.daily.first.amount};
+        updateEstimates(totalDays, estimatedTotal, "days");
+
+        appendToReview(totalDays, "days", "#{number_to_currency(@listing.rates.daily.first.amount)}");
       }
-    });
+    }
 
-    // For Hourly rates only
-    $("#end").datetimepicker().on("dp.change", function(e) {
-      // Get total hours and estimated total
-      totalHours = getTotalHours($("#start").val(), $("#end").val());
-      estimatedTotal = totalHours * #{@listing.rates.hourly.first.amount};
 
-      // Append the rate to the Review Section
-      $(".review-rate").html(totalHours + " x " + "#{number_to_currency(@listing.rates.hourly.first.amount)}");
-      
-      // Update the estimates review
-      updateEstimates(totalHours, estimatedTotal);
-    });
+    function appendToReview(timeAmount, timeType, rateAmount) {
+      $(".review-start-date").html($("#start").val());
+      $(".review-end-date").html($("#end").val());
+      $(".review-rate").html(timeAmount + " " + timeType + " x " + rateAmount);
+    }
 
-    function updateEstimates(totalHours, estimatedTotal) {
-      $(".total-time-amount").html(totalHours + " hrs");
+    function updateEstimates(timeTotal, estimatedTotal, shortTimeRange) {
+      $(".total-time-amount").html(timeTotal + " " + shortTimeRange);
       $(".estimated-total-amount").html("$" + estimatedTotal + ".00");
-      $(".review-time-amount").html(totalHours);
+      $(".review-time-amount").html(timeTotal);
 
       // For Review Section
       $(".review-total").html("$" + estimatedTotal + ".00");
@@ -159,7 +202,14 @@
     function getTotalHours(startTime, endTime) {
       var ms = moment(endTime, "hh:mm A - ddd, MMM D").diff(moment(startTime, "hh:mm A - ddd, MMM D"));
       var d = moment.duration(ms);
-      var s = Math.floor(d.asHours());
+      var s = parseFloat(d.asHours());
+      return s;
+    }
+
+    function getTotalDays(startTime, endTime) {
+      var ms = moment(endTime, "ddd, MMM D").diff(moment(startTime, "ddd, MMM D"));
+      var d = moment.duration(ms);
+      var s = Math.floor(d.asDays());
       return s;
     }
   });

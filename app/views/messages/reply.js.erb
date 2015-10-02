@@ -1,0 +1,5 @@
+$("<%= escape_javascript( render :partial => 'messages/new_reply' ) %>").insertBefore(".reply-textarea");
+$(".reply-btns").removeClass("active");
+$("#cancel-reply-btn").click();
+$("#replied-notice").html("<i class='fa fa-check fa-fw'></i>&nbsp; You replied at <%= @reply.created_at.strftime('%l:%M %p, %b %-d, %Y') %>");
+$("#new-reply-form")[0].reset();

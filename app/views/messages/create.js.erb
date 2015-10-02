@@ -1,0 +1,4 @@
+$("#new-message-form .modal-header p").remove();
+$("#new-message-form .modal-title").empty();
+$("#new-message-form .modal-footer").empty();
+$("#messages-modal-table").replaceWith("<%= escape_javascript( render :partial => 'messages/message_sent' ) %>");

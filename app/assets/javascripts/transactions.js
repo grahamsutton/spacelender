@@ -4,7 +4,7 @@ $(document).ready(function() {
 	// Stripe Config
 	//======================================
 
-	Stripe.setPublishableKey("pk_test_uBxr1leBtJ52vOzNYKH458LL");
+	Stripe.setPublishableKey("pk_test_clq5kjvbP5jlx43GycNL6sRG");
 
 	$("#new-card-form").on("submit", function(e) {
 		var form = $(this);

@@ -5,13 +5,12 @@ class ReservationsController < ApplicationController
 	before_filter :current_user
 
 	def index
-		#@listing = Listing.includes(:reservations).find(params[:listing_id])
-		#@reservations = @listing.reservations.all
-
     # Get current user's listings
     @listings = @current_user.listings
     @reservations = []
     @requested_reservations = []
+    @current_user = current_user
+    @message = @current_user.messages.build
 
     # Get current user's reservations
     @listings.each do |listing|
@@ -34,24 +33,6 @@ class ReservationsController < ApplicationController
     @current_user = current_user
 		@reservation = @listing.reservations.new(reservation_params)
     @reservation.booker_id = @current_user.id
-
-    #token = params[:stripeToken]
-
-    #customer = Stripe::Customer.retrieve(@current_user.customer_token)
-    #card = customer.sources.create(:source => token)
-    #@current_user.cards.create(:card_token => card.id)
-
-    # charge = Stripe::Charge.create({
-    #   :amount => (@reservation.rate.amount * 100).to_i * time,
-    #   :currency => "usd",
-    #   :source => token,
-    #   :description => "Test Charge",
-    #   :application_fee => (((@reservation.rate.amount * 100).to_i * time) * ENV['spacelender_application_fee'].to_f).to_i
-    # },
-    # {
-    #   :stripe_account => @listing.user.uid
-    # })
-    #rescue Stripe::CardError => e
 
 		if @reservation.save
 

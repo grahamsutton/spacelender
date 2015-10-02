@@ -1,52 +1,131 @@
-#messages-container.row.fight-navbar-margin
-  #messages-controls.col-md-2
-    .col-md-12
-      .row.text-center
-        = button_tag :compose, :class => "btn btn-default", :value => "Compose"
-      .row
-        .col-md-12.text-right
-          %ul.list-unstyled
-            %li
-              = link_to "Inbox"
-            %li
-              = link_to "Sent"
-            %li
-              = link_to "Drafts"
-  #messages-list.col-md-4
-    .panel.message-panel
-      .panel-body
-        .row
-          .col-md-8
-            %h5
-              Username
-          .col-md-4
-            %small
-              = distance_of_time_in_words(Time.now + 5000, Time.now)
-        %p
-          Lorem ipsum text and stuff bro.
-    .panel.message-panel
-      .panel-body
-        .row
-          .col-md-8
-            %h5
-              Username
-          .col-md-4
-            %small
-              = distance_of_time_in_words(Time.now + 5000, Time.now)
-        %p
-          Lorem ipsum text and stuff bro.
-    .panel.message-panel
-      .panel-body
-        .row
-          .col-md-8
-            %h5
-              Username
-          .col-md-4
-            %small
-              = distance_of_time_in_words(Time.now + 5000, Time.now)
-        %p
-          Lorem ipsum text and stuff bro.
+#messages-content.row.section.no-shadow
+  .col-md-10.col-md-offset-1
+    #messages.panel.panel-default.modern.dashboard-tab
+      .panel-body.tab-display
+        .form-container.row
+          #messages-header.row
+            .col-md-4.padded
+              %h4
+                Messages
+            .col-md-8.padded
+              = text_field_tag :search_message, nil, :class => "form-control", :placeholder => "Type here to filter", :id => "filter-messages-field"
+          .col-md-2.padded
+            %ul#messages-content-control.list-unstyled
+              %li
+                .row
+                  .col-md-12
+                    = link_to "Inbox", "#inbox", :class => "messages-tab-link active btn btn-primary form-control"
+              %li
+                .row
+                  .col-md-12
+                    = link_to "Sent", "#sent", :class => "messages-tab-link btn btn-primary form-control"
+              %li.divider
+              %li.divider
+              %li
+                .row
+                  .col-md-12.text-center
+                    %small
+                      Actions
+              %li
+                .row
+                  .col-md-12
+                    = button_tag "Mark as Read", :class => "btn btn-default form-control"
+              %li
+                .row
+                  .col-md-12
+                    = button_tag "Delete Selected", :class => "btn btn-default form-control"
+          .col-md-10.padded
 
-  #messages-display.col-md-6
-    .col-md-12
-      Even more stuff
+            / Inbox
+            #inbox.messages-tab.active
+              -  if @inbox_messages.size > 0
+                %table.table
+                  %thead
+                    %tr
+                      %th.text-center
+                        = check_box_tag :select_all, "", false, :class => "select-all-messages", :id => "inbox-select-all-checkbox"
+                      %th
+                        From
+                      %th
+                        Subject
+                      %th
+                        Date
+                  %tbody
+                    - @inbox_messages.each do |message|
+                      %tr{ :class => ("message-read" unless !message.read), "data-href" => "#{message_path(message)}" }
+                        %td.col-md-1.padded-sides.text-center
+                          = check_box_tag :message_token, message.token, false, :class => "message-checkbox"
+                        %td.col-md-2.padded-sides
+                          = message.user.first_name
+                        %td.col-md-7.padded-sides
+                          = message.subject
+                        %td.col-md-2.padded-sides
+                          - if 1.day.ago < message.created_at
+                            = message.created_at.strftime("%l:%M %p")
+                          - else
+                            = message.created_at.strftime("%m/%-d/%y")
+              - else
+                .col-md-12.text-center
+                  %p.lead
+                    You haven't received any messages yet.
+                  %small
+                    If you need to send a message, visit the user's profile you're looking for (or one of their listings) and click the "Contact" button.
+
+            / Sent
+            #sent.messages-tab
+              -  if @sent_messages.size > 0
+                %table.table
+                  %thead
+                    %tr
+                      %th.text-center
+                        = check_box_tag :select_all, "", false, :class => "select-all-messages", :id => "inbox-select-all-checkbox"
+                      %th
+                        From
+                      %th
+                        Subject
+                      %th
+                        Date
+                  %tbody
+                    - @sent_messages.each do |message|
+                      %tr{ :class => "message-read", "data-href" => "#{message_path(message)}" }
+                        %td.col-md-1.padded-sides.text-center
+                          = check_box_tag :message_token, message.token, false, :class => "message-checkbox"
+                        %td.col-md-2.padded-sides
+                          - if message.user == @current_user
+                            Me
+                          - else
+                            = message.user.first_name
+                        %td.col-md-7.padded-sides
+                          = message.subject
+                        %td.col-md-2.padded-sides
+                          - if 1.day.ago < message.created_at
+                            = message.created_at.strftime("%l:%M %p")
+                          - else
+                            = message.created_at.strftime("%m/%-d/%y")
+              - else
+                .col-md-12.text-center
+                  %p.lead
+                    You haven't send any messages yet.
+                  %small
+                    If you need to send a message, visit the user's profile you're looking for (or one of their listings) and click the "Contact" button.
+
+            / Trash
+            #trash.messages-tab
+              %table.table.table-bordered
+                %tbody
+                  -  if @inbox_messages.size > 0
+                    - @inbox_messages.each do |message|
+                      %tr
+                        %td
+                          = check_box_tag :message_token, :value => message.token
+                        %td
+                          = message.user.first_name
+                        %td
+                          This is the subject line
+                        %td
+                          = message.created_at.strftime("%b %-d, %Y")
+
+
+
+#show-message-modal.modal-launch-2.modal.fade
+

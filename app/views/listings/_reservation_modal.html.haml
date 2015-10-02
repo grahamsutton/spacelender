@@ -65,6 +65,9 @@
                 Before you go any further, we wanted to remind you about a few things when dealing with lenders:
               %ul
                 %li
+                  %strong
+                    NEVER attempt to pay a lender outside of SpaceLender. If someone pressures you to pay outside of SpaceLender, it is most likely a scam. Please report them to us at support@spacelender.com. 
+                %li
                   You can make a payment <em>after</em> the reservation has been accepted.
                 %li
                   Although not required, we recommend that you get in contact with the lender after they accept your request to verify the details of your reservation directly.
@@ -80,48 +83,6 @@
                   We also recommend that you pay on the <strong>starting day or time</strong> of your reservation.
                 %li
                   Theft, vandalism, verbal or physical abuse toward a lender, and/or any type of damage, either to the lender or the lender's property, can be immediate grounds for having your account terminated.
-
-          /   .col-md-12
-          /     .row
-          /       .col-md-12
-          /         %p
-          /           You will
-          /           %strong
-          /             NOT
-          /           be charged for this request. We only need a credit card to validate the card you will be paying with later if the lender approves your request.
-          /         %p
-          /           %strong
-          /             You do not pay until the day you arrive and approve that the location and the details are legitimate.
-                    
-          /       #reservation-cc-section.col-md-12
-          /         .row
-          /           .col-md-12
-          /             = f.radio_button :
-          /         #new-payment-method
-          /           .col-md-6
-          /             = text_field_tag :card_number, "", :name => "", :class => "form-control", :placeholder => "Card Number", "data-stripe" => "number", :disabled => "disabled"
-          /           .col-md-3
-          /             = select_tag :exp_month, options_for_select(credit_card_months), { name: "", class: "form-control", "data-stripe" => "exp-month", :prompt => "Exp. Month (MM)", :disabled => "disabled" }
-          /           .col-md-3
-          /             = text_field_tag :exp_year, "", :name => "", :class => "form-control", "data-stripe" => "exp-year", :placeholder => "Exp. Year (YYYY)", :maxlength => 4, :disabled => "disabled"
-          /           .col-md-4
-          /             = text_field_tag :cvc, "", :name => "", :class => "form-control", :placeholder => "CVC", "data-stripe" => "cvc", :disabled => "disabled"
-          /           .col-md-8
-          /             = text_field_tag :name, "", :name => "", :class => "form-control", :placeholder => "Name on Card", :disabled => "disabled"
-          / .col-md-12
-          /   .col-md-12
-          /     .row
-          /       %small
-          /         We Accept:
-          /       %ul.list-unstyled.list-inline.we-accept
-          /         %li
-          /           %i.fa.fa-cc-visa.fa-2x
-          /         %li
-          /           %i.fa.fa-cc-mastercard.fa-2x
-          /         %li
-          /           %i.fa.fa-cc-amex.fa-2x
-          /         %li
-          /           %i.fa.fa-cc-discover.fa-2x
                 
                 
           #reservation-step-5.reservation-inner-tab.end-tab.row{ "data-modal-title" => "Review"}

@@ -8,11 +8,11 @@
         %h5
           Transactions
       %li.list-group-item
-        = link_to "#received", :class => "transactions-inner-tab-link active" do
-          Received
-      %li.list-group-item
-        = link_to "#sent", :class => "transactions-inner-tab-link" do
-          Sent
+        = link_to "#account-overview", :class => "transactions-inner-tab-link active" do
+          Account Overview
+      / %li.list-group-item
+      /   = link_to "#sent", :class => "transactions-inner-tab-link" do
+      /     Sent
       %li.list-group-item
         = link_to "#cards-on-file", :class => "transactions-inner-tab-link" do
           Cards On File
@@ -26,7 +26,42 @@
           .form-container.row
 
             .col-md-12
-              .col-md-10.col-md-offset-1
+              .col-md-12
+
+                / Account Overview
+                #account-overview.transactions-inner-tab.active
+                  .col-md-12.padded-sides
+                    .panel.panel-default.modern
+                      - if @payments_received.size > 0
+                        .panel-body.padded
+                          %h5 Account Overview
+                        %table.table
+                          %tbody
+                            - @payments_received.each do |payment|
+                              - payer = User.find(payment.payer_id)
+                              %tr
+                                %td.success
+                                  = "+ #{number_to_currency(payment.amount.to_f / 100)}"
+                                %td
+                                  = link_to "#{payer.first_name} #{payer.last_name}", user_path(payer)
+                                %td
+                                  Card ending in
+                                  %strong
+                                    = payment.card_last4
+                                %td
+                                  = payment.created_at("%l:%M %p, %m/%-d/%Y")
+                      - else
+                        .panel-body.padded
+                          %p.lead.text-center
+                            No received payments yet.
+                          %p.text-center
+                            You can't make bread until you roll in some dough.
+                          %p.text-center
+                            Try
+                            = link_to "listing a space", new_listing_path
+                            to start rolling in the dough!
+
+
 
                 / Cards On File
                 #cards-on-file.transactions-inner-tab
@@ -50,13 +85,13 @@
 
                 / Store New Card
                 #store-new-card.transactions-inner-tab
-                  .col-md-6.padded-sides
-                    .panel.panel-default.modern
-                      .panel-body.padded-sides
-                        %h5 Store New Card
-                        .payment-errors
-                      %table.table.table-bordered
-                        = form_for [@current_user, @card], :url => cards_create_path, :html => { :id => "new-card-form" } do
+                  = form_for [@current_user, @card], :url => cards_create_path, :html => { :id => "new-card-form" } do
+                    .col-md-6.padded-sides
+                      .panel.panel-default.modern
+                        .panel-body.padded-sides
+                          %h5 Store New Card
+                          .payment-errors
+                        %table.table.table-bordered
                           %tbody
                             %tr
                               %td
@@ -73,6 +108,21 @@
                             %tr
                               %td
                                 = text_field_tag :name, "", :name => "", :class => "form-control card-name", :placeholder => "Name on Card"
-                            %tr
-                              %td.btn-cell
-                                = button_tag "Add Card", :type => "submit", :id => "new-card-btn", :class => "btn btn-primary"
+                        .panel-footer
+                          = button_tag "Add Card", :type => "submit", :id => "new-card-btn", :class => "btn btn-primary form-control"
+
+
+- if params[:d]
+  :javascript
+    // Defaults to specific tab if one is specified
+    $(document).ready(function() {
+      if ("#{params[:d]}" !== "") {
+
+        $(".transactions-inner-tab-link").removeClass("active");
+
+        $("##{params[:d]}-link").addClass("active");
+
+        $(".transactions-inner-tab").removeClass("active");
+        $("##{params[:d]}").addClass("active");
+      }
+    });

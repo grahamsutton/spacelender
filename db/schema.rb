@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150919215730) do
+ActiveRecord::Schema.define(version: 20150930203245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,8 @@ ActiveRecord::Schema.define(version: 20150919215730) do
     t.datetime "updated_at",     null: false
     t.integer  "reservation_id"
     t.integer  "payer_id"
+    t.string   "card"
+    t.string   "card_last4"
   end
 
   add_index "invoices", ["reservation_id"], name: "index_invoices_on_reservation_id", using: :btree
@@ -100,6 +102,8 @@ ActiveRecord::Schema.define(version: 20150919215730) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.boolean  "read",        default: false
+    t.string   "token"
+    t.string   "reply"
   end
 
   add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
@@ -121,10 +125,10 @@ ActiveRecord::Schema.define(version: 20150919215730) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
-    t.integer  "listing_id"
+    t.string   "imageable_type"
+    t.integer  "imageable_id"
+    t.text     "image_meta"
   end
-
-  add_index "pictures", ["listing_id"], name: "index_pictures_on_listing_id", using: :btree
 
   create_table "rates", force: :cascade do |t|
     t.integer  "rateable_id"
@@ -178,8 +182,8 @@ ActiveRecord::Schema.define(version: 20150919215730) do
     t.string   "email"
     t.string   "password"
     t.string   "password_salt"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "slug"
     t.string   "publishable_key"
     t.string   "provider"
@@ -187,6 +191,8 @@ ActiveRecord::Schema.define(version: 20150919215730) do
     t.string   "access_code"
     t.integer  "role",            default: 0
     t.string   "customer_token"
+    t.float    "total_income",    default: 0.0
+    t.boolean  "tos"
   end
 
   add_foreign_key "cards", "users"
@@ -196,7 +202,6 @@ ActiveRecord::Schema.define(version: 20150919215730) do
   add_foreign_key "listings", "users"
   add_foreign_key "locations", "listings"
   add_foreign_key "messages", "users"
-  add_foreign_key "pictures", "listings"
   add_foreign_key "reservations", "listings"
   add_foreign_key "transactions", "reservations"
 end

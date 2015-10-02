@@ -2,6 +2,7 @@ class ListingsController < ApplicationController
   require 'stripe'
 
   before_filter :current_user
+  before_filter :set_new_message
   before_filter :require_login, :except => [:show, :search, :update, :edit]
 
   respond_to :html, :xml, :json
@@ -10,8 +11,12 @@ class ListingsController < ApplicationController
     @current_user = current_user
     @renter_reservations = @current_user.reservations_as_renter
     @lender_reservations = @current_user.reservations_as_lender
-    #@latest_news = @current_user.latest_news
     @stripe_merchant_account = @current_user.stripe_merchant_account
+    @balance = Stripe::Balance.retrieve({ :stripe_account => @current_user.uid })
+
+    if @current_user.picture.nil?
+      @picture = Picture.new
+    end
 
     # Get News Feed
     @activities = PublicActivity::Activity.order("created_at desc")
@@ -90,7 +95,7 @@ class ListingsController < ApplicationController
       else
         flash[:alert] = "Uh-oh! Something's off here: "
         respond_to do |format|
-          format.html { render :index }
+          format.html { render :new }
           format.json { render :json => { :message => "failure" } }
         end
       end
@@ -194,29 +199,13 @@ class ListingsController < ApplicationController
       else
         @results = @listings
       end
-      
+
+      @listings_json = []
+
       @coordinates = @results.map do |listing|
-        rates = {}
-        listing.rates.each do |rate|
-          rates[rate.date_range] = rate.amount
-        end
-
-        pictures = {}
-        listing.pictures.each_with_index do |img, index|
-          pictures[index] = img.image.url(:thumb)
-        end
-
-        { 
-          :lat => listing.location.latitude, 
-          :lng => listing.location.longitude, 
-          :slug => listing.slug, 
-          :title => listing.name, 
-          :rates => rates,
-          :pictures => pictures
-        }
+        @listings_json << listing.as_json(:include => [:location, :pictures])
       end
-      
-      @coordinates = @coordinates.to_json
+
       respond_with(@results)
   end
 

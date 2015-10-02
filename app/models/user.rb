@@ -8,7 +8,8 @@ class User < ActiveRecord::Base
 	has_many :listings, :dependent => :destroy
   has_many :cards, :dependent => :destroy
   has_many :favorited_listings, :dependent => :destroy
-  #has_one :picture, :dependent => :destroy
+  has_many :messages, :dependent => :destroy
+  has_one :picture, :as => :imageable, :dependent => :destroy
 
 	# Validations
   validates :first_name, presence: true, length: { minimum: 2, maximum: 30 }
@@ -21,6 +22,7 @@ class User < ActiveRecord::Base
 	validates :publishable_key, :uniqueness => true, :allow_blank => true
 	validates :uid, :uniqueness => true, :allow_blank => true
 	validates :access_code, :uniqueness => true, :allow_blank => true
+  validates :tos, :acceptance => {:accept => true, :message => "You must accept the Terms of Service and Stripe Connect Platform Agreement" }
 
   before_save :encrypt_password, :if => :password_changed?
 

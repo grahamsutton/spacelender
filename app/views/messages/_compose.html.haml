@@ -1,0 +1,32 @@
+/ Pass in user's slug in order for 
+
+#messages-modal.modal-launch-2.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_for [@current_user, @message], :html => { :id => "new-message-form" }, :remote => true, :method => :post do |f|
+        - if current_page?(:controller => "listings", :action => "show")
+          = f.hidden_field :receiver, :value => @listing.user.slug
+        .modal-header
+          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} &times;
+          %h4.modal-title 
+            Send Message
+          %p
+            Got a question? This is a good place to ask the lender to clarify something you may not understand about his or her listing.
+          %p
+            %strong
+              %span
+                If you want to request a reservation, please close this window and click the "Make A Request" button.
+        .modal-body.clearfix
+          %table#messages-modal-table.table.table-bordered
+            %tbody
+              %tr
+                %td
+                  = f.text_field :subject, :class => "form-control", :placeholder => "Subject"
+              %tr
+                %td
+                  = f.text_area :body, :class => "form-control", :rows => "6", :placeholder => "Write your message here"
+        .modal-footer
+          = f.button :class => "btn btn-primary", :type => "submit" do
+            %i.fa.fa-send.fa-lg.fw
+            &nbsp; Send

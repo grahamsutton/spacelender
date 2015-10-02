@@ -1,0 +1,4 @@
+$("#show-message-modal").html("<%= escape_javascript( render :partial => 'messages/show' ) %>");
+
+// Decrement the icon number in the Navbar
+var totalUnread = $(".inbox-icon .badge").html(parseInt($("#inbox-icon .badge").text()) - 1);

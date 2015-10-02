@@ -1,0 +1,101 @@
+.modal-dialog
+  .modal-content
+    = form_for @reply, :url => { :controller => "messages", :action => "reply" }, :method => :post, :html => { :id => "new-reply-form" }, :remote => true do |f|
+      = f.hidden_field :stem, :value => @message.token
+      = f.hidden_field :thread, :value => @message.reply
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+        %h4.modal-title
+          = @message.subject
+        %p.lead
+          %small
+            from
+          = @message.user.first_name
+          %span.faded
+            = "(#{@message.user.slug})"
+      .modal-body.clearfix
+        - thread_messages = Message.where(:reply => @message.reply)
+        - if thread_messages.size > 0
+          - thread_messages.each do |thread_message|
+            .row
+              .inner-message-container.col-md-12
+                .row
+                  .col-md-7
+                    %p
+                      %span.faded
+                        - if thread_message.user == @current_user
+                          You:
+                        - else
+                          %strong
+                            = "#{thread_message.user.first_name}:"
+                      &nbsp;&nbsp;
+                      = thread_message.body
+                  .col-md-5.text-right
+                    %small.faded
+                      = thread_message.created_at.strftime("%l:%M %p - %m/%d/%y")
+
+        / .row
+        /   .inner-message-container.col-md-12
+        /     .row
+        /       .col-md-7
+        /         %p
+        /           %span.faded
+        /             = "#{@message.user.first_name}:"
+        /           &nbsp;&nbsp;
+        /           = @message.body
+        /       .col-md-5.text-right
+        /         %small.faded
+        /           = @message.created_at.strftime("%l:%M %p - %m/%d/%y")
+        .row.reply-textarea
+          .col-md-12
+            = f.text_area :body, :class => "form-control", :rows => "6", :placeholder => "Write your reply here. Click Send when you are done."
+        - if flash.now[:alert]
+          .error.text-center
+            = flash.now[:alert]
+      .modal-footer
+        #reply-controls.reply-btns.row
+          .col-md-12
+            = button_tag "Cancel", :type => "button", :id => "cancel-reply-btn", :class => "btn btn-default btn-reply-trigger"
+            = button_tag :id => "send-reply-btn", :class => "btn btn-primary" do
+              %i.fa.fa-paper-plane.fa-lg.fa-fw
+              &nbsp;
+              Send Reply
+        #consider-reply.reply-btns.active.row
+          .col-md-6.text-left
+            %small#replied-notice.success
+          .col-md-6.text-right
+            = button_tag :id => "message-reply-btn", :class => "btn btn-default btn-reply-trigger", :type => "button" do 
+              %i.fa.fa-reply.fa-lg.fa-fw
+              &nbsp;
+              Reply
+
+:javascript
+  $(document).ready(function() {
+    $(".btn-reply-trigger").on("click", function(e) {
+      e.preventDefault();
+
+      var buttonId = $(this).attr("id");
+      var idOfContainer = $(this).parent().parent().attr("id");
+
+      console.log(buttonId);
+      console.log(idOfContainer);
+
+      $(".reply-btns").removeClass("active");
+      $(".reply-btns").not("#" + idOfContainer).addClass("active");
+
+      if ($("#reply-controls").hasClass("active")) {
+        $(".reply-textarea").addClass("active");
+      } else {
+        $(".reply-textarea").addClass("active");
+      }
+
+      if (buttonId === "send-reply-btn") {
+        $("#new-reply-form").submit();
+      } else if (buttonId === "cancel-reply-btn") {
+        $(".reply-textarea").hide();
+      } else {
+        $(".reply-textarea").show();
+      }
+    });
+  });

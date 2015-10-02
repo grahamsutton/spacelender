@@ -7,6 +7,8 @@ class TransactionsController < ApplicationController
     @current_user = current_user
     @card = @current_user.cards.build
 
+    @payments_received = Invoice.where(:receiver_id => @current_user.id)
+
     # Get cards on file
     @cards = Stripe::Customer.retrieve(@current_user.customer_token).sources.all(:object => "card")
   end
@@ -18,9 +20,4 @@ class TransactionsController < ApplicationController
     @stripe_customer_account = @current_user.stripe_customer_account
     @cards = @stripe_customer_account.sources.all(:object => "card")
   end
-
-  # private
-  # def card_params
-  #   params.require(:card).permit(:stripeToken)
-  # end
 end

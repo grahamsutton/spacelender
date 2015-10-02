@@ -83,9 +83,10 @@
                                 %td.col-md-2
                                   = l.select :country, options_for_select(countries), {:prompt => "Country"}, class: "form-control"
                         
-                      .col-md-12
-                        %small
-                        Don't worry! We only display the city name and state on SpaceLender. The full address is only given when you accept a reservation request.
+                      .col-md-12.padded
+                        %p
+                          %i.fa.fa-exclamation-circle.fa-lg.fa-fw
+                          Don't worry! We only display the city name and state on SpaceLender. We will NEVER show your full address publicly on the site. Your full address can only be seen exclusively by a renter when you accept their request for your listing.
 
 
 
@@ -207,11 +208,11 @@
 
 
   - else
-    .col-md-10.col-md-offset-2
+    .col-md-10.col-md-offset-1
       .col-md-12
         #list-a-space.panel.panel-default.modern.dashboard-tab
           .panel-body.tab-display.padded
-            .col-md-6.col-md-offset-3
+            .col-md-8.col-md-offset-2
               .form-container.row
                 %h4 Listing A Space - Setup
                 %hr
@@ -224,10 +225,11 @@
                   %p
                     If you want to be able to post listings and earn money from those listings, we're going to need some information from you to verify that you are who you say you are.
                   %p
-                    %em
-                      These forms are only required if you want to post listings. If you are just using the site to book reservations at other people's spaces, then 
+                    %strong
+                      %em
+                        This form is only required if you want to post listings. If you are just using the site to book reservations at other people's spaces, then you do not need to submit this form.
 
-                  .row
+                  .row.row-of-inputs
                     .col-md-12
                       %h5 Date of Birth
                     .col-md-4
@@ -238,16 +240,16 @@
                       = select_tag :dob_year, options_for_select(years_until_now, DateTime.now.year - 18), class: "form-control"
 
 
-                %fieldset.row
+                %fieldset.row.row-of-inputs
                   .col-md-12
                     %h5 Billing Address
                   .col-md-12
                     = text_field_tag :address_line_1, "", :placeholder => "Address", :class => "form-control"
-                  .col-md-6
+                  .col-md-4
                     = text_field_tag :city, "", :placeholder => "City", :class => "form-control"
-                  .col-md-2
+                  .col-md-3
                     = select_tag :state, options_for_select(us_states), class: "form-control"
-                  .col-md-2
+                  .col-md-3
                     = text_field_tag :country, "", :placeholder => "Country", :value => "USA", :class => "form-control", :readonly => "readonly"
                   .col-md-2
                     = text_field_tag :zip, "", :placeholder => "Zip", :class => "form-control"
@@ -261,31 +263,30 @@
                     %p
                       %em
                         Debit cards only. Credit cards and prepaid cards are not acceptable for receiving payments. 
-                  .col-md-12
-                    = text_field_tag :card_number, "", :name => "", :class => "form-control veri-card-number", :placeholder => "Card Number", "data-stripe" => "number"
+                  .row
+                    .col-md-12
+                      = text_field_tag :card_number, "", :name => "", :class => "form-control veri-card-number", :placeholder => "Card Number", "data-stripe" => "number"
 
-                  .col-md-4
-                    = select_tag :exp_month, options_for_select(credit_card_months), { name: "", class: "form-control veri-card-exp-month", "data-stripe" => "exp-month", :prompt => "Exp. Month (MM)" }
+                  .row.row-of-inputs
+                    .col-md-4
+                      = select_tag :exp_month, options_for_select(credit_card_months), { name: "", class: "form-control veri-card-exp-month", "data-stripe" => "exp-month", :prompt => "Exp. Month (MM)" }
 
-                  .col-md-4
-                    = text_field_tag :exp_year, "", :name => "", :class => "form-control veri-card-exp-year", "data-stripe" => "exp-year", :placeholder => "Exp. Year (YYYY)", :maxlength => 4
+                    .col-md-4
+                      = text_field_tag :exp_year, "", :name => "", :class => "form-control veri-card-exp-year", "data-stripe" => "exp-year", :placeholder => "Exp. Year (YYYY)", :maxlength => 4
 
-                  .col-md-4
-                    = text_field_tag :cvc, "", :name => "", :class => "form-control veri-card-cvc", :placeholder => "CVC", "data-stripe" => "cvc"
+                    .col-md-4
+                      = text_field_tag :cvc, "", :name => "", :class => "form-control veri-card-cvc", :placeholder => "CVC", "data-stripe" => "cvc"
 
-                  .col-md-12
-                    = text_field_tag :name, "", :name => "", :class => "form-control veri-card-name", :placeholder => "Name on Card"
-                  .col-md-12
-                    = check_box_tag :stripe_tos
-                    = label_tag "I have read and agree to the "
-                    = link_to "Stripe Connect Platform Agreement", "https://stripe.com/connect/terms"
+                  .row
+                    .col-md-12
+                      = text_field_tag :name, "", :name => "", :class => "form-control veri-card-name", :placeholder => "Name on Card"
                   %hr
                   .col-md-12.text-center
                     = submit_tag "Submit", :id => "update-stripe-btn", :class => "btn btn-primary form-control"
 
 :javascript
   $(document).ready(function() {
-    Stripe.setPublishableKey("pk_test_uBxr1leBtJ52vOzNYKH458LL");
+    Stripe.setPublishableKey("#{ENV['stripe_publishable_key']}");
 
     $("#update-stripe-account-form").on("submit", function(e) {
       var form = $(this);

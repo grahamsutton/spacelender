@@ -11,11 +11,11 @@
         = link_to "#reservations-ive-made", :id => "reservations-ive-made-link", :class => "reservations-inner-tab-link active" do
           Reservations I've Made
       %li.list-group-item
+        - if @requested_reservations.count > 0
+          %span.badge
+            = @requested_reservations.count
         = link_to "#requests", :id => "requests-link", :class => "reservations-inner-tab-link" do
           Requests
-          - if @requested_reservations.count > 0
-            %span.badge
-              = @requested_reservations.count
       %li.list-group-item
         = link_to "#accepted", :id => "accepted-link", :class => "reservations-inner-tab-link" do
           Accepted
@@ -40,34 +40,72 @@
                       - @reservations_ive_made.each do |reservation_ive_made|
                         .col-md-4.padded-sides
                           .panel.panel-default.modern
-                            .panel-body.padded
+                            .panel-body
                               .col-md-12.listings-img-container
                                 = image_tag reservation_ive_made.listing.pictures.first.image.url(:small), :class => "img-responsive"
-                              .row
-                                .col-md-10
+                              .row.padded
+                                .reservations-ive-made-listing-title.col-md-12
                                   = link_to reservation_ive_made.listing.name, listing_path(reservation_ive_made.listing)
-                                #listing-state.col-md-2.text-right{ "data-listing" => reservation_ive_made.listing.id }
-                                  - if reservation_ive_made.listing.active?
-                                    %i.fa.fa-circle.fa-fw.success
-                                  - else
-                                    %i.fa.fa-circle.fa-fw.error
-                              .col-md-12
-                                Status:
-                                %strong
-                                  %span.status{ :class => reservation_ive_made.status }
-                                    = reservation_ive_made.status.capitalize
-                              .col-md-12
-                                %small
-                                  Posted
-                                  = reservation_ive_made.listing.created_at.strftime("%B %m, %Y")
-                              .row.text-center
-                                - if reservation_ive_made.accepted?
-                                  .col-md-12
-                                    = link_to "Pay Now", new_invoice_path(:token => reservation_ive_made.token), :class => "btn btn-primary form-control"
-                                  .col-md-6
-                                    = link_to "Contact", "#", :class => "btn btn-default form-control"
-                                  .col-md-6
-                                    = link_to "Cancel", "#", :class => "btn btn-default form-control"
+                                .col-md-12
+                                  Status:
+                                  %strong
+                                    %span.status{ :class => reservation_ive_made.status }
+                                      = reservation_ive_made.status.capitalize
+                                .col-md-12
+                                  %small
+                                    Posted
+                                    = reservation_ive_made.listing.created_at.strftime("%B %m, %Y")
+                                .view-more
+                                  %table.table.table-bordered.view-more-table
+                                    %tbody
+                                      %tr
+                                        %td
+                                          Rate
+                                        %td
+                                          = "#{number_to_currency(reservation_ive_made.rate.amount)} #{reservation_ive_made.rate.date_range}"
+                                      %tr
+                                        %td
+                                          Lender
+                                        %td
+                                          = link_to reservation_ive_made.listing.user.first_name, user_path(reservation_ive_made.listing.user)
+                                      %tr
+                                        %td
+                                          From
+                                        %td
+                                          - if reservation_ive_made.rate.hourly?
+                                            = reservation_ive_made.period.start.strftime("%l:%M %p, %m/%d/%y")
+                                          - else
+                                            = reservation_ive_made.period.start.strftime("%m/%d/%y")
+                                      %tr
+                                        %td
+                                          To
+                                        %td
+                                          - if reservation_ive_made.rate.hourly?
+                                            = reservation_ive_made.period.end.strftime("%l:%M %p, %m/%d/%y")
+                                          - else
+                                            = reservation_ive_made.period.end.strftime("%m/%d/%y")
+                                %br
+                                = link_to "View more", "#", :class => "view-more-link"
+
+
+                            - if reservation_ive_made.accepted?
+                              .panel-footer.reservations-ive-made-actions
+                                .col-md-8
+                                  = link_to "Pay Now", new_invoice_path(:token => reservation_ive_made.token), :class => "btn btn-primary form-control"
+                                .col-md-2
+                                  = link_to "#", :id => "#{reservation_ive_made.listing.user.slug}-btn", :class => "btn btn-default reservations-ive-made-contact-btn form-control", "data-toggle" => "modal"  do
+                                    %i.fa.fa-envelope.fa-fw
+                                .col-md-2
+                                  = link_to "#", :id => "#{reservation_ive_made.listing.user.slug}-btn", :class => "btn btn-default reservations-ive-made-remove-btn form-control", "data-toggle" => "modal" do
+                                    %i.fa.fa-remove.fa-fw
+                            - else
+                              .panel-footer.reservations-ive-made-actions
+                                .col-md-6
+                                  = link_to "#", :id => "#{reservation_ive_made.listing.user.slug}-btn", :class => "btn btn-default reservations-ive-made-contact-btn form-control", "data-toggle" => "modal"  do
+                                    %i.fa.fa-envelope.fa-fw
+                                .col-md-6
+                                  = link_to "#", :id => "#{reservation_ive_made.listing.user.slug}-btn", :class => "btn btn-default reservations-ive-made-remove-btn form-control", "data-toggle" => "modal" do
+                                    %i.fa.fa-remove.fa-fw
                   - else
                     .col-md-10.col-md-offset-1
                       .panel.panel-defualt.modern
@@ -89,7 +127,10 @@
                               %big
                                 = link_to requested_reservation.listing.name
                             .col-md-12
-                              = "#{number_to_currency(requested_reservation.rate.amount)}/#{requested_reservation.rate.date_range}"
+                              %strong
+                                Rate Type:
+                              %br
+                              = requested_reservation.rate.date_range.capitalize
                             .col-md-6
                               %strong
                                 Requested by:
@@ -99,13 +140,13 @@
                               %strong
                                 Status:
                               %br
-                              %span.status{ :class => requested_reservation.status }
+                              %span.status.label.label-warning
                                 = requested_reservation.status.capitalize
                             .col-md-12
                               %strong
                                 Time Requested:
                               %br
-                              = requested_reservation.created_at.strftime("%l:%m %p, %B %m, %Y")
+                              = requested_reservation.created_at.strftime("%l:%m %p, %B %-d, %Y")
                             %hr
                             .col-md-12
                               %strong
@@ -121,22 +162,24 @@
                                   %td{ :colspan => "2" }
                                     - if requested_reservation.rate.hourly?
                                       = pluralize(translate_time_to_hours(requested_reservation.period.end, requested_reservation.period.start), "hour")
+                                    - elsif requested_reservation.rate.daily?
+                                      = pluralize(translate_time_to_days(requested_reservation.period.end, requested_reservation.period.start), "day")
                                 %tr
                                   %th
                                     From
                                   %td{ :colspan => "2" }
                                     - if requested_reservation.rate.hourly?
-                                      = requested_reservation.period.start.strftime("%l:%m %p, %B %m, %Y")
+                                      = requested_reservation.period.start.strftime("%l:%m %p, %B %-d, %Y")
                                     - else
-                                      = requested_reservation.period.end.strftime("%B %m, %Y")
+                                      = requested_reservation.period.start.strftime("%B %-d, %Y")
                                 %tr
                                   %th
                                     Until
                                   %td{ :colspan => "2" }
                                     - if requested_reservation.rate.hourly?
-                                      = requested_reservation.period.end.strftime("%l:%m %p, %B %m, %Y")
+                                      = requested_reservation.period.end.strftime("%l:%m %p, %B %-d, %Y")
                                     - else
-                                      = requested_reservation.period.start.strftime("%B %m, %Y")
+                                      = requested_reservation.period.end.strftime("%B %-d, %Y")
                                 %tr
                                   %th Rate
                                   %td{ :colspan => "2" }
@@ -145,8 +188,11 @@
                                       x
                                       = "#{number_to_currency(requested_reservation.rate.amount)}/#{requested_reservation.rate.date_range}"
                                       = "= #{number_to_currency(requested_reservation.subtotal)}"
-                                    - else
-                                      = requested_reservation.period.start.strftime("%B %m, %Y")
+                                    - elsif requested_reservation.rate.daily?
+                                      = translate_time_to_days(requested_reservation.period.end, requested_reservation.period.start)
+                                      x
+                                      = "#{number_to_currency(requested_reservation.rate.amount)}/#{requested_reservation.rate.date_range}"
+                                      = "= #{number_to_currency(requested_reservation.subtotal)}"
                                 %tr
                                   %td
                                     SL Fee
@@ -177,20 +223,44 @@
                             someone sends you a request for one of your listings in the future. 
                             %br
                             You can approve/reject them here.
+
+
+- if @current_user
+  / Reservation Modal
+  = render 'messages/compose'
+- elsif !@current_user
+  = render 'layouts/login_or_register_modal'
                                       
 
 :javascript
   $(document).ready(function() {
-    if (#{params[:d]} !== "") {
+    var id = "";
 
-      $(".reservations-inner-tab-link").removeClass("active");
-      $(".reservations-inner-tab-link").each(function() {
-        if ($(".reservations-inner-tab-link").attr("href") === "##{params[:d]}") {
-          $("##{params[:d]}-link']").addClass("active");
-        }
-      });
+    $(".reservations-ive-made-contact-btn").on("click", function() {
+      var buttonId = $(this).attr("id");
+      id = buttonId.replace("-btn", "");
 
-      $(".reservations-inner-tab").removeClass("active");
-      $("##{params[:d]}").addClass("active");
-    }
-  });
+      $(".modal-launch-2").modal('show');
+    });
+
+    $("#new-message-form").on("submit", function(e) {
+      e.preventDefault();
+
+      $(this).append("<input type='hidden' name='message[receiver]' value='" + id + "' />");
+    });
+  });                                      
+
+- if params[:d]
+  :javascript
+    // Defaults to specific tab if one is specified
+    $(document).ready(function() {
+      if ("#{params[:d]}" !== "") {
+
+        $(".reservations-inner-tab-link").removeClass("active");
+
+        $("##{params[:d]}-link").addClass("active");
+
+        $(".reservations-inner-tab").removeClass("active");
+        $("##{params[:d]}").addClass("active");
+      }
+    });

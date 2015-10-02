@@ -1,4 +1,5 @@
 class InvoicesController < ApplicationController
+  require 'stripe'
   include ApplicationHelper
   before_filter :current_user
   before_filter :require_login
@@ -15,51 +16,36 @@ class InvoicesController < ApplicationController
     @current_user = current_user
     @reservation = Reservation.find_by(:token => invoice_params[:reservation_token])
     @listing = @reservation.listing
-    @invoice = Invoice.new
+    @invoice = @reservation.build_invoice
+    @stripe_customer_account = @current_user.stripe_customer_account
+    payment_method = ""
 
-    # User used a new card
-    if params[:stripeToken]
-      payment_token = params[:stripeToken]
-      payment_method = payment_token
-
-      # User wants to save the card
-      if params[:store_card]
-        customer = Stripe::Customer.retrieve(@current_user.customer_token)
-        card = customer.sources.create(:source => payment_token)
-        @card = @current_user.cards.create(:card_token => card.id)
-        payment_method = @card.card_token
-      end
-
-    else
-      # User used an existing card on file
-
+    if @reservation.rate.hourly?
+      time = translate_time_to_hours(@reservation.period.end, @reservation.period.start)
+    elsif @reservation.rate.daily?
+      time = translate_time_to_days(@reservation.period.end, @reservation.period.start)
     end
-
-    time = translate_time_to_hours(@reservation.period.end, @reservation.period.start)
     charge_amount = (@reservation.rate.amount * 100).to_i * time
+
+    payment_setup = @invoice.set_payment_setup(@current_user, params[:stripeToken], params[:save_card], invoice_params[:card])
 
     # Make the charge
     begin
-      charge = Stripe::Charge.create({
-        :amount => charge_amount,
-        :currency => "usd",
-        :card => payment_method,
-        :description => "Test Charge",
-        :application_fee => ((charge_amount) * ENV['spacelender_application_fee'].to_f).to_i
-      },
-      {
-        :stripe_account => @listing.user.uid
-      })
+      charge = @invoice.submit_charge(charge_amount, payment_setup)
 
       # Mark reservation as PAID
       @reservation.paid!
+
+      # Update Total Income column
+      @listing.user.update_column(:total_income, @listing.user.total_income += (@reservation.subtotal - @reservation.fee))
+
+      @invoice = @reservation.build_invoice(:reservation_id => @reservation.id, :payer_id => @current_user.id, :receiver_id => @listing.user.id, :amount => charge_amount, :card_last4 => params[:card_last4])
       
     rescue Stripe::CardError => e
       flash[:notice] = "Your card was declined. Please provide an acceptable card."
       render :new
     end
 
-    @invoice = Invoice.new(:reservation_id => @reservation.id, :payer_id => @current_user.id, :receiver_id => @listing.user.id, :amount => charge_amount)
 
     if @invoice.save
       # Create notification
@@ -69,7 +55,7 @@ class InvoicesController < ApplicationController
       redirect_to dashboard_path
     else
       flash[:notice] = "Invoice was not generated successfully."
-      redirect_to dashboard_path
+      redirect_to reservations_path
     end
 
   end
@@ -77,6 +63,6 @@ class InvoicesController < ApplicationController
 
   private
   def invoice_params
-    params.require(:invoice).permit(:stripeToken, :reservation_token, :card)
+    params.require(:invoice).permit(:stripeToken, :reservation_token, :card_last4, :card)
   end
 end

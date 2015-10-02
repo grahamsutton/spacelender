@@ -68,37 +68,14 @@ $(document).ready(function() {
         },
         onfocusout: function(element) { this.element(element); },
 
+        errorPlacement: function(error, element) {
+        	//$("#registration-errors ul").append("<li>" + error + "</li>");
+        },
+
 
         //Form submit handler
         submitHandler: function(form) {
             form.submit();
         }
 	});
-
-
-	// Such WOW
-    var wow = new WOW(
-      {
-        boxClass:     'wow',      // default
-        animateClass: 'animated', // default
-        offset:       0,          // default
-        mobile:       true,       // default
-        live:         true        // default
-      }
-    );
-    wow.init();
-
-    // Gmaps AutoComplete for Search Bar
-    // jQuery(function() {
-    //   var completer;
-    
-    //   completer = new GmapsCompleter({
-    //     inputField: '#city',
-    //     errorField: '#gmaps-error'
-    //   });
-    
-    //   completer.autoCompleteInit({
-    //     country: "us"
-    //   });
-    // });
 });

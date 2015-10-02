@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
 	before_filter :current_user
+  before_filter :set_new_message
 	before_filter :redirect_if_logged_in, :only => :new
 
 	respond_to :html, :xml, :json
@@ -63,6 +64,6 @@ class UsersController < ApplicationController
 
 	private
 	def user_params
-		params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :email_confirmation, :customer_token, :uid, :access_code, :publishable_key, card_attributes: [:card_token])
+		params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :email_confirmation, :customer_token, :uid, :access_code, :publishable_key, :tos, card_attributes: [:card_token])
 	end
 end

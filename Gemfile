@@ -19,7 +19,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+#gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -56,6 +56,8 @@ gem 'omniauth-stripe-connect'
 
 gem 'paperclip'
 
+gem 'paperclip-meta'
+
 gem 'aws-sdk', '~> 1.5.7'
 
 gem 'dropzonejs-rails', '~> 0.4.16'
@@ -70,9 +72,11 @@ gem 'owlcarousel-rails'
 
 gem 'animate-rails'
 
-gem 'gmapsjs'
+gem 'gmaps4rails'
 
 gem 'responders'
+
+gem 'mailboxer'
 
 gem 'rabl'
 
@@ -98,13 +102,15 @@ gem 'stripe-rails'
 
 gem 'jquery-validation-rails'
 
-gem 'combined_time_select'
+gem 'flot-rails', :git => "https://github.com/Kjarrigan/flot-rails.git"
+
+#gem 'combined_time_select'
 
 gem 'jquery-turbolinks'
 
 gem 'roadie-rails'
 
-gem 'wow-rails'
+#gem 'wow-rails'
 
 gem 'toastr-rails'
 

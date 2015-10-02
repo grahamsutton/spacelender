@@ -1,0 +1,12 @@
+.row
+  .inner-message-container.col-md-12
+    .row
+      .col-md-7
+        %p
+          %span.faded
+            = "#{@reply.user.first_name}:"
+          &nbsp;&nbsp;
+          = @reply.body
+      .col-md-5.text-right
+        %small.faded
+          = @reply.created_at.strftime("%l:%M %p - %m/%d/%y")

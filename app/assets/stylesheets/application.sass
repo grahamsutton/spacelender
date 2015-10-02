@@ -33,10 +33,11 @@
 @import url(https://fonts.googleapis.com/css?family=Oxygen)
 
 // Color Palette
-$background-color: #F2F1EF
-$secondary-color-dark: #049372
+$background-color: #F4F4F8
+$secondary-color-dark: #006442 //#37BC9B
+$secondary-color: #049372
 //$secondary-color: #044F67
-$secondary-color: #37BC9B
+//$secondary-color: #37BC9B
 $orange-creme-color: #FDE3A7
 $white-color: #FEFEFE
 $red-color: #e74c3c
@@ -57,6 +58,7 @@ $soft-border: 1px solid #DDD
 body
 	background-color: $background-color
 	font-family: $secondary-font
+	line-height: 1.7
 	//overflow: auto
 
 input[type="text"],
@@ -69,6 +71,11 @@ input[type="password"]:focus,
 textarea:focus
 	outline: none
 	box-shadow: $bold-shadow !important
+
+textarea,
+textarea:focus
+	outline: none !important
+	box-shadow: none !important
 
 a
 	font-family: $secondary-font
@@ -92,10 +99,14 @@ h3,
 h4,
 h5,
 h6,
-.navbar-brand,
-.squiggly
-	font-family: 'Handlee' !important
+	font-family: 'Oxygen' !important
 	color: $secondary-color
+
+
+.navbar-brand,
+.squiggly,
+.header-title h1
+	font-family: 'Handlee' !important
 
 .navbar-brand:hover
 	font-weight: normal
@@ -133,6 +144,12 @@ table
 		padding-top: 20px !important
 		padding-bottom: 20px !important
 
+hr
+	border-top: $soft-border
+
+p
+	line-height: 1.7
+
 .row.row-divider
 	margin-bottom: 24px
 
@@ -152,8 +169,28 @@ table
 .error
 	color: #e74c3c
 
+.faded
+	color: #AAA !important
+
 .counter-navbar-margin
 	margin-top: -23px
+
+.link-next-to-h5
+	margin-top: 11.5px
+
+
+// Labels for reservation statuses
+.label-paid
+	background-color: #006442 !important
+
+.label-accepted
+	background-color: #26A65B !important
+
+.label-requested
+	background-color: #D9B611 !important
+
+.label-rejected
+	background-color: #D24D57 !important
 
 .btn-cell
 	padding: 0 !important
@@ -171,6 +208,9 @@ table
 
 	.btn:last-child
 		border-left: none
+
+.btn-primary.active
+	background-color: $secondary-color
 
 
 // Status colors for Reservation statuses
@@ -195,6 +235,18 @@ table
 	.list-group-item.title
 		border-top: 0px
 
+// Errors generated from Rails validations
+.field_with_errors
+	display: inline-block
+
+
+// Checkbox colors
+input[type="checkbox"]:checked:after, 
+.checkbox input[type="checkbox"]:checked:after, 
+.checkbox-inline input[type="checkbox"]:checked:after
+	background-color: $secondary-color
+	border-color: $secondary-color
+
 #search-form
 	input[type="text"],
 	#search-btn
@@ -202,6 +254,32 @@ table
 
 	input[type="text"]
 		border-right: none !important
+
+
+
+
+// Modals
+.modal
+	z-index: 2000
+
+.modal-title
+	font-family: 'Oxygen'
+
+.modal-content
+	border-radius: 0
+
+
+
+// Badges
+.badge
+	padding: 2px 8px
+	border-radius: 50%
+	background-color: transparent
+	border: 1px solid $secondary-color
+	color: $secondary-color
+
+
+
 
 
 #account-ctrl-modal
@@ -288,9 +366,6 @@ table
 		border-radius: 0
 		box-shadow: $bold-shadow
 
-.modal-content
-	border-radius: 0
-
 // Dark Backgrounds - Puts a dark background and light colored fonts
 .dark
 	box-shadow: 0 1px 6px 0 #C7C7C7 inset
@@ -319,6 +394,7 @@ table
 	//box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3
 	border-radius: 0px
 	box-shadow: none
+	z-index: 1000
 
 	input[type="text"],
 	input[type="password"],
@@ -335,14 +411,36 @@ table
 	.container-fluid
 		margin-right: -15px
 
+	.inbox-icon
+		.badge
+			padding: 1px 3px
+			position: absolute
+			top: 20%
+			right: 10%
+
+	.dropdown.open 
+		.dropdown-menu 
+			li 
+				a:hover
+					color: $secondary-color-dark !important
+
+
 	.navbar-brand
 		color: $secondary-color
+
+	.btn-primary,
+	.btn-default
+		border: none !important
 
 	.navbar-btn
 		color: $white-color !important
 		border-radius: 0px
 		margin-top: 0px
 		margin-bottom: 0px
+		border: none !important
+
+	.nav-search-bar
+		width: 100% !important
 
 	.navbar-btn:hover
 		color: $white-color
@@ -452,23 +550,27 @@ table
 
 .btn
 	text-transform: none
+	border: none !important
 
 	.btn-default.active
 		border: none
 
+.btn:active
+	background: transparent !important
+
+
 .btn-default
 	border-radius: 0
 	box-shadow: $bold-shadow
-	border: 1px solid $grey-color
+	border: 1px solid $grey-color !important
 
 .btn-default:hover
 	background-color: #EFEFEF
 
 .btn-default:focus,
-.btn-default:active
 	box-shadow: $bold-shadow !important
 	//border: $grey-c !important
-	background-color: $white-color
+	background-color: $grey-color !important
 
 .btn-primary
 	background-color: $secondary-color
@@ -477,8 +579,11 @@ table
 	border: 1px solid $grey-color
 
 .btn-primary:hover,
-.btn-primary:focus
-	background-color: $secondary-color-dark
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:active:hover
+	background-color: $secondary-color-dark !important
+	color: $white-color !important
 	//box-shadow: $bold-shadow
 
 .datepicker
@@ -503,6 +608,7 @@ table
 	padding-right: 0px
 	top: 0
 	border-left: $soft-border
+	z-index: 200
 
 	#map-inner-container
 		margin: 0
@@ -520,6 +626,22 @@ table
 	.search-results-summary span
 		padding-top: 6px
 		padding-bottom: 6px
+
+
+#filter-search-settings
+	display: none
+
+	.panel.modern .panel-body input[type="text"].form-control
+		height: 43px !important
+		line-height: normal !important
+		border: $soft-border
+		box-shadow: none
+		border-right: none !important
+		padding-left: 10px
+		padding-right: 10px
+
+	.panel.modern .panel-body input[type="text"]:last-child
+		border-right: $soft-border !important
 
 
 // Template for individual Search Result listings
@@ -545,14 +667,23 @@ table
 		top: 5%
 		color: #FFF
 		opacity: 0.5
+		background: transparent
+		border: none
+		box-shadow: none
+
+	.search-listing-result-bookmark:focus,
+	.search-listing-result-bookmark:active
+		box-shadow: none
+		border: none
+		outline: none
 
 	.search-listing-result-bookmark:hover
 		opacity: 1
 		cursor: pointer
 
-	// .search-listing-result-bookmark.active
-	// 	color: #ffcc88
-	// 	opacity: 1
+	.search-listing-result-bookmark.active
+		color: #ffcc88
+		opacity: 1
 
 	.owl-pagination
 		display: none
@@ -604,7 +735,7 @@ table
 
 		select:focus,
 		select:active
-			border: none !important
+			border: $soft-border !important
 
 		textarea
 			height: 160px
@@ -625,6 +756,17 @@ table
 		margin-left: 0px
 		margin-right: 0px
 		height: 100%
+
+	.row-of-inputs
+		div 
+			input[type="text"],
+			select
+				border-right: none !important
+
+		div:last-child
+			input[type="text"]:last-child,
+			select:last-child
+				border-right: $soft-border !important
 
 	.col-md-1,
 	.col-md-2,
@@ -693,17 +835,18 @@ table
 			font-size: 22px
 			height: 100%
 			box-shadow: none
+			color: #FFF
 
 
 .title-search
 	background-color: $background-color
 	z-index: 100
 	position: relative
-	box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3 !important
+	//box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3 !important
 	margin-top: -23px
 	margin-left: 0px
 	margin-right: 0px
-	height: 640px
+	//height: 640px
 	background-size: 100%
 	width: 100%
 	padding-top: 60px
@@ -793,6 +936,10 @@ table
 		#city:-moz-placeholder
 			color: #777 
 
+.homepage-footer
+	#footer
+		position: absolute
+
 .section
 	position: relative
 	box-shadow: $simple-shadow
@@ -873,12 +1020,8 @@ table
 
 #footer
 	z-index: 500
-	background-color: $secondary-color-dark
 	clear: both
 	bottom: 0
-
-#footer.footer-homepage
-	margin-right: 0px
 
 
 
@@ -926,6 +1069,14 @@ table
 #dashboard-content
 	height: 100vh
 
+	#no-profile-image-disclaimer
+		margin-bottom: 20px
+
+	#recent-income
+		.recent-income-figure
+			margin-top: 10px !important
+			color: $black-color
+
 	.panel
 		margin-bottom: 0px
 
@@ -972,6 +1123,10 @@ table
 	.dash-reservs-tab.active
 		display: table
 
+	#profile-image
+		img
+			border: $soft-border
+
 	#dash-reservs-tab-list
 		li
 			padding: 10px
@@ -989,6 +1144,7 @@ table
 #youre-all-set
 	margin-top: 20px
 	background-color: $white-color !important
+	border: $soft-border !important
 
 	#create-first-listing-link
 		margin-top: 20px
@@ -1245,6 +1401,27 @@ table
 	.reservations-inner-tab.active
 		display: block
 
+	.reservations-ive-made-listing-title
+		margin-top: 10px
+
+	.view-more
+		display: none
+
+		.view-more-table
+			margin-bottom: 0px
+
+	.reservations-ive-made-actions
+		height: 37px
+
+		a:hover
+			font-weight: normal
+
+		.btn
+			border: none !important
+
+		.btn-primary
+			font-size: 16px
+
 #reservations-nav
 	.reservations-inner-tab-link.active
 		font-weight: bold
@@ -1261,6 +1438,20 @@ table
 	height: 420px
 	background-size: 100%
 	background: #333
+
+#listing-cover-rates
+	position: absolute
+	z-index: 2200
+	bottom: 30%
+	left: 0
+	background-color: rgba(0,0,0,0.5)
+	color: $white-color
+	font-size: 18px
+
+	.panel
+		background-color: rgba(0,0,0,0)
+		border: none !important
+		margin-bottom: 0px
 
 #listing-details
 	padding: 20px
@@ -1359,5 +1550,91 @@ table
 	h5,
 	h6
 		color: $black-color
+
+
+// In-App Messages
+#messages
+	.messages-tab
+		display: none
+
+	.messages-tab.active
+		display: block
+
+		table
+			tbody
+				tr
+					font-weight: bold
+					color: $secondary-color-dark
+
+				tr:hover
+					cursor: pointer
+					background-color: #EAEAEA
+
+	.message-read
+		background-color: #F1F1F1
+		color: $black-color !important
+		font-weight: normal !important
+
+
+	#messages-content-control	
+		li
+			padding-top: 8px
+			padding-bottom: 8px
+
+			.fa.fa-angle-right
+				display: none
+
+		li.active
+			font-weight: bold
+			padding-left: 10px
+
+
+	#messages-header
+		height: 80px
+
+		input[type="text"]
+			border: $soft-border
+			height: 100%
+			padding-left: 15px
+			padding-right: 15px
+
+#messages-modal
+	#messages-modal-table
+		textarea:active,
+		textarea:focus
+			box-shadow: none
+
+
+#show-message-modal
+	#new-reply-form
+		.modal-header
+			padding-bottom: 0
+
+	.inner-message-container
+		padding-top: 5px
+		padding-bottom: 5px
+
+	.inner-message-container:first-child
+		border-top: none !important
+
+	.reply-textarea
+		display: none
+
+	.reply-textarea.active
+		display: block
+
+		textarea
+			border: $soft-border
+			padding-left: 10px
+			padding-right: 10px
+			line-height: normal
+
+	.reply-btns
+		display: none
+
+	.reply-btns.active
+		display: block
+
+
 
 

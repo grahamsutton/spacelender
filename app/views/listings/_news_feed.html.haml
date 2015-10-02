@@ -1,8 +1,13 @@
 .col-md-12.padded
   .panel.panel-default.modern
     .panel-body.padded
-      %h5
-        News Feed
+      .row
+        .col-md-8
+          %h5
+            News Feed
+        .col-md-4.text-right.link-next-to-h5
+          = link_to "View All"
+
     %ul#news-feed-list.list-group.list-unstyled
       - if @activities.count > 0
         - @activities.each do |activity|

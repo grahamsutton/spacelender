@@ -13,8 +13,10 @@
         = form_tag({:controller => "listings", :action => "search"}, :id => "search-form", :method => :get) do
           .row
             .col-md-7
-              = text_field_tag :search, nil, :class => "form-control", :placeholder => "Search for spaces.", "aria-describedby" => "search-icon-addon"
+              = text_field_tag :search, nil, :class => "form-control", :placeholder => "What do you need space for?", "aria-describedby" => "search-icon-addon"
             .col-md-3
               = text_field_tag :city, nil, :class => "form-control", :placeholder => "City", :id => "city"
             .col-md-2
               = submit_tag :Search, :id => "search-btn", :class => "btn btn-primary"
+.homepage-footer
+  = render 'layouts/footer'

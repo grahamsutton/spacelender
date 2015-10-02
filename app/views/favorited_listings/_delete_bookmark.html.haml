@@ -1,0 +1,4 @@
+= form_for :favorited_listing, :url => favorited_listing_path("listing"), :html => { :id => "#{@listing.token}-form" }, :remote => true, :method => :delete do |f|
+  = f.hidden_field :listing_id, :value => @listing.token
+  = f.button :class => "search-listing-result-bookmark active" do
+    %i.fa.fa-bookmark.fa-fw.fa-2x

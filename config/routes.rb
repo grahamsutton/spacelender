@@ -2,7 +2,14 @@ Rails.application.routes.draw do
 
   root 'users#index'
 
-  resources :users
+  resources :users do
+    resources :messages, :only => [:create, :destroy]
+  end
+
+  resources :messages, :except => [:create, :destroy]
+  post 'messages/reply' => 'messages#reply'
+  resources :pictures, :only => [:create, :destroy]
+
   get 'users/search'
 
   get '/registration' => 'users#new', :as => :registration
@@ -25,6 +32,7 @@ Rails.application.routes.draw do
   post 'cards/create' => 'cards#create'
   post 'listings/update_stripe_account' => 'listings/update_stripe_account', :as => :update_stripe_account
   get 'listings/account_updated' => 'listings/account_updated', :as => :stripe_success
+  get 'listings/show'
 
   resources :listings, shallow: true do
     resources :reservations
@@ -38,7 +46,6 @@ Rails.application.routes.draw do
   # Handles stripe callback
   get '/auth/stripe_connect/callback' => 'omniauth_callbacks#stripe_connect'
 
-  resources :messages
   resources :payments
   resources :favorited_listings, :only => [:create, :destroy]
   

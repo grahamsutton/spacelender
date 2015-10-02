@@ -1,0 +1,14 @@
+.col-md-10.col-md-offset-1
+  .panel-default.dashboard-tab
+    .panel-body.padded.tab-display
+      .form-container.row
+        .col-md-12.text-center
+          %i.fa.fa-check-circle.fa-fw.fa-5x.success
+          %h2
+            Message Sent
+        .col-md-12.text-center
+          Thanks,
+          = "#{@current_user.first_name}."
+          Don't forget to keep an eye on your inbox!
+        #create-first-listing-link.col-md-12.text-center
+          = link_to "Go To Inbox", messages_path

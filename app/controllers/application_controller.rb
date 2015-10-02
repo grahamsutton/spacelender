@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   # protect_from_forgery with: :exception
-  protect_from_forgery with: :null_session
+  protect_from_forgery with: :null_session, only: Proc.new { |c| c.request.format.json? }
       #if: Proc.new { |c| c.request.format =~ %r{application/json} }
 
   def current_user
@@ -25,6 +25,12 @@ class ApplicationController < ActionController::Base
   	  	flash[:notice] = "Please login before continuing."
   	  	redirect_to login_path
   	  end
+  end
+
+  def set_new_message
+    if current_user
+      @message = Message.new
+    end 
   end
 
   def redirect_if_logged_out

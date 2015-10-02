@@ -68,7 +68,7 @@ $(document).ready(function() {
     // DateTime pickers for Start and End dates (in "List A Space > 3. Dates")
     $("#start-date").datetimepicker({
       format: "ddd, MMM D",
-      minDate: moment().add('hours', 3),
+      minDate: moment().add(3, 'hours'),
       sideBySide: true,
       stepping: 0
     }).on("dp.change", function(e) {
@@ -81,7 +81,7 @@ $(document).ready(function() {
     $("#end-date").datetimepicker({
       format: "ddd, MMM D",
       sideBySide: true,
-      minDate: moment().add('hours', 4),
+      minDate: moment().add(4, 'hours'),
       stepping: 0
     }).on("dp.change", function(e) {
       var selectedDate = e.date;
@@ -258,16 +258,11 @@ $(document).ready(function() {
       navigationText: ["<i class='fa fa-angle-left fa-fw fa-4x'></i>", "<i class='fa fa-angle-right fa-fw fa-4x'></i>"]
     });
 
-    // var handler = Gmaps.build('Google');
-    // var markers;
-    // handler.buildMap({ internal: {id: 'map'}, provider: { scrollwheel: false }}, function(){
-    //   markers = handler.addMarkers(#{@coordinates});
-    //   handler.bounds.extendWith(markers);
-    //   handler.fitMapToBounds();
-    //   //handler.getMap().setZoom(14);
 
-    //   google.maps.event.trigger(markers, 'click');
-    // });
+    // Filter Dropdown Screen
+    $("#filter-dropdown-btn").on("click", function() {
+      $("#filter-search-settings").slideToggle();
+    });
 
 
 
@@ -404,45 +399,48 @@ $(document).ready(function() {
       // Disable next button until user selects a rate type (Step 1)
       if ($("#reservation-step-1").hasClass("active")) {
         if (!$(".rate-radio-btn").is(":checked")) {
+
           $(".resrv-next-btn").attr("disabled", "disabled");
         } else {
           $(".resrv-next-btn").removeAttr("disabled");
         }
+
+
       }
 
       if ($("#reservation-step-2").hasClass("active")) {
-        var tFormat = adjustTimeFormat($(".rate-radio-btn:checked").data("time-range"));
+        var timeRange = $(".rate-radio-btn:checked").data("time-range");
+        var tFormat = adjustTimeFormat(timeRange);
 
         $("#start").data("DateTimePicker").format(tFormat);
         $("#end").data("DateTimePicker").format(tFormat);
 
-        $("#start").val($("#start").val());
-        $("#end").val($("#end").val());
+        if (timeRange === "hourly") {
+          $(".total-time-amount").html("-- hours");
+          $(".estimated-total-amount").html("$0.00");
 
-        if (parseFloat($(".total-time-amount").text()) == 0) {
-          $(".resrv-next-btn").attr("disabled", "disabled");
-        } else {
-          $(".resrv-next-btn").removeAttr("disabled");
+          if ($("#start").val() === $("#end").val()) {
+            $(".resrv-next-btn").attr("disabled", "disabled");
+          } else {
+            $(".resrv-next-btn").removeAttr("disabled");
+          }
+
+        } else if (timeRange === "daily") {
+          $(".total-time-amount").html("-- days");
+          $(".estimated-total-amount").html("$0.00");
         }
 
         // Set the time range
         $("#date-range-hidden").attr("value", $("input[name='reservation[rate_attributes][amount]']:checked").data("time-range"));
       }
-
-      // Append Last 4 digits of credit card to Review Section
-      // if ($("#reservation-step-5").hasClass("active")) {
-      //   if ($("#card_number").val().length > 4 && $("#exp_month").val() !== "" && $("#exp_year").val().length == 4) {
-      //     $(".review-cc").html("Card ending in " + $("#card_number").val().slice(-4) + " - Exp: " + $("#exp_month").val() + "/" + $("#exp_year").val());
-      //   } else {
-      //     $(".review-cc").html("<span class='error'>Credit Card provided is invalid. Please go back and check.</span>");
-      //   }
-      // }
     }
 
     function adjustTimeFormat(timeFormat) {
       if (timeFormat === "hourly" || timeFormat === "hour" || timeFormat === "hr") {
+        $(".total-time-amount").html("0 hrs");
         return tFormat = "hh:mm A - ddd, MMM D";
       } else {
+        $(".total-time-amount").html("0 days");
         return tFormat = "ddd, MMM D";
       }
     }
@@ -472,10 +470,16 @@ $(document).ready(function() {
       stepping: 15
     }).on("dp.change", function(e) {
       var selectedDate = e.date;
-      $("#end").data("DateTimePicker").minDate(selectedDate.add('hours', 1));
+      var timeRange = $(".rate-radio-btn:checked").data("time-range");
+
+      if (timeRange === "hourly") {
+        $("#end").data("DateTimePicker").minDate(selectedDate.add('hours', 1));
+      } else if (timeRange === "daily") {
+        $("#end").data("DateTimePicker").minDate(selectedDate);
+      }
 
       // Append the start date to the Review Section
-      $(".review-start-date").html($(this).val());
+      //$(".review-start-date").html($(this).val());
 
       checkNextPrevBtnConditions();
     });
@@ -487,13 +491,19 @@ $(document).ready(function() {
       stepping: 15
     }).on("dp.change", function(e) {
       var selectedDate = e.date;
-      $("#start").data("DateTimePicker").maxDate(selectedDate.subtract('hours', 1));
+      var timeRange = $(".rate-radio-btn:checked").data("time-range");
+
+      if (timeRange === "hourly") {
+        $("#start").data("DateTimePicker").maxDate(selectedDate.subtract('hours', 1));
+      } else if (timeRange === "daily") {
+        $("#start").data("DateTimePicker").maxDate(selectedDate);
+      }
 
       // Append the end date to the Review Section
-      $(".review-end-date").html($(this).val());
+      //$(".review-end-date").html($(this).val());
 
       checkNextPrevBtnConditions();
-      selectedDate.subtract('hours', 1);
+      //selectedDate.subtract('hours', 1);
     });
 
 

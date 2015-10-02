@@ -7,7 +7,7 @@ class CardsController < ApplicationController
 
     @current_user = current_user
     customer = Stripe::Customer.retrieve(@current_user.customer_token)
-    card = customer.sources.create(:source => token)
+    card = customer.sources.create(:card => token)
     @card = @current_user.cards.create(:card_token => card.id)
 
     if @card.save

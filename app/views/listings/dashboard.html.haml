@@ -13,24 +13,68 @@
               .panel.panel-default.modern
                 .panel-body.padded
                   .row
-                    .col-md-3
-                      /= image_tag Listing.first.pictures.first.image.url(:thumb)
+                    #profile-image.col-md-3
+                      - if !@current_user.picture.nil?
+                        = image_tag @current_user.picture.image.url(:thumb)
                     .col-md-9
-                      %h4
-                        = "#{@current_user.first_name} #{@current_user.last_name}"
-                      %p
-                        %strong
-                          Ratings
-                      .col-md-6
-                        %table.table.table-bordered
-                          %tbody
-                            %tr
-                              %td
-                                Lender
-                              %td
-                                8.9
-                            %tr
-                              %td
-                                Renter
-                              %td
-                                9.4
+                      .col-md-12
+                        %h4
+                          = "#{@current_user.first_name} #{@current_user.last_name}"
+                        .col-md-12
+                          %ul.list-unstyled
+                            %li
+                              .col-md-6
+                                %small
+                                  Renter Rating
+                              .col-md-6
+                                %small
+                                  10.0
+                            %li
+                              .col-md-6
+                                %small
+                                  Lender Rating
+                              .col-md-6
+                                %small
+                                  9.8
+                
+
+                      - if @current_user.picture.nil?
+                        #no-profile-image-disclaimer.col-md-12
+                          %h5
+                            You haven't uploaded a profile image yet!
+                            %br
+                            %small
+                              Without your profile image, the people you interact with won't be able to match a face to its place. We require all users to upload one appropriate photo of his or herself in order to provide a better, transparent SpaceLender experience for everyone.
+                        = form_for @picture, :html => { :id => "#new_picture" }, :remote => true, :method => :post do |f|
+                          .col-md-6
+                            = f.file_field :image
+                          .col-md-6.text-right
+                            = f.submit "Upload", :class => "btn btn-default"
+                  %hr
+                  #recent-income.col-md-12
+                    %h5 Recent Income
+                    .col-md-12
+                      %table.table.table-bordered
+                        %tbody
+                          %tr
+                            %td.text-center
+                              %p.lead
+                                Next Transfer
+                              %h2.recent-income-figure
+                                /= @balance.pending[0]["amount"]
+                                = number_to_currency((@balance.pending[0]["amount"].to_f / 100))
+                            %td.text-center
+                              %p.lead
+                                Total Income
+                              %h3.recent-income-figure
+                                = number_to_currency(@current_user.total_income)
+
+                  %hr
+                  .col-md-12
+                    %h5 Reviews About You
+                    %ul.list-unstyled.list-group
+
+:javascript
+  $(document).ready(function() {
+    $("#picture_picture").addClass("btn btn-default");
+  });

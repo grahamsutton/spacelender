@@ -1,5 +1,5 @@
 class Picture < ActiveRecord::Base
-	belongs_to :listing
+	belongs_to :imageable, :polymorphic => true
 
 	has_attached_file :image, 
 					  :s3_host_alias => "s3-us-west-1.amazonaws.com/spacelender-pics", 

@@ -37,31 +37,38 @@
                   From
                 %td
                   - if !@reservation.rate.hourly?
-                    = @reservation.period.start.strftime("%B %d, %Y")
+                    = @reservation.period.start.strftime("%B %-d, %Y")
                   - else
-                    = @reservation.period.start.strftime("%l:%m %p, %B %m, %Y")
+                    = @reservation.period.start.strftime("%l:%m %p, %B %-d, %Y")
               %tr
                 %th
                   To
                 %td
                   - if !@reservation.rate.hourly?
-                    = @reservation.period.end.strftime("%B %d, %Y")
+                    = @reservation.period.end.strftime("%B %-d, %Y")
                   - else
-                    = @reservation.period.end.strftime("%l:%m %p, %B %m, %Y")
+                    = @reservation.period.end.strftime("%l:%m %p, %B %-d, %Y")
               %tr
                 %th
                   Rate
                 %td
-                  = translate_time_to_hours(@reservation.period.end, @reservation.period.start)
-                  x
-                  = number_to_currency(@reservation.rate.amount)
+                  - if @reservation.rate.hourly?
+                    = translate_time_to_hours(@reservation.period.end, @reservation.period.start)
+                    x
+                    = number_to_currency(@reservation.rate.amount)
+                  - elsif @reservation.rate.daily?
+                    = translate_time_to_days(@reservation.period.end, @reservation.period.start)
+                    x
+                    = number_to_currency(@reservation.rate.amount)
             %tfoot
               %tr
                 %th
                   Total
                 %th
-                  = number_to_currency(translate_time_to_hours(@reservation.period.end, @reservation.period.start) * @reservation.rate.amount)
-
+                  - if @reservation.rate.hourly?
+                    = number_to_currency(translate_time_to_hours(@reservation.period.end, @reservation.period.start) * @reservation.rate.amount)
+                  - elsif @reservation.rate.daily?
+                    = number_to_currency(translate_time_to_days(@reservation.period.end, @reservation.period.start) * @reservation.rate.amount)
 
       .row
         .col-md-12
@@ -72,19 +79,24 @@
               = link_to "Use New Card", "#use-new-card", :class => "payment-choice-tab-link"
     %table#use-card-on-file.table.table-bordered.table-striped.payment-choice-tab.active
       = form_for @invoice do |f|
+        = f.hidden_field :reservation_token, :value => @reservation.token
         %tbody
           - if @cards.count > 0
             - @cards.each do |card|
               %tr
-                %td
-                  = radio_button_tag "card", card.id
+                %td.text-center
+                  = f.radio_button :card, card.id
                 %td
                   %i.fa.fa-fw.fa-lg{ :class => "fa-cc-#{card.brand.downcase}" }
+                  &nbsp&nbsp
                   Card ending in
                   %strong
                     = card.last4
                 %td
                   = "#{card.exp_month}/#{card.exp_year}"
+            %tr
+              %td.text-center{ :colspan => "3" }
+                = f.submit "Pay", :class => "btn btn-primary"
           - else
             %tr
               %td.text-center
@@ -109,7 +121,7 @@
               = text_field_tag :name, "", :name => "", :class => "form-control payment-name", :placeholder => "Name on Card"
           %tr
             %td{ :colspan => "3" }
-              = check_box_tag "store_card", true
+              = check_box_tag "save_card", true
               Store this payment method
           %tr
             %td

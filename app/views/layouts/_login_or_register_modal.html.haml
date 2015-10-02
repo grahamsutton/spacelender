@@ -4,8 +4,8 @@
       .modal-header
         .row
           .col-md-6
-            %h4.modal-title.account-ctrl-modal-title
-              Login
+            %h4.modal-title.account-ctrl-modal-title.squiggly
+              SpaceLender
           .col-md-6.text-right
             %ul.list-unstyled.list-inline
               %li.account-ctrl-modal-list-item.active
@@ -15,6 +15,10 @@
               %li
                 %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
                   %span{"aria-hidden" => "true"} &times;
+        .row
+          .col-md-12
+            %small
+              Please login or register to continue.
 
       .modal-body
         #login-modal-tab.account-ctrl-modal-tab.active

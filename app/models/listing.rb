@@ -8,7 +8,7 @@ class Listing < ActiveRecord::Base
   
   has_one :location, :dependent => :destroy
   has_many :rates, :as => :rateable, :dependent => :destroy
-  has_many :pictures, :dependent => :destroy
+  has_many :pictures, :as => :imageable, :dependent => :destroy
   has_many :periods, :as => :periodic, :dependent => :destroy
   has_many :reservations, :dependent => :destroy
   has_many :favorited_listings, :dependent => :destroy
@@ -24,7 +24,7 @@ class Listing < ActiveRecord::Base
   
   # Search method
   def self.search(search)
-    search_term = search.strip
+    search_term = search
     where(['lower(name) LIKE ? OR lower(description) LIKE ?', "%#{search_term.downcase}%", "%#{search_term.downcase}%"])
   end
 

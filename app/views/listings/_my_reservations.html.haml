@@ -29,13 +29,14 @@
             %td
               Starts in 
               - if reservation.rate.hourly?
-                = distance_of_time_in_words(reservation.period.start.strftime("%l:%m %p, %B %m, %Y"), DateTime.now)
+                = distance_of_time_in_words(reservation.period.start.strftime("%l:%M %p, %b %-d, %Y"), DateTime.now)
               - else
-                = distance_of_time_in_words(reservation.period.start.strftime("%B %d, %Y"), DateTime.now)
+                = distance_of_time_in_words(reservation.period.start.strftime("%b %-d, %Y"), DateTime.now)
             %td
               = "#{number_to_currency(reservation.rate.amount)} #{reservation.rate.date_range}"
-            %td{ :class => reservation.status }
-              = reservation.status.capitalize
+            %td.text-center
+              %span.label{ :class => "label-#{reservation.status}"}
+                = reservation.status.upcase
     - else
       #reserv-as-renter.dash-reservs-tab.active.panel-body.padded.text-center
         .col-md-12

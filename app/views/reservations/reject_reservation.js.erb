@@ -1,5 +1,5 @@
-$("#reserv-<%= @reservation.listing.token %> .status").removeClass("requested");
-$("#reserv-<%= @reservation.listing.token %> .status").addClass("<%= @reservation.status %>");
+$("#reserv-<%= @reservation.listing.token %> .status").removeClass("requested").removeClass("label-warning");
+$("#reserv-<%= @reservation.listing.token %> .status").addClass("label-danger");
 $("#reserv-<%= @reservation.listing.token %> .status").html("<%= @reservation.status.capitalize %>");
 $("#reserv-<%= @reservation.listing.token %> .accept-reject-contanct-btns").fadeOut();
 
