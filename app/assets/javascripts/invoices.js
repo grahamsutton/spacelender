@@ -60,4 +60,16 @@ $(document).ready(function() {
 		$(".payment-choice-tab").removeClass("active");
 		$(id).addClass("active");
 	});
+
+
+
+
+
+	//================================================
+	// View Transaction Modal
+	//================================================
+
+	$("#account-overview-table tbody tr").on("click", function() {
+		$("#view-invoice-modal").modal('show');
+	});
 });

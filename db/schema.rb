@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150930203245) do
+ActiveRecord::Schema.define(version: 20151013035412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,13 +35,12 @@ ActiveRecord::Schema.define(version: 20150930203245) do
 
   create_table "cards", force: :cascade do |t|
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "card_token"
     t.string   "token"
+    t.string   "card_token"
+    t.integer  "last4"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
-
-  add_index "cards", ["user_id"], name: "index_cards_on_user_id", using: :btree
 
   create_table "favorited_listings", force: :cascade do |t|
     t.integer  "user_id"
@@ -56,12 +55,16 @@ ActiveRecord::Schema.define(version: 20150930203245) do
   create_table "invoices", force: :cascade do |t|
     t.float    "amount"
     t.integer  "receiver_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.integer  "reservation_id"
     t.integer  "payer_id"
     t.string   "card"
     t.string   "card_last4"
+    t.float    "fee"
+    t.string   "token"
+    t.integer  "status",         default: 0
+    t.string   "charge"
   end
 
   add_index "invoices", ["reservation_id"], name: "index_invoices_on_reservation_id", using: :btree
@@ -141,6 +144,17 @@ ActiveRecord::Schema.define(version: 20150930203245) do
 
   add_index "rates", ["rateable_type", "rateable_id"], name: "index_rates_on_rateable_type_and_rateable_id", using: :btree
 
+  create_table "refunds", force: :cascade do |t|
+    t.integer  "invoice_id"
+    t.integer  "refundee_id"
+    t.text     "reason"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "refund_token"
+  end
+
+  add_index "refunds", ["invoice_id"], name: "index_refunds_on_invoice_id", using: :btree
+
   create_table "reservations", force: :cascade do |t|
     t.integer  "listing_id"
     t.integer  "booker_id"
@@ -182,8 +196,8 @@ ActiveRecord::Schema.define(version: 20150930203245) do
     t.string   "email"
     t.string   "password"
     t.string   "password_salt"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.string   "slug"
     t.string   "publishable_key"
     t.string   "provider"
@@ -193,15 +207,22 @@ ActiveRecord::Schema.define(version: 20150930203245) do
     t.string   "customer_token"
     t.float    "total_income",    default: 0.0
     t.boolean  "tos"
+    t.text     "biography"
+    t.integer  "gender"
+    t.date     "birthdate"
+    t.string   "phone"
+    t.string   "base_city"
+    t.boolean  "email_confirmed", default: false
+    t.string   "confirm_token"
   end
 
-  add_foreign_key "cards", "users"
   add_foreign_key "favorited_listings", "listings"
   add_foreign_key "favorited_listings", "users"
   add_foreign_key "invoices", "reservations"
   add_foreign_key "listings", "users"
   add_foreign_key "locations", "listings"
   add_foreign_key "messages", "users"
+  add_foreign_key "refunds", "invoices"
   add_foreign_key "reservations", "listings"
   add_foreign_key "transactions", "reservations"
 end

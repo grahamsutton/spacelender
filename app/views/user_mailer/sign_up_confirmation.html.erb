@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Confirm and Activate Your Account</title>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+		<style>
+			@import url(http://fonts.googleapis.com/css?family=Handlee);
+			@import url(https://fonts.googleapis.com/css?family=Oxygen);
+
+			body {
+				background-color: #F4F4F8;
+				font-family: 'Oxygen', sans-serif;
+				line-height: 1.7;
+				color: #444;
+			}
+
+			.container {
+				background-color: #FEFEFE;
+			}
+
+			.im {
+				color: #444 !important;
+			}
+
+			a {
+				color: #049372;
+			}
+
+			a:hover {
+				text-decoration: none;
+				font-weight: bold;
+				color: #006442;
+			}
+
+			.btn:focus,
+			a:focus {
+				box-shadow: none;
+				outline: none;
+				color: #666;
+				text-decoration: none;
+			}
+			
+			.logo {
+				font-family: 'Handlee', sans-serif;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<p>
+				Hi there, <%= @user.first_name %>!
+			</p>
+			<p>
+				This email was sent to you so we can verify that you provided a legitmate email. We'll need you to have a legitimate email so we can send you things like digital receipts and reservation details. After you click the activation link, you will be prompted to Login again.
+			</p>
+			<p>
+				Please activate your account by clicking on the link below:
+			</p>
+			<p>
+				<%= link_to "Confirm & Activate Account", confirm_email_user_url(@user.confirm_token) %>
+			</p>
+			<p>
+				Thanks for signing up!
+				<br>
+				<h5 class="logo">
+					SpaceLender Team
+				</h5>
+			</p>
+		</div>
+	</body>
+</html>

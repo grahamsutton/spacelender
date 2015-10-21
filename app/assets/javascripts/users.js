@@ -78,4 +78,14 @@ $(document).ready(function() {
             form.submit();
         }
 	});
+
+	// Edit Profile - Deletes Profile Image and displays new form
+    $("#remove-add-new-btn").on("click", function() {
+      $.ajax({
+        type: "post",
+        dataType: "script",
+        url: "/users/delete-photo"
+      });
+    });
+
 });

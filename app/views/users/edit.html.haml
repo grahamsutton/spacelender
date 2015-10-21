@@ -1,37 +1,100 @@
 .container
-  .row
-    .col-md-6
+  #edit-profile-page.col-md-10.col-md-offset-1
+    = form_for @current_user, :method => :put do |f|
+      .row
+        .col-md-12
+          .row
+            .col-md-6
+              %h4
+                Edit Profile
+                %br
+                %small
+                  %strong
+                    * All Fields Required
+            .col-md-6.text-right
+              = f.submit "Save", :class => "btn btn-primary"
 
-  .row
-    = form_for @current_user do |f|
-      .panel.panel-default
-        .panel-body
-          .col-md-6
-            .row
-              .col-md-12
-                %h5 Basic Info
-              .col-md-6
-                %fieldset
-                  = f.label "First Name", :value => :first_name
-                  = f.text_field :first_name, :class => "form-control"
-              .col-md-6
-                %fieldset
-                  = f.label "Last Name", :value => :last_name
-                  = f.text_field :last_name, :class => "form-control"
-            .row
-              .col-md-12
-                %fieldset
-                  = f.label "Email", :value => :email
-                  = f.text_field :email, :class => "form-control"
-            %br
-            .row
-              .col-md-12
-                %h5 Change Password
-                = link_to "Click here", change_password_path(@current_user)
-                if you need to change your password.
-          .col-md-6
-            / Edit Profile Picture
+        - if flash[:success]
+          .col-md-12.success
+            = flash[:success]
+        - elsif flash[:error]
+          .col-md-12
+            %ul.error
+              - @current_user.errors.full_messages.each do |msg|
+                %li
+                  = msg
 
+        .col-md-4
+          .panel.panel-default.modern
+            .panel-body
+              .profile-img-container
+                - if !@current_user.picture.nil?
+                  = image_tag @current_user.picture.image.url(:small)
+                - else
+                  .happy-guy-container.padded
+                    = image_tag "happy-guy-resized.png"
+              .col-md-12.padded
+                %label Profile Image
+                = f.fields_for :picture, @current_user.build_picture do |p|
+                  = p.file_field :image
+                %br
+                %small
+                  ** Image will be uploaded when you Save. It will replace your current image.
+              %br
+              .col-md-12.padded
+                %label 
+                  First Name
+                = f.text_field :first_name, :class => "form-control"
+                %label 
+                  Last Name
+                  %i.fa.fa-lock.fa-fw.fa-lg
+                = f.text_field :last_name, :class => "form-control"
+          .panel.panel-default.modern
+            .panel-body.padded
+              %h4 Manage Resources
+              %ul.list-unstyled
+                %li
+                  = link_to "Manage Listings", listings_path
+                %li
+                  = link_to "Manage Payment Methods", transactions_path(:d => "cards-on-file")
+                %li
+                  = link_to "Manage Reservations", reservations_path
+        .col-md-8
+          .panel.panel-default.modern
+            .panel-body.padded
+              %fieldset
+                %blockquote
+                  %i.fa.fa-lock.fa-fw.fa-lg
+                  = " - "
+                  &nbsp; 
+                  %strong
+                    Keepin' you safe
+                  = " - "
+                  If you see this icon next to a field, it means it will only be shown to people with accepted reservations at one of your listings.
+              %fieldset
+                %label
+                  Birthdate
+                  %i.fa.fa-lock.fa-fw.fa-lg
+                  %small
+                    = " - "
+                    This will never be displayed to anyone, not even accepted reservers.
+                %br
+                = f.date_select :birthdate, :class => "form-control", :start_year => Date.today.year - 100, :end_year => Date.today.year
+              %fieldset
+                %label
+                  Gender
+                  %i.fa.fa-lock.fa-fw.fa-lg
+                = f.select :gender, options_for_select([["Male", "male"], ["Female", "female"]]), {}, class: "form-control"
+              %fieldset
+                %label Home City
+                = f.text_field :base_city, :class => "form-control", :placeholder => "e.g. Miami, FL / Seattle, WA"
+              %fieldset
+                %label About Me
+                = f.text_area :biography, :class => "form-control", :rows => "6", :placeholder => "Use this area to talk about yourself and your background. Keep it clean. This is a good way for potential renters to \"get a feel\" for you."
+        .col-md-12.text-right
+          = f.submit "Save", :class => "btn btn-primary"
+
+= render 'layouts/footer'
 
 
 

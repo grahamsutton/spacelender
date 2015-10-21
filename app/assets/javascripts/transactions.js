@@ -31,8 +31,6 @@ $(document).ready(function() {
 		} else {
 			var token = response.id;
 
-			console.log("Works here too");
-
 			// Add stripe token
 			//form.find("#stripeToken").attr("value", token);
       		form.append($("<input type='hidden' name='stripeToken' />").val(token));
@@ -41,4 +39,22 @@ $(document).ready(function() {
 			form.get(0).submit();
 		}
 	}
+
+
+	//================================================
+	// View Invoice Modal
+	//================================================
+
+	$("#account-overview-table tbody tr").on("click", function() {
+		var href = $(this).data("href");
+
+		$("#view-invoice-modal").modal('show');
+		$.ajax({
+			type: "GET",
+			dataType: "script",
+			url: href
+		});
+	});
+
+	$(".field_with_errors").removeClass(".field_with_errors");
 });

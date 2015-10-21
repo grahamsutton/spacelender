@@ -161,4 +161,12 @@ module ApplicationHelper
   def translate_time_to_days(endTime, startTime)
     totalDays = (translate_time_to_hours(endTime, startTime) / 24) + 1  # +1 to account for same start and end dates
   end
+
+  def rate_based_time_display(reservationObj, reservationObjPeriod)
+    if reservationObj.rate.hourly?
+      return reservationObjPeriod.strftime("%l:%m %p - %B %-d, %Y")
+    else
+      return reservationObjPeriod.strftime("%B %-d, %Y")
+    end
+  end
 end

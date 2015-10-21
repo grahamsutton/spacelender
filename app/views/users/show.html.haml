@@ -1,0 +1,46 @@
+.container
+  #show-profile-page.col-md-10.col-md-offset-1
+    .row
+      .col-md-4
+        .panel.panel-default.modern
+          .panel-body
+            .profile-img-container
+              - if !@current_user.picture.nil?
+                = image_tag @current_user.picture.image.url(:small)
+              - else
+                .happy-guy-container.padded
+                  = image_tag "happy-guy-resized.png", :class => "img-responsive"
+            .col-md-12.padded
+              %h4
+                = @current_user.first_name
+                %br
+                %small
+                  = @current_user.slug
+
+        .panel.panel-default.modern
+          .panel-body.padded
+            %h5 Listings
+            %ul.list-unstyled.list-group
+              - if @current_user.listings.size > 0
+                - @current_user.listings.each do |listing|
+                  %li.list-group-item
+                    = link_to listing.name, listing_path(listing)
+              - else
+                %small
+                  This user has no listings available.
+      .col-md-8
+        .panel.panel-default.modern
+          .panel-body.padded
+            %h5 About Me
+            - if @current_user.biography
+              %p
+                = @current_user.biography
+            - else
+              %p
+                = @current_user.first_name
+                hasn't provided an About Me description yet.
+            %hr
+            %h5 Reviews
+            %p
+              No reviews have been written yet.
+

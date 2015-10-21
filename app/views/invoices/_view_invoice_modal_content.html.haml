@@ -1,0 +1,58 @@
+%table.table.table-bordered
+  %tbody
+    %tr
+      %th
+        Invoice ID
+      %td
+        = @invoice.token
+    %tr
+      %th
+        Reservation ID
+      %td
+        = @invoice.reservation.token
+    %tr
+      %th
+        Payment Date
+      %td
+        = @invoice.created_at.strftime("%l:%m %p - %B %-d, %Y")
+    %tr
+      %th
+        Listing
+      %td
+        = link_to @invoice.reservation.listing.name, listing_path(@invoice.reservation.listing)
+    %tr
+      %th
+        Reserver Name
+      %td
+        - payer = User.find(@invoice.payer_id)
+        = link_to "#{payer.first_name} #{payer.last_name}"
+    %tr
+      %th
+        Reserver's Payment
+      %td
+        = number_to_currency(@invoice.amount / 100)
+    %tr
+      %th
+        SpaceLender Fee
+      %td
+        = number_to_currency(@invoice.fee)
+    %tr
+      %th
+        Amount Recevied
+      %td
+        = number_to_currency((@invoice.amount / 100) - @invoice.fee)
+    %tr
+      %th
+        Res Start Time
+      %td
+        = rate_based_time_display(@invoice.reservation, @invoice.reservation.period.start)
+    %tr
+      %th
+        Res End Time
+      %td
+        = rate_based_time_display(@invoice.reservation, @invoice.reservation.period.end)
+    %tr
+      %th
+        Fulfillment
+      %td
+        = distance_of_time_in_words(@invoice.reservation.period.start, DateTime.now)

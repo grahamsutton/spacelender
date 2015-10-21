@@ -8,7 +8,6 @@ class Reservation < ActiveRecord::Base
   
   belongs_to :listing
   has_one :rate, :as => :rateable, :dependent => :destroy
-  # has_one :card, :dependent => :destroy
   has_one :period, :as => :periodic, :dependent => :destroy
   has_one :invoice, :dependent => :destroy
 

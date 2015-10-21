@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
 	friendly_id :slug_candidates, :use => [:slugged, :finders]
 
 	enum :role => [:normal, :employee, :admin]
+  enum :gender => [:male, :female]
 
 	# Associations
 	has_many :listings, :dependent => :destroy
@@ -18,13 +19,16 @@ class User < ActiveRecord::Base
   validates_format_of :last_name, :with => /\A[^\(\)0-9]*\z/
 	validates :email, presence: true, confirmation: true, uniqueness: true
   validates_format_of :email, :with => /\A(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})\z/
-	validates :password, confirmation: true, presence: true, length: { minimum: 8, maximum: 20 }
+	validates :password, confirmation: true, presence: true, length: { minimum: 8, maximum: 20 }, :on => :create
 	validates :publishable_key, :uniqueness => true, :allow_blank => true
 	validates :uid, :uniqueness => true, :allow_blank => true
 	validates :access_code, :uniqueness => true, :allow_blank => true
   validates :tos, :acceptance => {:accept => true, :message => "You must accept the Terms of Service and Stripe Connect Platform Agreement" }
 
   before_save :encrypt_password, :if => :password_changed?
+  before_create :generate_confirmation_token
+
+  accepts_nested_attributes_for :picture
 
 	# Filters
 	attr_accessor :password_confirmation, :email_confirmation
@@ -43,6 +47,12 @@ class User < ActiveRecord::Base
 			return nil
 		end
 	end
+
+  def email_activate
+    self.email_confirmed = true
+    self.confirm_token = nil
+    save!(:validate => false)
+  end
 
   def create_stripe_customer
     customer = Stripe::Customer.create(
@@ -107,4 +117,12 @@ class User < ActiveRecord::Base
 			[:first_name, rand(100000..999999)]
 		]
 	end
+
+  protected
+  def generate_confirmation_token
+    self.confirm_token = loop do
+      random_token = SecureRandom.urlsafe_base64(nil, false)
+      break random_token unless User.exists?(confirm_token: random_token)
+    end
+  end
 end

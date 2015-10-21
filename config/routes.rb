@@ -4,7 +4,14 @@ Rails.application.routes.draw do
 
   resources :users do
     resources :messages, :only => [:create, :destroy]
+
+    member do
+      get :confirm_email
+      get :awaiting_activation
+    end
   end
+
+  resources :cards
 
   resources :messages, :except => [:create, :destroy]
   post 'messages/reply' => 'messages#reply'
@@ -29,7 +36,6 @@ Rails.application.routes.draw do
   get '/reservations' => 'reservations#index', :as => :reservations
   post 'reservations/:id/accept' => 'reservations#accept_reservation', :as => :accept_reservation
   post 'reservations/:id/reject' => 'reservations#reject_reservation', :as => :reject_reservation
-  post 'cards/create' => 'cards#create'
   post 'listings/update_stripe_account' => 'listings/update_stripe_account', :as => :update_stripe_account
   get 'listings/account_updated' => 'listings/account_updated', :as => :stripe_success
   get 'listings/show'
@@ -38,7 +44,9 @@ Rails.application.routes.draw do
     resources :reservations
   end
 
-  resources :invoices, :except => [:new]
+  resources :invoices, :except => [:new] do
+    resources :refunds
+  end
   get 'invoices/:token/new' => 'invoices#new', :as => :new_invoice
 
   resources :transactions
@@ -46,7 +54,6 @@ Rails.application.routes.draw do
   # Handles stripe callback
   get '/auth/stripe_connect/callback' => 'omniauth_callbacks#stripe_connect'
 
-  resources :payments
   resources :favorited_listings, :only => [:create, :destroy]
   
   # The priority is based upon order of creation: first created -> highest priority.

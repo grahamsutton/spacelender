@@ -22,7 +22,6 @@
 //= require fullcalendar
 //= require autonumeric
 //= require owl.carousel
-//= require underscore
 //= require jquery.tooltipster.min.js
 //= require jquery.timepicker.js
 //= require jquery.datepair.js

@@ -1,0 +1,101 @@
+- renter = User.find(@invoice.payer_id)
+#refund-payment-section.col-md-8.col-md-offset-2
+  = form_for [@invoice, @refund] do |f|
+    .panel.panel-default.modern.dashboard-tab
+      .panel-body.padded.tab-display
+        .row
+          .col-md-12
+            %h4
+              Refund Payment - Invoice
+              = @invoice.token
+        - if flash[:error]
+          %ul.error
+            - @refund.errors.full_messages.each do |msg|
+              %li
+                = msg
+
+        %p
+          Please review that all information is correct. If there are any inaccuracies, you should contact the lender to ask him or her to clarify what you don't understand.
+        %br
+        #payment-reservation-details.row
+          .col-md-12
+            %table.table
+              %tbody
+                %tr
+                  %th
+                    Renter's Name
+                  %td
+                    = "#{renter.first_name} #{renter.last_name}"
+                %tr
+                  %th
+                    Listing
+                  %td
+                    = @invoice.reservation.listing.name
+                %tr
+                  %th
+                    Planned Location
+                  %td
+                    = @invoice.reservation.listing.location.full_street_address
+                %tr
+                  %th
+                    Invoice ID
+                  %td
+                    = @invoice.token
+                %tr
+                  %th
+                    Reservation ID
+                  %td
+                    = @invoice.reservation.token
+                %tr
+                  %th
+                    Planned Start
+                  %td
+                    - if !@invoice.reservation.rate.hourly?
+                      = @invoice.reservation.period.start.strftime("%B %-d, %Y")
+                    - else
+                      = @invoice.reservation.period.start.strftime("%l:%m %p, %B %-d, %Y")
+                %tr
+                  %th
+                    Planned End
+                  %td
+                    - if !@invoice.reservation.rate.hourly?
+                      = @invoice.reservation.period.end.strftime("%B %-d, %Y")
+                    - else
+                      = @invoice.reservation.period.end.strftime("%l:%m %p, %B %-d, %Y")
+                %tr
+                  %th
+                    Original Rate
+                  %td
+                    - if @invoice.reservation.rate.hourly?
+                      = translate_time_to_hours(@invoice.reservation.period.end, @invoice.reservation.period.start)
+                      x
+                      = number_to_currency(@invoice.reservation.rate.amount)
+                    - elsif @invoice.reservation.rate.daily?
+                      = translate_time_to_days(@invoice.reservation.period.end, @invoice.reservation.period.start)
+                      x
+                      = number_to_currency(@invoice.reservation.rate.amount)
+              %tfoot
+                %tr
+                  %th
+                    AMOUNT TO REFUND
+                  %th
+                    = number_to_currency(@invoice.reservation.subtotal - @invoice.reservation.fee)
+                %tr
+                  %td{ :colspan => "4" }
+                    %small
+                      %strong
+                        Your payment will be refunded back to
+                        = "#{renter.first_name} #{renter.last_name}."
+                        SpaceLender will also refund its transaction fees.
+                %tr
+                  %td{ :colspan => "4" }
+                    = f.text_area :reason, :class => "form-control", :placeholder => "Please briefly state a reason for the refund here.", :rows => "4"
+
+          .col-md-12.last-section
+            = f.check_box :confirm_refund
+            I know what I am doing and I confirm this refund of 
+            = number_to_currency(@invoice.reservation.subtotal - @invoice.reservation.fee)
+            back to user 
+            = "#{renter.first_name} #{renter.last_name}"
+          .col-md-12
+            = f.button "Submit Refund", :type => "submit", :class => "btn btn-primary btn-padded"

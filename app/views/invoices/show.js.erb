@@ -1,0 +1,9 @@
+// Clear the Refund button
+$("#view-invoice-modal .modal-footer .refund-btn-area").html("");
+
+$("#view-invoice-modal .modal-title").html("Invoice <%= @invoice.token %>");
+$("#view-invoice-modal .modal-body").html("<%= escape_javascript( render :partial => 'invoices/view_invoice_modal_content' ) %>");
+
+<% if !@invoice.refunded? %>
+	$("#view-invoice-modal .modal-footer .refund-btn-area").html("<a href='<%= new_invoice_refund_path(@invoice) %>' class='btn btn-default'>Refund</a>");
+<% end %>

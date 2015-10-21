@@ -26,9 +26,9 @@ class UsersController < ApplicationController
 		@user = User.new(user_params)
 
 		if @user.save
-			flash[:notice] = "Welcome to SpaceLender, #{@user.first_name}"
-			session[:user_id] = @user.id
-
+      UserMailer.sign_up_confirmation(@user).deliver_now
+			flash[:notice] = "Thanks #{@user.first_name}! We sent you an email to activate your account at #{@user.email}."
+			
       @user.create_stripe_customer
       @user.create_stripe_account
 
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
         flash[:stripe_notice] = "Stripe credentials could not be created."
       end
 
-			redirect_to dashboard_path
+			redirect_to awaiting_activation_user_path(@user)
 		else
 			flash.now[:alert] = "Uh-oh! Something's off here: "
 			render :new
@@ -47,23 +47,55 @@ class UsersController < ApplicationController
 	end
 
 	def edit
+    @current_user = current_user
 	end
 
 	def update
-		if @current_user.update
-			flash[:notice] = "Your profile information was successfully updated."
-			redirect_to dashboard_path
+    @current_user = current_user
+
+		if @current_user.update(user_params)
+			flash[:success] = "Your profile information was successfully updated."
+			redirect_to user_path(@current_user)
 		else
-			flash[:notice] = "Looks like there were some errors: "
+			flash[:error] = "Looks like there were some errors: "
 			render :edit
 		end
 	end
 
+  def confirm_email
+    user = User.find_by(:confirm_token => params[:id])
+
+    if user
+      user.email_activate
+      flash[:notice] = "Your account is now activated. \nPlease login to continue to your account."
+      redirect_to login_path
+    else
+      flash[:alert] = "User does not exist."
+      redirect_to registration_path
+    end
+  end
+
+  def awaiting_activation
+  end
+
 	def change_password_path
 	end
 
+  def delete_profile_photo
+    @current_user = current_user
+    @picture = @current_user.build_picture
+
+    if @current_user.picture.image.destroy
+      respond_to do |format|
+        format.js { render :action => "delete_profile_photo" }
+      end
+    else
+      flash.now[:error] = "Something went wrong and we weren't able to delete your profile photo."
+    end
+  end
+
 	private
 	def user_params
-		params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :email_confirmation, :customer_token, :uid, :access_code, :publishable_key, :tos, card_attributes: [:card_token])
+		params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :email_confirmation, :customer_token, :uid, :access_code, :publishable_key, :tos, :birthdate, :base_city, :gender, :biography, picture_attributes: [:image], card_attributes: [:card_token])
 	end
 end

@@ -10,15 +10,15 @@
       %li.list-group-item
         = link_to "#account-overview", :class => "transactions-inner-tab-link active" do
           Account Overview
-      / %li.list-group-item
-      /   = link_to "#sent", :class => "transactions-inner-tab-link" do
-      /     Sent
       %li.list-group-item
         = link_to "#cards-on-file", :class => "transactions-inner-tab-link" do
-          Cards On File
+          Payment Methods
       %li.list-group-item
         = link_to "#store-new-card", :class => "transactions-inner-tab-link" do
-          New Card
+          Store New Card
+      %li.list-group-item
+        = link_to "#bank-account", :class => "transactions-inner-tab-link" do
+          Bank Account
   .col-md-10.col-md-offset-2
     .col-md-12
       #transactions.panel.panel-default.modern.dashboard-tab
@@ -31,25 +31,46 @@
                 / Account Overview
                 #account-overview.transactions-inner-tab.active
                   .col-md-12.padded-sides
+                    - if flash[:success]
+                      .panel.panel-default.modern
+                        .panel-body.padded.success
+                          %i.fa.fa-check-circle-o.fa-fw.fa-lg
+                          = flash[:success]
                     .panel.panel-default.modern
                       - if @payments_received.size > 0
                         .panel-body.padded
                           %h5 Account Overview
-                        %table.table
+                        %table#account-overview-table.table
+                          %thead
+                            %th
+                              Amount
+                            %th
+                              User
+                            %th
+                              Description
+                            %th
+                              Date
                           %tbody
                             - @payments_received.each do |payment|
                               - payer = User.find(payment.payer_id)
-                              %tr
-                                %td.success
-                                  = "+ #{number_to_currency(payment.amount.to_f / 100)}"
+                              %tr{ :id => "inv-#{payment.token}", "data-href" => invoice_path(payment) }
+                                - if payment.paid?
+                                  %td.success
+                                    = "+ #{number_to_currency((payment.amount.to_f / 100) - payment.fee)}"
+                                - elsif payment.refunded?
+                                  %td
+                                    = "- #{number_to_currency((payment.amount.to_f / 100) - payment.fee)}"
                                 %td
-                                  = link_to "#{payer.first_name} #{payer.last_name}", user_path(payer)
+                                  = "#{payer.slug}"
                                 %td
-                                  Card ending in
-                                  %strong
-                                    = payment.card_last4
-                                %td
-                                  = payment.created_at("%l:%M %p, %m/%-d/%Y")
+                                  - if payment.paid?
+                                    Received Payment from
+                                    = "#{payer.first_name} #{payer.last_name}"
+                                  - elsif payment.refunded?
+                                    Refunded to 
+                                    = "#{payer.first_name} #{payer.last_name}"
+                                %td.text-right
+                                  = payment.created_at.strftime("%l:%M %p - %B %-d, %Y")
                       - else
                         .panel-body.padded
                           %p.lead.text-center
@@ -65,51 +86,58 @@
 
                 / Cards On File
                 #cards-on-file.transactions-inner-tab
-                  .col-md-6.padded-sides
-                    .panel.panel-default.modern
-                      .panel-body.padded-sides
-                        %h5 Cards On File
-                      %table.table.table-bordered
-                        %tbody
-                          - @cards.each do |card|
-                            %tr
-                              %td.text-center
-                                Card ending in
-                                %strong
-                                  %big
+                  .col-md-8.padded-sides
+                    = form_tag cards_path, :method => :delete do 
+                      .panel.panel-default.modern
+                        .panel-body.padded-sides
+                          %h5 Payment Methods
+                        %table.table.table-bordered
+                          %tbody
+                            - @cards.each do |card|
+                              %tr
+                                %td.text-center
+                                  = check_box_tag "remove_cards[]", card.id
+                                %td.text-center
+                                  %i.fa.fa-fw.fa-lg.fa-2x{ :class => "fa-cc-#{card.brand.downcase}"}
+                                %td
+                                  Card ending in
+                                  %strong
                                     = card.last4
-                                %i.fa.fa-fw.fa-lg{ :class => "fa-cc-#{card.brand.downcase}"}
-                              %td
-                                = "#{card.exp_month}/#{card.exp_year}"
+                                %td.text-center
+                                  = "#{card.exp_month}/#{card.exp_year}"
+                        .panel-footer
+                          = button_tag "Delete Selected Cards", :class => "btn btn-default", :type => "submit"
 
 
                 / Store New Card
                 #store-new-card.transactions-inner-tab
-                  = form_for [@current_user, @card], :url => cards_create_path, :html => { :id => "new-card-form" } do
-                    .col-md-6.padded-sides
-                      .panel.panel-default.modern
-                        .panel-body.padded-sides
-                          %h5 Store New Card
+                  #add-new-card.col-md-4.padded-sides
+                    .panel.panel-default.modern
+                      = form_for @card, :html => { :id => "new-card-form" }, :method => :post do
+                        .panel-heading
+                          %h5 Add New Card
+                        .panel-body
                           .payment-errors
-                        %table.table.table-bordered
-                          %tbody
-                            %tr
-                              %td
-                                = text_field_tag :card_number, "", :name => "", :class => "form-control card-number", :placeholder => "Card Number", "data-stripe" => "number"
-                            %tr
-                              %td.table-padded-select
-                                = select_tag :exp_month, options_for_select(credit_card_months), { name: "", class: "form-control card-exp-month", "data-stripe" => "exp-month", :prompt => "Exp. Month (MM)" }
-                            %tr
-                              %td
-                                = text_field_tag :exp_year, "", :name => "", :class => "form-control card-exp-year", "data-stripe" => "exp-year", :placeholder => "Exp. Year (YYYY)", :maxlength => 4
-                            %tr
-                              %td
-                                = text_field_tag :cvc, "", :name => "", :class => "form-control card-cvc", :placeholder => "CVC", "data-stripe" => "cvc"
-                            %tr
-                              %td
-                                = text_field_tag :name, "", :name => "", :class => "form-control card-name", :placeholder => "Name on Card"
+                          .col-md-12
+                            = text_field_tag :card_number, "", :name => "", :class => "form-control card-number", :placeholder => "Card Number", "data-stripe" => "number"
+                          .col-md-12
+                            = select_tag :exp_month, options_for_select(credit_card_months), { name: "", class: "form-control card-exp-month", "data-stripe" => "exp-month", :prompt => "Exp. Month (MM)" }
+                          .col-md-12
+                            = text_field_tag :exp_year, "", :name => "", :class => "form-control card-exp-year", "data-stripe" => "exp-year", :placeholder => "Exp. Year (YYYY)", :maxlength => 4
+                          .col-md-12
+                            = text_field_tag :cvc, "", :name => "", :class => "form-control card-cvc", :placeholder => "CVC", "data-stripe" => "cvc"
+                          .col-md-12
+                            = text_field_tag :name, "", :name => "", :class => "form-control card-name", :placeholder => "Name on Card"
                         .panel-footer
-                          = button_tag "Add Card", :type => "submit", :id => "new-card-btn", :class => "btn btn-primary form-control"
+                          = button_tag "Save", :type => "submit", :id => "new-card-btn", :class => "btn btn-primary form-control"
+
+
+                / Store New Card
+                /#store-new-card.transactions-inner-tab
+                  
+
+- if @current_user
+  = render 'invoices/view_invoice_modal'
 
 
 - if params[:d]

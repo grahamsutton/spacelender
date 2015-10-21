@@ -50,6 +50,10 @@
                 %i.fa.fa-credit-card.fa-lg.fa-fw
                 &nbsp; Add Payment Method
             %li
+              = link_to user_path(@current_user) do
+                %i.fa.fa-eye.fa-lg.fa-fw
+                &nbsp; View Profile
+            %li
               = link_to edit_user_path(@current_user) do
                 %i.fa.fa-cog.fa-lg.fa-fw
                 &nbsp; Edit Profile

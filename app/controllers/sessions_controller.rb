@@ -9,19 +9,24 @@ class SessionsController < ApplicationController
 
   def create
   	if @user = User.authenticate(params[:email], params[:password])
-  		session[:user_id] = @user.id
-  		flash[:notice] = "Welcome back, #{params[:r]}!"
+      if @user.email_confirmed && @user.confirm_token.nil?
+    		session[:user_id] = @user.id
+    		flash[:notice] = "Welcome back, #{params[:r]}!"
 
-      respond_with @user do |format|
-        format.html { 
-          if params[:r] == "yes"
-            redirect_to request.referer
-          else
-            redirect_to dashboard_path
-          end
-        }
+        respond_with @user do |format|
+          format.html { 
+            if params[:r] == "yes"
+              redirect_to request.referer
+            else
+              redirect_to dashboard_path
+            end
+          }
 
-        format.json
+          format.json
+        end
+      else
+        flash[:notice] = "Please activate your account by visiting the email we sent to you."
+        render :new
       end
   	else
   		flash.now[:alert] = "Invalid username or password."
@@ -34,7 +39,6 @@ class SessionsController < ApplicationController
 
   def destroy
   	session.delete(:user_id)
-    flash[:notice] = "See ya later."
 	  redirect_to root_path
   end
 end

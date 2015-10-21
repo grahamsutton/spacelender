@@ -8,7 +8,7 @@ class CardsController < ApplicationController
     @current_user = current_user
     customer = Stripe::Customer.retrieve(@current_user.customer_token)
     card = customer.sources.create(:card => token)
-    @card = @current_user.cards.create(:card_token => card.id)
+    @card = @current_user.cards.create(:card_token => card.id, :last4 => params[:last4])
 
     if @card.save
       flash[:notice] = "Your card was succesfully saved."
@@ -17,6 +17,13 @@ class CardsController < ApplicationController
       flash[:alert] = "Could not save your card."
       redirect_to transactions_path
     end
+  end
+
+  def destroy
+    @current_user = User.find(params[:user_id])
+    #@cards = @current_user.cards.where()
+    flash[:success] = "Successfully deleted your selected cards."
+    redirect_to transactions_path(:d => "cards-on-file")
   end
 
   private

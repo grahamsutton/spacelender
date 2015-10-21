@@ -3,8 +3,6 @@
 #dashboard-content.row.section.no-shadow
 
   - if @stripe_merchant_account.charges_enabled && @stripe_merchant_account.transfers_enabled
-    .loading-overlay
-      = image_tag "ring.gif", :class => "loading-gif"
 
     #list-a-space-nav.col-md-2.dashboard-inner-nav
       %ul.list-unstyled.col-md-12.list-group.generic-tabs-list.inner-tabs-list

@@ -240,6 +240,32 @@ p
 	display: inline-block
 
 
+// Loader gif
+.loading-overlay
+	display: none
+
+.loading-overlay.active
+	display: block
+	height: 100%
+	width: 100%
+	z-index: 4000
+	position: fixed
+	background-color: rgba(250, 250, 250, 0.5)
+
+	img.loading-gif,
+		//background-color: rgba(250, 250, 250, 0.5)
+		position: absolute
+		margin: auto
+		padding: 30px
+		height: 120px
+		//box-shadow: $bold-shadow
+		width: 120px
+		top: 0
+		bottom: 0
+		left: 0
+		right: 0
+
+
 // Checkbox colors
 input[type="checkbox"]:checked:after, 
 .checkbox input[type="checkbox"]:checked:after, 
@@ -837,6 +863,9 @@ input[type="checkbox"]:checked:after,
 			box-shadow: none
 			color: #FFF
 
+	.last-section
+		margin-bottom: 20px
+
 
 .title-search
 	background-color: $background-color
@@ -1096,26 +1125,6 @@ input[type="checkbox"]:checked:after,
 		padding-bottom: 45px
 		border: none !important
 
-	.loading-overlay
-		display: none
-
-	.loading-overlay.active
-		display: block
-		height: 100%
-		width: 100%
-		z-index: 2500
-		position: absolute
-		background-color: rgba(255, 255, 255, 0.5)
-
-		img.loading-gif,
-		p
-			position: absolute
-			margin: auto
-			top: 0
-			bottom: 0
-			left: 0
-			right: 0
-
 #main-dashboard
 	.dash-reservs-tab
 		display: none
@@ -1151,7 +1160,8 @@ input[type="checkbox"]:checked:after,
 		font-size: 18px
 
 
-#submit-payment-section
+#submit-payment-section,
+#refund-payment-section
 	h1,
 	h2,
 	h3,
@@ -1191,6 +1201,17 @@ input[type="checkbox"]:checked:after,
 
 			tr
 				background-color: $background-color
+
+#refund-payment-section
+	.field_with_errors
+		box-shadow: 1px 1px $red-color
+
+	.field_with_errors
+		display: block
+
+	.last-section
+		.field_with_errors
+			display: inline-block
 
 
 .dashboard-tab
@@ -1261,7 +1282,8 @@ input[type="checkbox"]:checked:after,
 			padding-right: 20px
 			padding-bottom: 0px !important
 
-	#dates
+	#dates,
+	#dates-edit
 		#dates-selection
 			.date-option
 				box-shadow: $bold-shadow
@@ -1306,6 +1328,8 @@ input[type="checkbox"]:checked:after,
 			i.fa
 				margin-bottom: 15px
 
+	#dates-edit
+		margin-bottom: 20px
 
 	#rates
 		[type=text].form-control[readonly]
@@ -1394,12 +1418,41 @@ input[type="checkbox"]:checked:after,
 		background-color: $white-color
 		color: $secondary-color-dark
 
+	table
+		td.danger
+			color: $red-color
+
+	#account-overview-table tbody tr:hover
+		background-color: #EEE
+		cursor: pointer		
+
+	#new-card-form
+		div input.form-control,
+		div select.form-control
+			border: none !important
+			border-bottom: $soft-border !important
+			margin-bottom: 0 !important
+
+		div:last-child input
+			border-bottom: none !important
+
+	#add-new-card
+		.panel-heading
+			border-bottom: $soft-border
+	
+
+
 #reservations
 	.reservations-inner-tab
 		display: none
 
 	.reservations-inner-tab.active
 		display: block
+
+	#reservations-ive-made
+		.listings-img-container
+			img
+				width: 100%
 
 	.reservations-ive-made-listing-title
 		margin-top: 10px
@@ -1634,6 +1687,26 @@ input[type="checkbox"]:checked:after,
 
 	.reply-btns.active
 		display: block
+
+#show-profile-page,
+#edit-profile-page
+	.profile-img-container
+		height: 300px
+		background-color: #FDFDFD
+
+		img
+			height: 100%
+			width: 100%
+
+	div fieldset
+		border-bottom: $soft-border
+		padding: 10px 0px
+
+	div fieldset:last-child
+		border-bottom: none
+
+	label
+		color: $secondary-color !important
 
 
 

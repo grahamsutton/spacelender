@@ -59,7 +59,7 @@
                           %tr
                             %td.text-center
                               %p.lead
-                                Next Transfer
+                                Next Est. Payout
                               %h2.recent-income-figure
                                 /= @balance.pending[0]["amount"]
                                 = number_to_currency((@balance.pending[0]["amount"].to_f / 100))

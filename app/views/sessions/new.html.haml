@@ -9,8 +9,11 @@
               SpaceLender
           .panel-body
             - if flash.now[:alert]
-              .error.text-center
+              .error.text-center.padded-sides
                 = flash.now[:alert]
+            - elsif flash[:notice]
+              .success.text-center.padded-sides
+                = flash[:notice]
             = text_field_tag :email, nil, :class => "form-control", :placeholder => "Email"
             = password_field_tag :password, nil, :class => "form-control", :placeholder => "Password"
           .panel-footer

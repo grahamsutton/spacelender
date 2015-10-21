@@ -1,12 +1,30 @@
 class Invoice < ActiveRecord::Base
   include PublicActivity::Common
 
+  enum :status => [:paid, :refunded]
+
   belongs_to :listing
+  has_one :refund, :dependent => :destroy
+
+  before_create :generate_token
 
   attr_accessor :stripeToken, :reservation_token, :card_last4
 
   def reservation
     Reservation.find_by(:id => self.reservation_id)
+  end
+
+  # Also refunds application fee
+  def refund_payment(customer, reason)
+    refund = Stripe::Refund.create({
+      :charge => self.charge,
+      :refund_application_fee => true
+    },
+    {
+      :stripe_account => self.reservation.listing.user.uid
+    })
+
+    refund
   end
 
   def create_payment_token(customer, card)
@@ -59,6 +77,15 @@ class Invoice < ActiveRecord::Base
     end
 
     payment_setup
+  end
+
+
+  protected
+  def generate_token
+    self.token = loop do
+      random_token = SecureRandom.urlsafe_base64(nil, false)
+      break random_token unless Reservation.exists?(token: random_token)
+    end
   end
 
 end

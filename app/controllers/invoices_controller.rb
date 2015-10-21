@@ -39,7 +39,7 @@ class InvoicesController < ApplicationController
       # Update Total Income column
       @listing.user.update_column(:total_income, @listing.user.total_income += (@reservation.subtotal - @reservation.fee))
 
-      @invoice = @reservation.build_invoice(:reservation_id => @reservation.id, :payer_id => @current_user.id, :receiver_id => @listing.user.id, :amount => charge_amount, :card_last4 => params[:card_last4])
+      @invoice = @reservation.build_invoice(:reservation_id => @reservation.id, :payer_id => @current_user.id, :receiver_id => @listing.user.id, :amount => charge_amount, :card_last4 => params[:card_last4], :fee => @reservation.fee, :charge => charge.id)
       
     rescue Stripe::CardError => e
       flash[:notice] = "Your card was declined. Please provide an acceptable card."
@@ -57,7 +57,15 @@ class InvoicesController < ApplicationController
       flash[:notice] = "Invoice was not generated successfully."
       redirect_to reservations_path
     end
+  end
 
+  def show
+    @invoice = Invoice.find(params[:id])
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
 
