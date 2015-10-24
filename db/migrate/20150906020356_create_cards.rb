@@ -1,6 +1,5 @@
 class CreateCards < ActiveRecord::Migration
   def change
-    drop_table :cards
     create_table :cards do |t|
       t.belongs_to :user, index: true
       t.string :pay_token
