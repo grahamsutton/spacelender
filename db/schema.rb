@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151013035412) do
+ActiveRecord::Schema.define(version: 20151022233936) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -155,6 +155,16 @@ ActiveRecord::Schema.define(version: 20151013035412) do
 
   add_index "refunds", ["invoice_id"], name: "index_refunds_on_invoice_id", using: :btree
 
+  create_table "reports", force: :cascade do |t|
+    t.integer  "listing_id"
+    t.text     "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "token"
+  end
+
+  add_index "reports", ["listing_id"], name: "index_reports_on_listing_id", using: :btree
+
   create_table "reservations", force: :cascade do |t|
     t.integer  "listing_id"
     t.integer  "booker_id"
@@ -166,6 +176,7 @@ ActiveRecord::Schema.define(version: 20151013035412) do
     t.string   "token"
   end
 
+  add_index "reservations", ["booker_id"], name: "index_reservations_on_booker_id", using: :btree
   add_index "reservations", ["listing_id"], name: "index_reservations_on_listing_id", using: :btree
 
   create_table "sessions", force: :cascade do |t|
@@ -223,6 +234,7 @@ ActiveRecord::Schema.define(version: 20151013035412) do
   add_foreign_key "locations", "listings"
   add_foreign_key "messages", "users"
   add_foreign_key "refunds", "invoices"
+  add_foreign_key "reports", "listings"
   add_foreign_key "reservations", "listings"
   add_foreign_key "transactions", "reservations"
 end

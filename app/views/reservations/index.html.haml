@@ -42,7 +42,7 @@
                           .panel.panel-default.modern
                             .panel-body
                               .col-md-12.listings-img-container
-                                = image_tag reservation_ive_made.listing.pictures.first.image.url(:small), :class => "img-responsive"
+                                = image_tag reservation_ive_made.listing.pictures.first.image.url(:large), :class => "img-responsive"
                               .row.padded
                                 .reservations-ive-made-listing-title.col-md-12
                                   = link_to reservation_ive_made.listing.name, listing_path(reservation_ive_made.listing)

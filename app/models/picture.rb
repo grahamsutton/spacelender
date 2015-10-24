@@ -7,8 +7,6 @@ class Picture < ActiveRecord::Base
 					  :path => "pictures/:class/:id.:style.:extension",
 					  :styles => {
 					      :thumb=> "100x100#",
-					      :small  => "300x300>",
-                :medium => "600x600>",
 					      :large => "1400x1400>"
 					  }
 					  

@@ -69,8 +69,11 @@ class ReservationsController < ApplicationController
 
 
   def accept_reservation
+    @current_user = current_user
     @reservation = Reservation.find(params[:id])
     @reservation.accepted!
+
+    ReservationMailer.reservation_was_accepted(@reservation.booker, @reservation).deliver_now
 
     respond_to do |format|
       format.js { render :action => "accept_reservation" }
@@ -80,6 +83,8 @@ class ReservationsController < ApplicationController
   def reject_reservation
     @reservation = Reservation.find(params[:id])
     @reservation.rejected!
+
+    ReservationMailer.reservation_was_rejected(@reservation.booker, @reservation).deliver_now
 
     respond_to do |format|
       format.js { render :action => "reject_reservation" }

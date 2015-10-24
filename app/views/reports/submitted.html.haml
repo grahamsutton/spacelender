@@ -1,0 +1,19 @@
+.container
+  .col-md-10.col-md-offset-1
+    %h4= flash[:success]
+    %p
+      Thanks for submitting your report. We will get back in touch with you as soon as possible. Please wait patiently. Filing multiple reports for the same issue and same listing will confuse us, so please don't do that. 
+    .panel.modern
+      .panel-body.padded
+        Please save or write down this code:
+        %strong
+          &nbsp;
+          &nbsp;
+          = @report.token
+    %small
+      This code will help us look up your case in case there is an issue.
+    %p
+      Thanks again! Here is a quick way out of here:
+    .row
+      .col-md-12
+        = link_to "Go to Dashboard", dashboard_path, :class => "btn btn-default"

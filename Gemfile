@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
 
-gem 'puma'
+gem 'thin'
 # Use pg as the database for Active Record
 gem 'pg'
 
@@ -27,8 +27,6 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem 'rename'
-
 gem 'bootstrap-sass'
 
 gem 'haml-rails'
@@ -47,8 +45,6 @@ gem 'omniauth'
 
 gem 'rack-cors', :require => 'rack/cors'
 
-gem 'angular_rails_csrf'
-
 gem 'figaro'
 
 # Use ActiveModel has_secure_password
@@ -66,21 +62,13 @@ gem 'dropzonejs-rails', '~> 0.4.16'
 
 gem 'momentjs-rails'
 
-gem 'fullcalendar-rails'
-
 gem 'autonumeric-rails'
 
 gem 'owlcarousel-rails'
 
-gem 'animate-rails'
-
 gem 'gmaps4rails'
 
 gem 'responders'
-
-gem 'mailboxer'
-
-gem 'squirm_rails', require: 'squirm/rails'
 
 gem 'rabl'
 
@@ -94,29 +82,19 @@ gem 'bootstrap3-datetimepicker-rails'
 
 gem 'jquery-ui-rails'
 
-gem 'bootstrap-datepicker-rails'
-
-gem 'nilify_blanks'
-
-gem 'tooltipster-rails'
-
-gem 'jquery-timepicker-rails'
-
 gem 'stripe-rails'
 
 gem 'jquery-validation-rails'
-
-gem 'flot-rails', :git => "https://github.com/Kjarrigan/flot-rails.git"
-
-#gem 'combined_time_select'
 
 gem 'jquery-turbolinks'
 
 gem 'roadie-rails'
 
-#gem 'wow-rails'
-
 gem 'toastr-rails'
+
+gem 'sidekiq'
+
+gem 'typedjs-rails', '~> 1.0.2'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

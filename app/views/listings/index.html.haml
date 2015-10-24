@@ -31,7 +31,7 @@
                         .panel.panel-default.modern
                           .panel-body
                             .col-md-12.listings-img-container
-                              = image_tag listing.pictures.first.image.url(:small), :class => "img-responsive"
+                              = image_tag listing.pictures.first.image.url(:large), :class => "img-responsive"
                             .row
                               .col-md-10
                                 = link_to listing.name, listing_path(listing)

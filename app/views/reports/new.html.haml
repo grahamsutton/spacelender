@@ -1,0 +1,27 @@
+.container
+  .col-md-8.col-md-offset-2
+    .panel.modern
+      .panel-body.padded
+        %h4
+          File a Report About
+          = @listing.name
+        .col-md-12
+          = form_for [@listing, @report] do |f|
+            %fieldset
+              %p 
+                Please elaborate on the reason why you are filing this report against this listing. If you simply just had a bad experience or didn't like the service the lister gave you or the location's condition, then we would recommend that you post a review about it on the
+                = link_to "listing's page.", listing_path(@listing)
+
+              %p
+                The integrity of SpaceLender is extremely important to us, so please be clear when filing a report. We want everyone to be able to enjoy using this site in a reasonable manner.
+
+              %p
+                On the other hand, if you have been scammed or have reasonable proof that this listing is indeed fraudulent, please go ahead and explain the situation below so that we can help you resolve this issue. 
+
+              = f.text_area :reason, :class => "form-control", :rows => "6", :placeholder => "Please provide an explanation as to your situation or stance with listing."
+            %fieldset
+              .row
+                .col-md-6
+                  = f.button "Submit Report", :type => "submit", :class => "btn btn-primary"
+                .col-md-6.text-right
+                  = link_to "Back to #{@listing.name}", listing_path(@listing), :class => "btn btn-default"

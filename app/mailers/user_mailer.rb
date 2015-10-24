@@ -8,4 +8,11 @@ class UserMailer < ApplicationMailer
     @user = user
     mail(:to => @user.email, :subject => "SpaceLender - Confirm and Activate Your Account")
   end
+
+  def submit_report(user, report)
+    @user = user
+    @report = report
+
+    mail(:to => "gsutton@spacelender.com", :subject => "New Report from #{@user.first_name} #{@user.last_name}")
+  end
 end

@@ -88,4 +88,21 @@ $(document).ready(function() {
       });
     });
 
+
+
+    // Typing animation on Home/Welcome Page
+    $(".typing-animation").typed({
+        strings: ["for the things you need to do.",
+        			"for band practice.", 
+        			"to park your car.", 
+        			"for your wedding reception.",
+        			"for a meeting.",
+        			"for a party.",
+        			"for a place to do your work.",
+        			"to host your yoga classes.",
+        			"for anything."],
+        typeSpeed: 2,
+        backDelay: 1000
+    });
+
 });

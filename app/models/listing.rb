@@ -12,6 +12,7 @@ class Listing < ActiveRecord::Base
   has_many :periods, :as => :periodic, :dependent => :destroy
   has_many :reservations, :dependent => :destroy
   has_many :favorited_listings, :dependent => :destroy
+  has_many :reports
 
   validates :name, presence: true, length: { minimum: 8, maximum: 120 }
   validates :description, presence: true, length: { minimum: 26, maximum: 4000 }

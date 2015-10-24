@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>New Report from <%= @user.first_name %> <%= @user.last_name %></title>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+		<style>
+			.table {
+				border-collapse: collapse;
+			}
+
+			.table td {
+				padding: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<p>
+			New Report from <%= @user.first_name %> <%= @user.last_name %>:
+		</p>
+
+		<table class="table">
+			<tr>
+				<td>
+					Listing Reported:
+				</td>
+				<td> 
+					<%= link_to @report.listing.name, listing_path(@report.listing) %>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Reported At:
+				</td>
+				<td>
+			 		<%= @report.created_at.strftime("%l:%m %p - %B %-d, %Y") %>
+			 	</td>
+			 </tr>
+		</table>
+
+		<p>
+			<strong>Reason</strong>
+			<br>
+			<br>
+			<%= @report.reason %>
+		</p>
+	</body>
+</html>
+
+

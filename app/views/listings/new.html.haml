@@ -157,20 +157,20 @@
                                   = r.text_field :date_range, :class => "form-control", :value => "daily", :readonly => "readonly"
                               
                               / Weekly
-                              %tr
-                              = f.fields_for :rates, @listing.rates.build do |r|
-                                %td
-                                  = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 3
-                                %td
-                                  = r.text_field :date_range, :class => "form-control", :value => "weekly", :readonly => "readonly"
+                              / %tr
+                              / = f.fields_for :rates, @listing.rates.build do |r|
+                              /   %td
+                              /     = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 3
+                              /   %td
+                              /     = r.text_field :date_range, :class => "form-control", :value => "weekly", :readonly => "readonly"
 
-                              / Monthly
-                              %tr
-                              = f.fields_for :rates, @listing.rates.build do |r|
-                                %td
-                                  = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 4
-                                %td
-                                  = r.text_field :date_range, :class => "form-control", :value => "monthly", :readonly => "readonly"
+                              / / Monthly
+                              / %tr
+                              / = f.fields_for :rates, @listing.rates.build do |r|
+                              /   %td
+                              /     = r.text_field :amount, :class => "form-control autonumeric-amount", :placeholder => "Amount", data: {autonumeric: { aSign: 'USD $' }}, :tabindex => 4
+                              /   %td
+                              /     = r.text_field :date_range, :class => "form-control", :value => "monthly", :readonly => "readonly"
                             
 
 

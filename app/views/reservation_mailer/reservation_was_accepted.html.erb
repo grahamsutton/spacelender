@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Confirm and Activate Your Account</title>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+		<style>
+			@font-face {
+				font-family: 'Oxygen', sans-serif;
+				src: url('Oxygen/Oxygen-Regular.ttf');
+			}
+
+			@font-face {
+				font-family: 'Handlee', sans-serif;
+				src: url('Handlee/Handlee-Regular.ttf')
+			}
+
+			body {
+				font-family: 'Oxygen', sans-serif;
+				line-height: 1.7;
+				color: #444;
+			}
+
+			.container {
+				background-color: #FEFEFE;
+			}
+
+			.im {
+				color: #444 !important;
+			}
+
+			a {
+				color: #049372;
+			}
+
+			a:hover {
+				text-decoration: none;
+				font-weight: bold;
+				color: #006442;
+			}
+
+			.btn:focus,
+			a:focus {
+				box-shadow: none;
+				outline: none;
+				color: #666;
+				text-decoration: none;
+			}
+
+			.panel {
+				background: #FEFEFE;
+				border: 1px solid #DDD;
+			}
+
+			.panel-body {
+				padding: 15px;
+			}
+			
+			.logo {
+				font-family: 'Handlee', sans-serif;
+			}
+		</style>
+	</head>
+	<body>
+		<p>Hi <%= @user.first_name %>,</p>
+
+		<p>
+			A reservation request you made for <%= link_to @reservation.listing.name, listing_url(@reservation.listing) %> 
+			<strong> has been approved by the lender of this space</strong>.
+		</p>
+
+		<p>
+			Here are the details of your reservation along with the full address of the listing location:
+		</p>
+
+		<div class="panel">
+			<div class="panel-body">
+
+				<% if @reservation.rate.hourly? %>
+					Time:&nbsp;&nbsp; 
+					<strong><%= @reservation.period.start.created_at.strftime("%l:%m %p - %B %-d, %Y") %></strong>
+					until
+					<strong>
+						<%= @reservation.period.end.created_at.strftime("%l:%m %p - %B %-d, %Y") %>
+					</strong>	
+
+				<% else %>
+					Dates:&nbsp;&nbsp;
+					<strong>
+						<%= @reservation.period.start.strftime("%B %-d, %Y") %>
+					</strong>
+					until
+					<strong>
+						<%= @reservation.period.end.strftime("%B %-d, %Y") %>
+					</strong>
+				<% end %>
+
+				<br>
+				Address:&nbsp;&nbsp;
+				<strong>
+					<%= @reservation.listing.location.full_street_address %>
+				</strong>
+			</div>
+		</div>
+
+		<p>
+			You can choose to <%= link_to "pay for this reservation now", reservations_url %> or at the time of your arrival at the location on the day of your reservation. 
+		</p>
+		<p>
+			We leave the option of <em>when</em> to pay for your convenience, but we all suggest that you do it just before your reservation starts. Why? Because that way you get a chance to guarantee that you're getting what you paid for when you arrive on location.
+		</p>
+		<p>
+			You can cancel this reservation at any time before the start date.
+		</p>
+		<p>
+			Thanks again for using SpaceLender!
+		</p>
+		<br>
+		<h4>SpaceLender Team</h4>
+	</body>
+</html>

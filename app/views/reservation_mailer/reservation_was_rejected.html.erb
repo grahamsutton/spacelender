@@ -15,7 +15,6 @@
 			}
 
 			body {
-				background-color: #F4F4F8;
 				font-family: 'Oxygen', sans-serif;
 				line-height: 1.7;
 				color: #444;
@@ -46,6 +45,15 @@
 				color: #666;
 				text-decoration: none;
 			}
+
+			.panel {
+				background: #FEFEFE;
+				border: 1px solid #DDD;
+			}
+
+			.panel-body {
+				padding: 15px;
+			}
 			
 			.logo {
 				font-family: 'Handlee', sans-serif;
@@ -53,26 +61,12 @@
 		</style>
 	</head>
 	<body>
-		<div class="container">
-			<p>
-				Hi there, <%= @user.first_name %>!
-			</p>
-			<p>
-				This email was sent to you so we can verify that you provided a legitmate email. We'll need you to have a legitimate email so we can send you things like digital receipts and reservation details. After you click the activation link, you will be prompted to Login again.
-			</p>
-			<p>
-				Please activate your account by clicking on the link below:
-			</p>
-			<p>
-				<%= link_to "Confirm & Activate Account", confirm_email_user_url(@user.confirm_token) %>
-			</p>
-			<p>
-				Thanks for signing up!
-				<br>
-				<h5 class="logo">
-					SpaceLender Team
-				</h5>
-			</p>
-		</div>
+		<p>Hi <%= @user.first_name %>,</p>
+
+		<p>
+			Uh-oh! Sorry, looks like we got some bad news. The lender for your reservation for <%= @reservation.listing.name, listing_url(reservation.listing) %> was rejected.
+		</p>
+
+		<h4>SpaceLender Team</h4>
 	</body>
 </html>

@@ -42,6 +42,11 @@ Rails.application.routes.draw do
 
   resources :listings, shallow: true do
     resources :reservations
+    resources :reports, param: :token do
+      member do
+        get :submitted
+      end
+    end
   end
 
   resources :invoices, :except => [:new] do
