@@ -22,7 +22,9 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  #config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
+
+  config.serve_static_files = true
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -37,7 +39,7 @@ Rails.application.configure do
 
   config.assets.paths << Rails.root.join('/app/assets/fonts')
 
-  config.action_mailer.delivery_method = :smtpr
+  config.action_mailer.delivery_method = :smtp
 
   config.assets.precompile << Proc.new { |path|
     if path =~ /\.(eot|svg|ttf|woff)\z/
