@@ -23,6 +23,7 @@ module Spacelender
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
     
+    config.assets.paths << Rails.root.join("app", "assets", "fonts")
 
     # For custom validations, so you can use syntax like "validates :some_field, :my_custom_validator: true"
     config.autoload_paths += %W["#{config.root}/app/validators/"]
