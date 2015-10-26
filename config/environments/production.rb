@@ -35,7 +35,15 @@ Rails.application.configure do
   # yet still be able to expire them through the digest params.
   config.assets.digest = true
 
-  config.action_mailer.delivery_method = :smtp
+  config.assets.paths << Rails.root.join('/app/assets/fonts')
+
+  config.action_mailer.delivery_method = :smtpr
+
+  config.assets.precompile << Proc.new { |path|
+    if path =~ /\.(eot|svg|ttf|woff)\z/
+      true
+    end
+  }
 
   config.action_mailer.smtp_settings = {
     :address => "smtp.gmail.com",
