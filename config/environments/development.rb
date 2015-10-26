@@ -19,6 +19,8 @@ Rails.application.configure do
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
+  config.assets.paths << Rails.root.join('/app/assets/fonts')
+
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
