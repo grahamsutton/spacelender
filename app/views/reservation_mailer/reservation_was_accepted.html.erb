@@ -77,10 +77,10 @@
 
 				<% if @reservation.rate.hourly? %>
 					Time:&nbsp;&nbsp; 
-					<strong><%= @reservation.period.start.created_at.strftime("%l:%m %p - %B %-d, %Y") %></strong>
+					<strong><%= @reservation.period.start.strftime("%l:%m %p - %B %-d, %Y") %></strong>
 					until
 					<strong>
-						<%= @reservation.period.end.created_at.strftime("%l:%m %p - %B %-d, %Y") %>
+						<%= @reservation.period.end.strftime("%l:%m %p - %B %-d, %Y") %>
 					</strong>	
 
 				<% else %>
